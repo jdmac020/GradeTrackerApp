@@ -50,11 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Entities\CourseEntity.cs" />
+    <Compile Include="Entities\EvaluationEntity.cs" />
+    <Compile Include="Entities\GradeThresholdEntity.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\InstructorEntity.cs" />
+    <Compile Include="Entities\SchoolEntity.cs" />
+    <Compile Include="Entities\SchoolTypeEntity.cs" />
+    <Compile Include="Entities\ScoreEntity.cs" />
+    <Compile Include="Entities\StudentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contexts\" />
-    <Folder Include="Entities\" />
     <Folder Include="Migrations\" />
     <Folder Include="Repositories\" />
     <Folder Include="UnitOfWork\" />
