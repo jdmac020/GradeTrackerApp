@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GradeTrackerApp.EntityFramework.Entities
@@ -15,5 +18,13 @@ namespace GradeTrackerApp.EntityFramework.Entities
         public virtual List<SchoolEntity> Schools { get; set; }
         public virtual List<CourseEntity> AllCourses { get; set; } 
         public virtual List<CourseEntity> ActiveCourses { get; set; }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<StudentEntity> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
     }
 }

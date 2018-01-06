@@ -14,7 +14,7 @@ namespace GradeTrackerApp.EntityFramework.Contexts
         public DbSet<SchoolTypeEntity> SchoolTypes { get; set; }
         public DbSet<ScoreEntity> Scores { get; set; }
         public DbSet<SemesterEntity> Semesters { get; set; }
-        public DbSet<StudentEntity> Students { get; set; }
+        //public DbSet<StudentEntity> Students { get; set; }
 
         public GradeTrackerDbContext(string connectionString) : base(connectionString)
         {

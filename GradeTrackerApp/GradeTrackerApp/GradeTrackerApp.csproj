@@ -246,6 +246,12 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GradeTrackerApp.EntityFramework\GradeTrackerApp.EntityFramework.csproj">
+      <Project>{007210B7-9CCD-4FCE-9AA7-20C4454FA334}</Project>
+      <Name>GradeTrackerApp.EntityFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
