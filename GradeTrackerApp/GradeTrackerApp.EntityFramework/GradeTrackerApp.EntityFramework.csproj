@@ -66,12 +66,13 @@
     <Compile Include="Entities\SchoolEntity.cs" />
     <Compile Include="Entities\SchoolTypeEntity.cs" />
     <Compile Include="Entities\ScoreEntity.cs" />
+    <Compile Include="Entities\AccessLevelEntity.cs" />
     <Compile Include="Entities\SemesterEntity.cs" />
     <Compile Include="Entities\StudentEntity.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Repositories\" />
     <Folder Include="UnitOfWork\" />
   </ItemGroup>
