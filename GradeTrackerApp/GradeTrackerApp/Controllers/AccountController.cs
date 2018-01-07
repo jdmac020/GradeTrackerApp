@@ -153,6 +153,7 @@ namespace GradeTrackerApp.Controllers
             if (ModelState.IsValid)
             {
                 var user = new StudentEntity { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                user = SetUserName(user);
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -171,6 +172,29 @@ namespace GradeTrackerApp.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private StudentEntity SetUserName(StudentEntity student)
+        {
+            if (!string.IsNullOrEmpty(student.FirstName) && !string.IsNullOrEmpty(student.LastName))
+            {
+                student.Name = $"{student.FirstName} {student.LastName}";
+            }
+            else if (!string.IsNullOrEmpty(student.FirstName))
+            {
+                student.Name = $"{student.FirstName}";
+            }
+            else if (!string.IsNullOrEmpty(student.LastName))
+            {
+                student.Name = $"{student.LastName}";
+            }
+            else
+            {
+                student.Name = string.Empty;
+            }
+
+            return student;
+
         }
 
         //
