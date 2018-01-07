@@ -34,13 +34,22 @@ namespace GradeTrackerApp.EntityFramework.Migrations
                 );
 
             // add school type
-            
+
+            context.SchoolTypes.AddOrUpdate(x => x.Id,
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Four Year"},
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Two Year"},
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "High School"},
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Middle School"},
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Elementary School"},
+                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Professional/Tech Course"}
+                );
+
             // add test school
+            
+            // add test instructor
 
             // add test student
 
-            // add test instructor
-            
         }
     }
 }
