@@ -17,13 +17,23 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
 
         public IEfUnitOfWork EfUnitOfWork { get; set; }
 
-        public EfRepository() { }
-        public EfRepository(IEfUnitOfWork unitOfWork) { EfUnitOfWork = unitOfWork; }
-
         private DbSet<TEntity> _objectset;
         protected DbSet<TEntity> ObjectSet { get { return _objectset ?? (_objectset = EfUnitOfWork.Context.Set<TEntity>()); } }
 
-        public TEntity GetById(TKey id) { return ObjectSet.Find(id); }
+        public EfRepository()
+        {
+            
+        }
+
+        public EfRepository(IEfUnitOfWork unitOfWork)
+        {
+            EfUnitOfWork = unitOfWork;
+        }
+
+        public TEntity GetById(TKey id)
+        {
+            return ObjectSet.Find(id);
+        }
 
         public TEntity Create(TEntity entity)
         {
@@ -43,6 +53,10 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
             ObjectSet.Remove(entity);
             EfUnitOfWork.Commit();
         }
-        public IList<TEntity> GetAll() { return ObjectSet.Select(o => o).ToList(); }
+
+        public IList<TEntity> GetAll()
+        {
+            return ObjectSet.Select(o => o).ToList();
+        }
     }
 }

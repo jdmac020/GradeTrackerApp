@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.EntityFramework.Repositories.EfRepository;
 
 namespace GradeTrackerApp.EntityFramework.Repositories
 {
-    public class RepositoryBase 
+    public class Repository<TEntity,TKey> : EfRepository<TEntity,TKey> where TEntity : class, IEntity<TKey>
     {
     }
 }
