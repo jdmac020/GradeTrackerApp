@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.Tests", "Gr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.EntityFramework", "GradeTrackerApp.EntityFramework\GradeTrackerApp.EntityFramework.csproj", "{007210B7-9CCD-4FCE-9AA7-20C4454FA334}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.Interactors", "GradeTrackerApp.Interactors\GradeTrackerApp.Interactors.csproj", "{851E52B3-EE79-4628-856B-7AFA1B159CE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{007210B7-9CCD-4FCE-9AA7-20C4454FA334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{007210B7-9CCD-4FCE-9AA7-20C4454FA334}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{007210B7-9CCD-4FCE-9AA7-20C4454FA334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{851E52B3-EE79-4628-856B-7AFA1B159CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{851E52B3-EE79-4628-856B-7AFA1B159CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{851E52B3-EE79-4628-856B-7AFA1B159CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{851E52B3-EE79-4628-856B-7AFA1B159CE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
