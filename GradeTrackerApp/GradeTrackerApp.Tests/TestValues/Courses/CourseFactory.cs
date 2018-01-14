@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GradeTrackerApp.Domain.Models.Courses;
+using GradeTrackerApp.Domain.Courses.Models;
 
 namespace GradeTrackerApp.Tests.TestValues.Courses
 {

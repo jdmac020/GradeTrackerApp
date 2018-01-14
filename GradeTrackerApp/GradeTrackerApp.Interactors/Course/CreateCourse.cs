@@ -1,6 +1,6 @@
 ﻿using System;
 using GradeTrackerApp.Core.Exceptions;
-using GradeTrackerApp.Domain.Models.Courses;
+using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.EntityFramework.Repositories;
 

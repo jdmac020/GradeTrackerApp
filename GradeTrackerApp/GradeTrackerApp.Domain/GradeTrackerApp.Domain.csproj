@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Courses\CreateCourseDomainModel.cs" />
+    <Compile Include="Courses\Models\CourseDomainModel.cs" />
+    <Compile Include="Courses\Models\CreateCourseDomainModel.cs" />
+    <Compile Include="Courses\Service\ICourseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Courses\Service\CourseService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

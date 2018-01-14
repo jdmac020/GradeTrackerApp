@@ -1,5 +1,5 @@
 ﻿using GradeTrackerApp.Core.Exceptions;
-using GradeTrackerApp.Domain.Models.Courses;
+using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Interactors.Course;
 using GradeTrackerApp.Tests.TestValues.Courses;
 using Xunit;

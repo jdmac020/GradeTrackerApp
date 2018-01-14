@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GradeTrackerApp.Domain.Services
+namespace GradeTrackerApp.Domain.Courses.Models
 {
-    class CourseService
+    public class CourseDomainModel
     {
+
     }
 }

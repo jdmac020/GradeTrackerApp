@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace GradeTrackerApp.Domain.Models.Courses
+namespace GradeTrackerApp.Domain.Courses.Models
 {
     public class CreateCourseDomainModel
     {
