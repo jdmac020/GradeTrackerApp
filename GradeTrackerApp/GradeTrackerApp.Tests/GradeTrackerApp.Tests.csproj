@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interactors\Course\CreateCourseTests.cs" />
+    <Compile Include="Interactors\InteractorFactory.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
@@ -118,9 +119,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">
+      <Project>{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}</Project>
+      <Name>GradeTrackerApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GradeTrackerApp.Domain\GradeTrackerApp.Domain.csproj">
+      <Project>{876C45C1-6943-4F1D-9DD9-825F1982D40B}</Project>
+      <Name>GradeTrackerApp.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GradeTrackerApp.EntityFramework\GradeTrackerApp.EntityFramework.csproj">
       <Project>{007210B7-9CCD-4FCE-9AA7-20C4454FA334}</Project>
       <Name>GradeTrackerApp.EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GradeTrackerApp.Interactors\GradeTrackerApp.Interactors.csproj">
+      <Project>{851E52B3-EE79-4628-856B-7AFA1B159CE4}</Project>
+      <Name>GradeTrackerApp.Interactors</Name>
     </ProjectReference>
     <ProjectReference Include="..\GradeTrackerApp\GradeTrackerApp.csproj">
       <Project>{BCABF8DD-44A5-4CCE-B2F0-029B0CC2CB91}</Project>

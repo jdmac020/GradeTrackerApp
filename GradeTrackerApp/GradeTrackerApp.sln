@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.Interactors
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.Domain", "GradeTrackerApp.Domain\GradeTrackerApp.Domain.csproj", "{876C45C1-6943-4F1D-9DD9-825F1982D40B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GradeTrackerApp.Core", "GradeTrackerApp.Core\GradeTrackerApp.Core.csproj", "{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{876C45C1-6943-4F1D-9DD9-825F1982D40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{876C45C1-6943-4F1D-9DD9-825F1982D40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{876C45C1-6943-4F1D-9DD9-825F1982D40B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
