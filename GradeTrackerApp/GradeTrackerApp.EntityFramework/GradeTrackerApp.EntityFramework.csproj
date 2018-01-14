@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Contexts\GradeTrackerDbContext.cs" />
     <Compile Include="Entities\CourseEntity.cs" />
     <Compile Include="Entities\EvaluationEntity.cs" />

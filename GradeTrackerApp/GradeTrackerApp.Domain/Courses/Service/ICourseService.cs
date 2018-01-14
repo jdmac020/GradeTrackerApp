@@ -10,6 +10,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
 {
     public interface ICourseService
     {
-        CourseDomainModel CreateNewCourse(CreateCourseDomainModel viewModel);
+        CourseDomainModel CreateNewCourse(CreateCourseDomainModel createModel);
     }
 }

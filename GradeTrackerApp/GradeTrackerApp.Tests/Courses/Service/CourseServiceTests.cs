@@ -13,19 +13,19 @@ namespace GradeTrackerApp.Tests.Courses.Service
         [Fact]
         public void CreateNewCourse_EmptyModel_ThrowsMissingInfoException()
         {
-            var testClass = InteractorFactory.CreateCourse_MockRepo();
+            var testClass = ServiceFactory.CreateCourse_MockInteractor();
             var testModel = new CreateCourseDomainModel();
 
-            Should.Throw<MissingInfoException>(() => testClass.Execute(testModel));
+            Should.Throw<MissingInfoException>(() => testClass.CreateNewCourse(testModel));
         }
 
         [Fact]
-        public void CreateCourse_ValidModel_ResultNotNull()
+        public void CreateNewCourse_ValidModel_ResultNotNull()
         {
-            var testClass = InteractorFactory.CreateCourse_MockRepo();
+            var testClass = ServiceFactory.CreateCourse_MockInteractor();
             var testModel = CourseFactory.Create_CreateCourseDomainModel_ValidMinimum();
 
-            var result = testClass.Execute(testModel);
+            var result = testClass.CreateNewCourse(testModel);
 
             result.ShouldNotBeNull();
         }

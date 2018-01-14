@@ -28,7 +28,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             
         }
 
-        public CourseDomainModel CreateNewCourse(CreateCourseDomainModel viewModel)
+        public CourseDomainModel CreateNewCourse(CreateCourseDomainModel createModel)
         {
             throw new System.NotImplementedException();
         }
