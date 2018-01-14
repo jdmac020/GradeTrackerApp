@@ -106,8 +106,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interactors\Course\CreateCourseTests.cs" />
-    <Compile Include="Interactors\InteractorFactory.cs" />
+    <Compile Include="Courses\Interactors\CreateCourseTests.cs" />
+    <Compile Include="Courses\Service\CourseServiceTests.cs" />
+    <Compile Include="Mocks\InteractorFactory.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />

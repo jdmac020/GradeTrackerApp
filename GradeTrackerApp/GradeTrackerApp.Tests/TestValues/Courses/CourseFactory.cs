@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GradeTrackerApp.Core.Models;
 using GradeTrackerApp.Domain.Courses.Models;
 
 namespace GradeTrackerApp.Tests.TestValues.Courses
@@ -23,6 +24,11 @@ namespace GradeTrackerApp.Tests.TestValues.Courses
                 SemesterId = Guid.Empty,
                 Year = 2018
             };
+        }
+
+        public static CreateCourseDomainModel CreateCCreateCourseDomainModel_Empty()
+        {
+            return new CreateCourseDomainModel();
         }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using GradeTrackerApp.Core.Exceptions;
+using GradeTrackerApp.Core.Models;
 using GradeTrackerApp.Domain.Courses.Models;
-using GradeTrackerApp.Interactors.Course;
+using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestValues.Courses;
-using Xunit;
 using Shouldly;
+using Xunit;
 
-namespace GradeTrackerApp.Tests.Interactors.Course
+namespace GradeTrackerApp.Tests.Courses.Service
 {
-    public class CreateCourseTests
+    public class CourseServiceTests
     {
         [Fact]
-        public void CreateCourse_EmptyModel_ThrowsMissingInfoException()
+        public void CreateNewCourse_EmptyModel_ThrowsMissingInfoException()
         {
             var testClass = InteractorFactory.CreateCourse_MockRepo();
             var testModel = new CreateCourseDomainModel();

@@ -1,6 +1,6 @@
 ﻿using System;
 using GradeTrackerApp.Core.Exceptions;
-using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Core.Models;
 using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.EntityFramework.Repositories;
 
@@ -17,12 +17,12 @@ namespace GradeTrackerApp.Interactors.Course
         private IRepository<CourseEntity, Guid> _courseRepository;
 
         /// <summary>
-        /// Test Constructor
+        /// Constructor to override default repository
         /// </summary>
-        /// <param name="mockRepo">Mock repository for testing</param>
-        public CreateCourse(IRepository<CourseEntity, Guid> mockRepo)
+        /// <param name="repo">Repository to be used by class</param>
+        public CreateCourse(IRepository<CourseEntity, Guid> repo)
         {
-            _courseRepository = mockRepo;
+            _courseRepository = repo;
         }
 
         public CreateCourse() { }

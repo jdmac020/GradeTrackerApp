@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.Interactors.Course;
-using GradeTrackerApp.Tests.Mocks;
 
-namespace GradeTrackerApp.Tests.Interactors
+namespace GradeTrackerApp.Tests.Mocks
 {
     public static class InteractorFactory
     {

@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Courses\Models\CourseDomainModel.cs" />
-    <Compile Include="Courses\Models\CreateCourseDomainModel.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />
+    <Compile Include="Evaluations\Models\EvaluationDomainModel.cs" />
     <Compile Include="GradeRanges\Models\GradeRangeDomainModel.cs" />
     <Compile Include="Instructors\Models\InstructorDomainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,7 +50,14 @@
     <Compile Include="Semesters\Models\SemesterDomainModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Evaluations\Models\" />
+    <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">
+      <Project>{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}</Project>
+      <Name>GradeTrackerApp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GradeTrackerApp.Interactors\GradeTrackerApp.Interactors.csproj">
+      <Project>{851E52B3-EE79-4628-856B-7AFA1B159CE4}</Project>
+      <Name>GradeTrackerApp.Interactors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
