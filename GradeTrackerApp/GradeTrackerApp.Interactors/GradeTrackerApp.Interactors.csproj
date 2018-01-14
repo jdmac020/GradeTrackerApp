@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">
+      <Project>{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}</Project>
+      <Name>GradeTrackerApp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GradeTrackerApp.Domain\GradeTrackerApp.Domain.csproj">
       <Project>{876C45C1-6943-4F1D-9DD9-825F1982D40B}</Project>
       <Name>GradeTrackerApp.Domain</Name>

@@ -11,13 +11,13 @@ namespace GradeTrackerApp.EntityFramework.Entities
         public string Number { get; set; }
         public Guid SchoolId { get; set; }
         public virtual SchoolEntity School { get; set; }
-        public Guid InstructorId { get; set; }
+        public Guid? InstructorId { get; set; }
         public virtual InstructorEntity Instructor { get; set; }
         public int Year { get; set; }
         public Guid SemesterId { get; set; }
         public virtual SemesterEntity Semester { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public double TotalPointsPossible { get; set; }
@@ -29,5 +29,7 @@ namespace GradeTrackerApp.EntityFramework.Entities
         public double CurrentPointsGrade { get; set; }
         public double FinalPointsGrade { get; set; }
         public DateTime LastUpdated { get; set; }
+        public DateTime CreatedOn { get; set; }
+        
     }
 }

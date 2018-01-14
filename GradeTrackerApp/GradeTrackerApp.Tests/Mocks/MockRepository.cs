@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,30 +18,33 @@ namespace GradeTrackerApp.Tests.Mocks
             _dataSet = new List<TEntity>();
         }
 
-        public new TEntity GetById(TKey id)
+        public override TEntity GetById(TKey id)
         {
             return _dataSet.Find(e => e.Id.Equals(id));
         }
 
-        public new TEntity Create(TEntity entity)
+        public override TEntity Create(TEntity entity)
         {
+            if (entity.Id.Equals(Guid.Empty) || string.IsNullOrEmpty(entity.Name))
+                throw new InvalidOperationException(); // is this what happens when you insert a bad entity??
+
             _dataSet.Add(entity);
 
             return _dataSet.LastOrDefault();
         }
 
-        public new void Update(TEntity entity)
+        public override void Update(TEntity entity)
         {
             _dataSet.Remove(entity);
             _dataSet.Add(entity);
         }
 
-        public new void Delete(TEntity entity)
+        public override void Delete(TEntity entity)
         {
             _dataSet.Remove(entity);
         }
 
-        public new IList<TEntity> GetAll()
+        public override IList<TEntity> GetAll()
         {
             return _dataSet;
         }

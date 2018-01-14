@@ -10,6 +10,6 @@ namespace GradeTrackerApp.Interactors.Course
 {
     interface ICreateCourse
     {
-        CourseEntity Execute(CreateCourseModel model);
+        CourseEntity Execute(CreateCourseDomainModel domainModel);
     }
 }

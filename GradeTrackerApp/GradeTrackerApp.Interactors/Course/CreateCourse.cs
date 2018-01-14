@@ -1,4 +1,5 @@
 ﻿using System;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Models.Courses;
 using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.EntityFramework.Repositories;
@@ -11,12 +12,67 @@ namespace GradeTrackerApp.Interactors.Course
         {
             get { return _courseRepository ?? ( _courseRepository = new Repository<CourseEntity, Guid>()); }
             set { _courseRepository = value; }
-        } 
+        }
 
         private IRepository<CourseEntity, Guid> _courseRepository;
-        public CourseEntity Execute(CreateCourseModel model)
+
+        /// <summary>
+        /// Test Constructor
+        /// </summary>
+        /// <param name="mockRepo">Mock repository for testing</param>
+        public CreateCourse(IRepository<CourseEntity, Guid> mockRepo)
         {
-            throw new NotImplementedException();
+            _courseRepository = mockRepo;
+        }
+
+        public CreateCourse() { }
+
+        public CourseEntity Execute(CreateCourseDomainModel domainModel)
+        {
+            var courseToAdd = new CourseEntity();
+            var addedCourse = new CourseEntity();
+
+            try
+            {
+                courseToAdd = ConvertModel(domainModel);
+                addedCourse = Repo.Create(courseToAdd);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new MissingInfoException();
+            }
+            catch (NullReferenceException e)
+            {
+                throw new MissingInfoException();
+            }
+
+            return addedCourse;
+        }
+
+        private CourseEntity ConvertModel(CreateCourseDomainModel domainModel)
+        {
+            return new CourseEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = domainModel.Name,
+                Department = domainModel.Department,
+                Number = domainModel.Number,
+                SchoolId = domainModel.SchoolId,
+                InstructorId = domainModel.InstructorId,
+                Year = domainModel.Year,
+                SemesterId = domainModel.SemesterId,
+                EndTime = domainModel.EndTime,
+                StartTime = domainModel.StartTime,
+                StartDate = domainModel.StartDate,
+                EndDate = domainModel.EndDate,
+                TotalPointsPossible = 0,
+                CurrentPointsPossible = 0,
+                PointsEarned = 0,
+                EvaluationCount = domainModel.EvaluationCount,
+                CurrentPointsGrade = 0,
+                FinalPointsGrade = 0,
+                CreatedOn = DateTime.Now,
+            };
         }
     }
 }

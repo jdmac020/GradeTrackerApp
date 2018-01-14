@@ -13,12 +13,12 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
 {
     public class EfRepository<TEntity, TKey> : IEfRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
-        public IUnitOfWork UnitOfWork { get; set; }
+        public virtual IUnitOfWork UnitOfWork { get; set; }
 
-        public IEfUnitOfWork EfUnitOfWork { get; set; }
+        public virtual IEfUnitOfWork EfUnitOfWork { get; set; }
 
-        private DbSet<TEntity> _objectset;
-        protected DbSet<TEntity> ObjectSet { get { return _objectset ?? (_objectset = EfUnitOfWork.Context.Set<TEntity>()); } }
+        protected DbSet<TEntity> _objectset;
+        protected virtual DbSet<TEntity> ObjectSet { get { return _objectset ?? (_objectset = EfUnitOfWork.Context.Set<TEntity>()); } }
 
         public EfRepository()
         {
@@ -30,31 +30,31 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
             EfUnitOfWork = unitOfWork;
         }
 
-        public TEntity GetById(TKey id)
+        public virtual TEntity GetById(TKey id)
         {
             return ObjectSet.Find(id);
         }
 
-        public TEntity Create(TEntity entity)
+        public virtual TEntity Create(TEntity entity)
         {
             var result = ObjectSet.Add(entity);
             EfUnitOfWork.Commit();
             return result;
         }
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
 
             ObjectSet.AddOrUpdate(entity);
             EfUnitOfWork.Commit();
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             ObjectSet.Remove(entity);
             EfUnitOfWork.Commit();
         }
 
-        public IList<TEntity> GetAll()
+        public virtual IList<TEntity> GetAll()
         {
             return ObjectSet.Select(o => o).ToList();
         }
