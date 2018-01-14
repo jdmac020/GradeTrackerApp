@@ -1,4 +1,4 @@
-﻿using GradeTrackerApp.EntityFramework.Entities;
+﻿using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.EntityFramework.UnitOfWork.EfUnitOfWork;
 
 namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository

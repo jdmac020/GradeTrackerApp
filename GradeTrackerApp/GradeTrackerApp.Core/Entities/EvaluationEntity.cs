@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GradeTrackerApp.EntityFramework.Entities
+namespace GradeTrackerApp.Core.Entities
 {
     public class EvaluationEntity : IEntity<Guid>
     {

@@ -1,4 +1,4 @@
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp.EntityFramework.Migrations
 {

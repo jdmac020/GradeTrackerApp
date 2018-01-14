@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GradeTrackerApp.EntityFramework.Entities
+namespace GradeTrackerApp.Core.Entities
 {
     public class SchoolTypeEntity : IEntity<Guid>
     {

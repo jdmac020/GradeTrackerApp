@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.EntityFramework.Repositories;
 
 namespace GradeTrackerApp.Tests.Mocks

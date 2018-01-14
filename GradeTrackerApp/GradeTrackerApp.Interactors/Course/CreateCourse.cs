@@ -1,7 +1,7 @@
 ﻿using System;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Core.Models;
-using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.EntityFramework.Repositories;
 
 namespace GradeTrackerApp.Interactors.Course

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GradeTrackerApp.EntityFramework.Entities
+namespace GradeTrackerApp.Core.Entities
 {
-    public class AccessLevelEntity : IEntity<Guid>
+    public class SemesterEntity : IEntity<Guid>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

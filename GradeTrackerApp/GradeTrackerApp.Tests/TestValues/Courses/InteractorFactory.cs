@@ -1,5 +1,5 @@
 ﻿using System;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Interactors.Course;
 using GradeTrackerApp.Tests.Mocks;
 

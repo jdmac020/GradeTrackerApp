@@ -5,7 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.EntityFramework.UnitOfWork;
 using GradeTrackerApp.EntityFramework.UnitOfWork.EfUnitOfWork;
 

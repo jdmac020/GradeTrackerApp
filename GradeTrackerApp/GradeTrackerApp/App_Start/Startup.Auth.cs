@@ -7,7 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.EntityFramework.Contexts;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp
 {

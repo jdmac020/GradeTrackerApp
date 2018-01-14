@@ -30,7 +30,18 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         public CourseDomainModel CreateNewCourse(CreateCourseDomainModel createModel)
         {
-            throw new System.NotImplementedException();
+            var courseEntity = CreateInteractor.Execute(createModel);
+
+            var courseModel = new CourseDomainModel(courseEntity);
+
+            // set school
+            // set instructor
+            // set evaluations
+            // set set grade thresholds
+            // calculate points/grades
+
+            return courseModel;
+
         }
     }
 }

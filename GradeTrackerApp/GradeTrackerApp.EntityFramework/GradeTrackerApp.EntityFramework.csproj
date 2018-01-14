@@ -57,17 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contexts\GradeTrackerDbContext.cs" />
-    <Compile Include="Entities\CourseEntity.cs" />
-    <Compile Include="Entities\EvaluationEntity.cs" />
-    <Compile Include="Entities\GradeThresholdEntity.cs" />
-    <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Entities\InstructorEntity.cs" />
-    <Compile Include="Entities\SchoolEntity.cs" />
-    <Compile Include="Entities\SchoolTypeEntity.cs" />
-    <Compile Include="Entities\ScoreEntity.cs" />
-    <Compile Include="Entities\AccessLevelEntity.cs" />
-    <Compile Include="Entities\SemesterEntity.cs" />
-    <Compile Include="Entities\StudentEntity.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EfRepository\EfRepository.cs" />
@@ -78,7 +67,12 @@
     <Compile Include="UnitOfWork\EfUnitOfWork\IEfUnitOfWork.cs" />
     <Compile Include="UnitOfWork\EfUnitOfWork\EfUnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">
+      <Project>{DB4279A3-05E2-4A0B-91FE-E7E06D343EC3}</Project>
+      <Name>GradeTrackerApp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

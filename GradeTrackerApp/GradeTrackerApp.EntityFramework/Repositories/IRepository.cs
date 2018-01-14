@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.EntityFramework.UnitOfWork;
 
 namespace GradeTrackerApp.EntityFramework.Repositories

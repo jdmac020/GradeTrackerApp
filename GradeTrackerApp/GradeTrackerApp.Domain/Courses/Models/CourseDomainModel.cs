@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.GradeRanges.Models;
 using GradeTrackerApp.Domain.Instructors.Models;
@@ -12,6 +13,26 @@ namespace GradeTrackerApp.Domain.Courses.Models
 {
     public class CourseDomainModel
     {
+        public CourseDomainModel(CourseEntity courseEntity)
+        {
+            Id = courseEntity.Id;
+            Name = courseEntity.Name;
+            Department = courseEntity.Department;
+            Number = courseEntity.Number;
+            SchoolId = courseEntity.SchoolId;
+            InstructorId = courseEntity.InstructorId;
+            Year = courseEntity.Year;
+            SemesterId = courseEntity.SemesterId;
+            StartTime = courseEntity.StartTime;
+            EndTime = courseEntity.EndTime;
+            StartDate = courseEntity.StartDate;
+            EndDate = courseEntity.EndDate;
+            EvaluationCount = courseEntity.EvaluationCount;
+            EvaluationIds = courseEntity.EvaluationIds;
+            GradeRangeIds = courseEntity.GradeRangeIds;
+            LastUpdated = courseEntity.LastUpdated;
+        }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Department { get; set; }

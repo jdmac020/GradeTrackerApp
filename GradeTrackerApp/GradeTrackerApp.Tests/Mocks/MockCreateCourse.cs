@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Core.Models;
-using GradeTrackerApp.EntityFramework.Entities;
 using GradeTrackerApp.Interactors.Course;
 
 namespace GradeTrackerApp.Tests.Mocks

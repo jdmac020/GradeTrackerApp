@@ -1,4 +1,4 @@
-﻿namespace GradeTrackerApp.EntityFramework.Entities
+﻿namespace GradeTrackerApp.Core.Entities
 {
     public interface IEntity<TKey>
     {

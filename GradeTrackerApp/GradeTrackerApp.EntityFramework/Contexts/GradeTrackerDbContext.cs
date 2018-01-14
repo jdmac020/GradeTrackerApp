@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using GradeTrackerApp.EntityFramework.Entities;
+using GradeTrackerApp.Core.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GradeTrackerApp.EntityFramework.Contexts
