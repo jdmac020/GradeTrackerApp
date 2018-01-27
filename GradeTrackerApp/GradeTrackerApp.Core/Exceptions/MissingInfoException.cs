@@ -13,5 +13,10 @@ namespace GradeTrackerApp.Core.Exceptions
         {
 
         }
+
+        public MissingInfoException(string message, Exception innerException) : base(message, innerException)
+        {
+
+        }
     }
 }

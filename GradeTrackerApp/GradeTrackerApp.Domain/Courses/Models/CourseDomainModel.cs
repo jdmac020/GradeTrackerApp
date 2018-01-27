@@ -30,6 +30,8 @@ namespace GradeTrackerApp.Domain.Courses.Models
         public List<Guid> GradeRanges { get; set; }
         public double CurrentPointsGrade { get; set; }
         public double FinalPointsGrade { get; set; }
+        public string CurrentLetterGrade { get; set; }
+        public string FinalLetterGrade { get; set; }
         public DateTime? LastUpdated { get; set; }
         public DateTime CreatedOn { get; set; }
 
@@ -48,6 +50,10 @@ namespace GradeTrackerApp.Domain.Courses.Models
             StartDate = courseEntity.StartDate;
             EndDate = courseEntity.EndDate;
             EvaluationCount = courseEntity.EvaluationCount;
+            CurrentPointsGrade = courseEntity.CurrentPointsGrade;
+            FinalPointsGrade = courseEntity.FinalPointsGrade;
+            CurrentLetterGrade = courseEntity.CurrentLetterGrade;
+            FinalLetterGrade = courseEntity.FinalLetterGrade;
             LastUpdated = courseEntity.LastModified;
             CreatedOn = courseEntity.CreatedOn;
         }

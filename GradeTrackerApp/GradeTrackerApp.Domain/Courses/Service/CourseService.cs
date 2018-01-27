@@ -54,24 +54,38 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         }
 
+        /// <summary>
+        /// Gets the course attached to the passed ID, and displays the data currently in the database
+        /// </summary>
+        /// <param name="courseId"></param>
+        /// <returns></returns>
         public CourseDomainModel GetCourse(Guid courseId)
         {
             var courseEntity = CourseInteractor.GetCourseById(courseId);
 
             var courseModel = new CourseDomainModel(courseEntity);
 
-            // set school
-            // set instructor
-            // set evaluations
-            // set set grade thresholds
-            // calculate points/grades
-
             return courseModel;
         }
 
+
+
         private CourseEntity ConvertModelToEntity(CreateCourseDomainModel createModel)
         {
-            throw new System.NotImplementedException();
+            return new CourseEntity
+            {
+                Name = createModel.Name,
+                Department = createModel.Department,
+                Number = createModel.Number,
+                SchoolId = createModel.SchoolId,
+                InstructorId = createModel.InstructorId,
+                Year = createModel.Year,
+                SemesterId = createModel.SemesterId,
+                StartTime = createModel.StartTime,
+                EndTime = createModel.EndTime,
+                StartDate = createModel.StartDate,
+                EndDate = createModel.EndDate
+            };
         }
     }
 }

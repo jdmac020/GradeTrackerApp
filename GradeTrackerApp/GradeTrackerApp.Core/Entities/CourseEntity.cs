@@ -18,9 +18,10 @@ namespace GradeTrackerApp.Core.Entities
         public double TotalPointsPossible { get; set; }
         public double CurrentPointsPossible { get; set; }
         public double PointsEarned { get; set; }
-        public int EvaluationCount { get; set; }
+        public int EvaluationCount { get; set; } // mebbe not needed?
         public double CurrentPointsGrade { get; set; }
         public double FinalPointsGrade { get; set; }
-
+        public string CurrentLetterGrade { get; set; }
+        public string FinalLetterGrade { get; set; }
     }
 }

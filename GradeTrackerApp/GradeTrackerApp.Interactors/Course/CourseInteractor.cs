@@ -33,22 +33,30 @@ namespace GradeTrackerApp.Interactors.Course
 
             try
             {
-                courseToAdd = ConvertModel(domainModel);
+                courseToAdd = ConvertModelToNewEntity(domainModel);
                 addedCourseId = Repo.Create(courseToAdd);
             }
             catch (InvalidOperationException e)
             {
-                throw new MissingInfoException();
+                throw new MissingInfoException("There was missing data that prevented creation. See Inner Exception for details.", e);
             }
             catch (NullReferenceException e)
             {
-                throw new MissingInfoException();
+                throw new MissingInfoException("There was missing data that prevented creation. See Inner Exception for details.", e);
             }
 
             return addedCourseId;
         }
 
-        private CourseEntity ConvertModel(CourseEntity domainModel)
+        public CourseEntity GetCourseById(Guid courseId)
+        {
+            if (courseId.Equals(Guid.Empty))
+                throw new MissingInfoException();
+
+            return Repo.GetById(courseId);
+        }
+
+        private CourseEntity ConvertModelToNewEntity(CourseEntity domainModel)
         {
             return new CourseEntity
             {
@@ -68,8 +76,10 @@ namespace GradeTrackerApp.Interactors.Course
                 CurrentPointsPossible = 0,
                 PointsEarned = 0,
                 EvaluationCount = domainModel.EvaluationCount,
-                CurrentPointsGrade = 0,
-                FinalPointsGrade = 0,
+                CurrentPointsGrade = 100,
+                FinalPointsGrade = 100,
+                CurrentLetterGrade = "A",
+                FinalLetterGrade = "A",
                 CreatedOn = DateTime.Now,
             };
         }
