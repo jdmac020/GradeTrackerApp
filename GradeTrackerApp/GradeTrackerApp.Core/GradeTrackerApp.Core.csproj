@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Entities\AccessLevelEntity.cs" />
     <Compile Include="Entities\CourseEntity.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\EvaluationEntity.cs" />
     <Compile Include="Entities\GradeThresholdEntity.cs" />
     <Compile Include="Entities\IEntity.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Entities\StudentEntity.cs" />
     <Compile Include="Exceptions\MissingInfoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\DateTimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

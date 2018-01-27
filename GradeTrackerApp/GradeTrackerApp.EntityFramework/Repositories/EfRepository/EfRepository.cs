@@ -31,11 +31,11 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
             return ObjectSet.Find(id);
         }
 
-        public virtual TEntity Create(TEntity entity)
+        public virtual TKey Create(TEntity entity)
         {
             var result = ObjectSet.Add(entity);
             EfUnitOfWork.Commit();
-            return result;
+            return result.Id;
         }
         public virtual void Update(TEntity entity)
         {

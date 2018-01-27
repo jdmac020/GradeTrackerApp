@@ -26,15 +26,15 @@ namespace GradeTrackerApp.Interactors.Course
 
         public CourseInteractor() { }
 
-        public CourseEntity CreateCourse(CourseEntity domainModel)
+        public Guid CreateCourse(CourseEntity domainModel)
         {
             var courseToAdd = new CourseEntity();
-            var addedCourse = new CourseEntity();
+            var addedCourseId = Guid.Empty;
 
             try
             {
                 courseToAdd = ConvertModel(domainModel);
-                addedCourse = Repo.Create(courseToAdd);
+                addedCourseId = Repo.Create(courseToAdd);
             }
             catch (InvalidOperationException e)
             {
@@ -45,7 +45,7 @@ namespace GradeTrackerApp.Interactors.Course
                 throw new MissingInfoException();
             }
 
-            return addedCourse;
+            return addedCourseId;
         }
 
         private CourseEntity ConvertModel(CourseEntity domainModel)

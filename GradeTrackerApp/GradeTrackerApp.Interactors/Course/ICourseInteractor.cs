@@ -1,9 +1,12 @@
-﻿using GradeTrackerApp.Core.Entities;
+﻿using System;
+using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp.Interactors.Course
 {
     public interface ICourseInteractor
     {
-        CourseEntity CreateCourse(CourseEntity domainModel);
+        Guid CreateCourse(CourseEntity domainModel);
+
+        CourseEntity GetCourseById(Guid courseId);
     }
 }
