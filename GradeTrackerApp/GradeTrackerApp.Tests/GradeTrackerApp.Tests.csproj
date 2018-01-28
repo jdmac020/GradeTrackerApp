@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Courses\Interactors\CreateCourseTests.cs" />
     <Compile Include="Courses\Service\CourseServiceTests.cs" />
+    <Compile Include="Evaluations\EvaluationInteractorTests.cs" />
     <Compile Include="Mocks\MockCourseInteractor.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

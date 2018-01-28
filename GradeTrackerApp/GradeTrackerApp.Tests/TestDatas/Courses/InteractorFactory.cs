@@ -1,6 +1,7 @@
 ﻿using System;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Interactors.Course;
+using GradeTrackerApp.Interactors.Evaluation;
 using GradeTrackerApp.Tests.Mocks;
 
 namespace GradeTrackerApp.Tests.TestDatas.Courses
@@ -17,6 +18,13 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
         public static ICourseInteractor CreateCourse_MockInteractor()
         {
             return new MockCourseInteractor();
+        }
+
+        public static EvaluationInteractor Create_EvaluationInteractor_MockRepo()
+        {
+            var mockRepo = new MockRepository<EvaluationEntity, Guid>();
+
+            return new EvaluationInteractor(mockRepo);
         }
     }
 }
