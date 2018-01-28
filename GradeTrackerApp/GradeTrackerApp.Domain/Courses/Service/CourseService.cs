@@ -18,21 +18,21 @@ namespace GradeTrackerApp.Domain.Courses.Service
         
         private ICourseInteractor CourseInteractor
         {
-            get { return _createInteractor ?? (_createInteractor = new CourseInteractor()); }
-            set { _createInteractor = value; }
+            get { return _courseInteractor ?? (_courseInteractor = new CourseInteractor()); }
+            set { _courseInteractor = value; }
         }
 
-        private ICourseInteractor _createInteractor;
+        private ICourseInteractor _courseInteractor;
 
         #endregion
 
         /// <summary>
         /// Constructor to override default interactor
         /// </summary>
-        /// <param name="createInteractor">Interactor to be used by class</param>
-        public CourseService(ICourseInteractor createInteractor)
+        /// <param name="courseInteractor">Interactor to be used by class</param>
+        public CourseService(ICourseInteractor courseInteractor)
         {
-            _createInteractor = createInteractor;
+            _courseInteractor = courseInteractor;
         }
         
         public CourseService()

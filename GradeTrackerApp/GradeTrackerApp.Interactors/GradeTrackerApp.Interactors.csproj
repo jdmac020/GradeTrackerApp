@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Course\CourseInteractor.cs" />
     <Compile Include="Course\ICourseInteractor.cs" />
+    <Compile Include="Evaluation\EvaluationInteractor.cs" />
+    <Compile Include="Evaluation\IEvaluationInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,5 +56,6 @@
       <Name>GradeTrackerApp.EntityFramework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
