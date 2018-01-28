@@ -34,9 +34,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
         {
             _createInteractor = createInteractor;
         }
-
         
-
         public CourseService()
         {
 

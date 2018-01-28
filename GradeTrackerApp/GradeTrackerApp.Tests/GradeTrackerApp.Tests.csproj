@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="Courses\Interactors\CreateCourseTests.cs" />
     <Compile Include="Courses\Service\CourseServiceTests.cs" />
-    <Compile Include="Mocks\MockCreateCourse.cs" />
+    <Compile Include="Mocks\MockCourseInteractor.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDatas\Courses\CourseFactory.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="TestDatas\Courses\ServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
 
         public static ICourseInteractor CreateCourse_MockInteractor()
         {
-            return new MockCreateCourse();
+            return new MockCourseInteractor();
         }
     }
 }

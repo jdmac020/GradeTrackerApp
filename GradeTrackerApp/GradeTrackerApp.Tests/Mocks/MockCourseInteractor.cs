@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
-using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Tests.TestDatas.Courses;
 using GradeTrackerApp.Interactors.Course;
 
 namespace GradeTrackerApp.Tests.Mocks
 {
-    public class MockCreateCourse : ICourseInteractor
+    public class MockCourseInteractor : ICourseInteractor
     {
         public Guid CreateCourse(CourseEntity domainModel)
         {
@@ -26,7 +26,7 @@ namespace GradeTrackerApp.Tests.Mocks
         
         public CourseEntity GetCourseById(Guid courseId)
         {
-            throw new NotImplementedException();
+            return CourseFactory.Create_CourseEntity_ValidMinimum(courseId);
         }
     }
 }

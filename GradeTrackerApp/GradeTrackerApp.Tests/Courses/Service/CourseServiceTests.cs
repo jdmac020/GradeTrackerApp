@@ -2,7 +2,6 @@
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestDatas.Courses;
-using GradeTrackerApp.Tests.TestValues.Courses;
 using Shouldly;
 using Xunit;
 

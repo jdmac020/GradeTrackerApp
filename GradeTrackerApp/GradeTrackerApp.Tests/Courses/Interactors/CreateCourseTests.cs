@@ -4,7 +4,6 @@ using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Tests.TestDatas.Courses;
-using GradeTrackerApp.Tests.TestValues.Courses;
 using Shouldly;
 using Xunit;
 
