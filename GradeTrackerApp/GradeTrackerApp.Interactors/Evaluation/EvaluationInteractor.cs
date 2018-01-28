@@ -34,13 +34,24 @@ namespace GradeTrackerApp.Interactors.Evaluation
             if (existingEval != null)
                 throw new ObjectAlreadyExistsException($"An Evaluation named {newEvaluationEntity.Name} already exists for this Course.");
 
-            if (string.IsNullOrEmpty(newEvaluationEntity.Name))
-                throw new MissingInfoException($"The name for the Evaluation cannot be blank.");
+            ValidateNewEvaluation(newEvaluationEntity);
 
             newEvaluationEntity.Id = Guid.NewGuid();
 
             return Repo.Create(newEvaluationEntity);
 
+        }
+
+        protected void ValidateNewEvaluation(EvaluationEntity newEvaluationEntity)
+        {
+            if (string.IsNullOrEmpty(newEvaluationEntity.Name))
+                throw new MissingInfoException($"The name for the Evaluation cannot be blank.");
+            if (newEvaluationEntity.CourseId.Equals(Guid.Empty))
+                throw new MissingInfoException("The Evaluation must be linked to a specific Course.");
+            if (newEvaluationEntity.WeightId.Equals(Guid.Empty))
+                throw new MissingInfoException("The weight value for this Evaluation must be selected.");
+            if (newEvaluationEntity.NumberOfScores < 0)
+                throw new MissingInfoException("The number of Scores for this Evaluation cannot be less than 0.");
         }
 
         public EvaluationEntity GetEvaluationById(Guid evaluationId)

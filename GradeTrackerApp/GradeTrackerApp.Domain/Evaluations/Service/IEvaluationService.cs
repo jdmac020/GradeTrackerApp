@@ -7,6 +7,6 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
     public interface IEvaluationService
     {
         EvaluationDomainModel CreateNewEvaluation(CreateEvaluationDomainModel createModel);
-        EvaluationDomainModel GetEvaluation(Guid courseId);
+        EvaluationDomainModel GetEvaluation(Guid evaluationId);
     }
 }

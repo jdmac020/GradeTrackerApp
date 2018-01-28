@@ -44,32 +44,30 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
         public EvaluationDomainModel CreateNewEvaluation(CreateEvaluationDomainModel createModel)
         {
-            var newCourseEntity = ConvertModelToEntity(createModel);
+            var newEvaluationEntity = ConvertModelToEntity(createModel);
 
-            var courseId = EvaluationInteractor.CreateEvaluation(newCourseEntity);
+            var evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
 
-            var courseModel = GetEvaluation(courseId);
+            var evaluationModel = GetEvaluation(evaluationId);
 
-            return courseModel;
+            return evaluationModel;
 
         }
 
         /// <summary>
         /// Gets the course attached to the passed ID, and displays the data currently in the database
         /// </summary>
-        /// <param name="courseId"></param>
+        /// <param name="evaluationId"></param>
         /// <returns></returns>
-        public EvaluationDomainModel GetEvaluation(Guid courseId)
+        public EvaluationDomainModel GetEvaluation(Guid evaluationId)
         {
-            var courseEntity = EvaluationInteractor.GetEvaluationById(courseId);
+            var evaluationEntity = EvaluationInteractor.GetEvaluationById(evaluationId);
 
-            var courseModel = new EvaluationDomainModel(courseEntity);
+            var evaluationModel = new EvaluationDomainModel(evaluationEntity);
 
-            return courseModel;
+            return evaluationModel;
         }
-
-
-
+        
         private EvaluationEntity ConvertModelToEntity(CreateEvaluationDomainModel createModel)
         {
             return new EvaluationEntity
