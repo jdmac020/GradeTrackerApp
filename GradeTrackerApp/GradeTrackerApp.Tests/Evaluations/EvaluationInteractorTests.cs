@@ -1,6 +1,7 @@
 ﻿using System;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
+using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestDatas.Courses;
 using Shouldly;
 using Xunit;
@@ -27,6 +28,21 @@ namespace GradeTrackerApp.Tests.Evaluations
             var result = testClass.CreateEvaluation(testModel);
 
             result.ShouldNotBeNull();
+            result.ShouldNotBe(Guid.Empty);
+        }
+
+        [Fact]
+        public void CreateEval_DuplicateName_ThrowsObjectAlreadyExists()
+        {
+            var testRepo = new MockRepository<EvaluationEntity, Guid>();
+            var existingEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(Guid.NewGuid());
+            testRepo.Update(existingEval);
+
+            var testEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum();
+
+            var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
+
+            Should.Throw<ObjectAlreadyExistsException>(() => testClass.CreateEvaluation(testEval));
         }
 
         [Fact]

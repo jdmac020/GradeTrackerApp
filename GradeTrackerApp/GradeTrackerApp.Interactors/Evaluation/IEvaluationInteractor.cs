@@ -5,7 +5,7 @@ namespace GradeTrackerApp.Interactors.Evaluation
 {
     public interface IEvaluationInteractor
     {
-        Guid CreateEvaluation(EvaluationEntity newCourseEntity);
-        EvaluationEntity GetEvaluationById(Guid courseId);
+        Guid CreateEvaluation(EvaluationEntity newEvaluationEntity);
+        EvaluationEntity GetEvaluationById(Guid evaluationId);
     }
 }

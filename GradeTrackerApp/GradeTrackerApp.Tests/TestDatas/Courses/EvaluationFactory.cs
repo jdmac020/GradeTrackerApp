@@ -12,7 +12,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
             return new CreateEvaluationDomainModel
             {
                 Name = "Tests",
-                CourseId = Guid.NewGuid(),
+                CourseId =  Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
                 WeightId = Guid.NewGuid(),
                 NumberOfScores = 3,
                 DropLowest = false
@@ -24,7 +24,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
             return new EvaluationEntity
             {
                 Name = "Tests",
-                CourseId = Guid.NewGuid(),
+                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
                 WeightId = Guid.NewGuid(),
                 NumberOfScores = 3,
                 DropLowest = false
@@ -37,7 +37,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
             {
                 Id = courseId,
                 Name = "Tests",
-                CourseId = Guid.NewGuid(),
+                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
                 WeightId = Guid.NewGuid(),
                 NumberOfScores = 3,
                 DropLowest = false

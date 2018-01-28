@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.EntityFramework.Repositories;
 
 namespace GradeTrackerApp.Interactors.Evaluation
@@ -25,14 +27,28 @@ namespace GradeTrackerApp.Interactors.Evaluation
 
         public EvaluationInteractor() { }
 
-        public Guid CreateEvaluation(EvaluationEntity newCourseEntity)
+        public Guid CreateEvaluation(EvaluationEntity newEvaluationEntity)
         {
-            throw new NotImplementedException();
+            var existingEval = Repo.GetAll().FirstOrDefault(e => e.CourseId == newEvaluationEntity.CourseId && e.Name == newEvaluationEntity.Name);
+
+            if (existingEval != null)
+                throw new ObjectAlreadyExistsException($"An Evaluation named {newEvaluationEntity.Name} already exists for this Course.");
+
+            if (string.IsNullOrEmpty(newEvaluationEntity.Name))
+                throw new MissingInfoException($"The name for the Evaluation cannot be blank.");
+
+            newEvaluationEntity.Id = Guid.NewGuid();
+
+            return Repo.Create(newEvaluationEntity);
+
         }
 
-        public EvaluationEntity GetEvaluationById(Guid courseId)
+        public EvaluationEntity GetEvaluationById(Guid evaluationId)
         {
-            throw new NotImplementedException();
+            if (evaluationId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException($"There is no Evaluation with an Id of {evaluationId}");
+
+            return Repo.GetById(evaluationId);
         }
     }
 }
