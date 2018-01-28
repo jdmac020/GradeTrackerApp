@@ -65,6 +65,7 @@
     <Compile Include="Entities\ScoreEntity.cs" />
     <Compile Include="Entities\SemesterEntity.cs" />
     <Compile Include="Entities\StudentEntity.cs" />
+    <Compile Include="Exceptions\ObjectNotFoundException.cs" />
     <Compile Include="Exceptions\MissingInfoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\DateTimeHelper.cs" />

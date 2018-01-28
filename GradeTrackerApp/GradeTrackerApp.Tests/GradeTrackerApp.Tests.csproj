@@ -78,6 +78,7 @@
     <Compile Include="Mocks\MockCourseInteractor.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDatas\Courses\EvaluationFactory.cs" />
     <Compile Include="TestDatas\Courses\CourseFactory.cs" />
     <Compile Include="TestDatas\Courses\InteractorFactory.cs" />
     <Compile Include="TestDatas\Courses\ServiceFactory.cs" />
