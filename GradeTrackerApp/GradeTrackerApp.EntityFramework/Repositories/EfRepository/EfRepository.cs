@@ -54,5 +54,10 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
         {
             return ObjectSet.Select(o => o).ToList();
         }
+
+        public virtual IQueryable<TEntity> GetAllQueryable()
+        {
+            return ObjectSet;
+        }
     }
 }
