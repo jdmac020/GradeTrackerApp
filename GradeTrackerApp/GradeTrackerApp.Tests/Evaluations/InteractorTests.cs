@@ -2,13 +2,14 @@
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Tests.Mocks;
-using GradeTrackerApp.Tests.TestDatas.Courses;
+using GradeTrackerApp.Tests.TestDatas.Evaluations;
 using Shouldly;
 using Xunit;
+using InteractorFactory = GradeTrackerApp.Tests.TestDatas.Courses.InteractorFactory;
 
 namespace GradeTrackerApp.Tests.Evaluations
 {
-    public class EvaluationInteractorTests
+    public class InteractorTests
     {
         [Fact]
         public void CreateEval_EmptyEntity_ThrowsMissingInfoException()

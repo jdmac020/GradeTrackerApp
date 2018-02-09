@@ -6,18 +6,11 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
 {
     public static class ServiceFactory
     {
-        public static CourseService CreateCourse_MockInteractor()
+        public static CourseService Create_MockInteractor()
         {
             var interactor = new MockCourseInteractor();
 
             return new CourseService(interactor);
-        }
-
-        public static EvaluationService Create_EvaluationService()
-        {
-            var interactor = new MockEvaluationInteractor();
-
-            return new EvaluationService(interactor);
         }
     }
 }

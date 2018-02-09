@@ -2,13 +2,13 @@
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
-using GradeTrackerApp.Tests.TestDatas.Courses;
+using GradeTrackerApp.Tests.TestDatas.Evaluations;
 using Shouldly;
 using Xunit;
 
 namespace GradeTrackerApp.Tests.Evaluations
 {
-    public class EvaluationServiceTests
+    public class ServiceTests
     {
         [Fact]
         public void CreateNewEvaluation_EmptyModel_ThrowsMissingInfoException()

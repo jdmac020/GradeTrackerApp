@@ -44,6 +44,7 @@
     <Compile Include="Courses\Models\CreateCourseDomainModel.cs" />
     <Compile Include="Courses\Service\CourseService.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />
+    <Compile Include="Scores\Models\CreateScoreDomainModel.cs" />
     <Compile Include="Evaluations\Models\CreateEvaluationDomainModel.cs" />
     <Compile Include="Evaluations\Models\EvaluationDomainModel.cs" />
     <Compile Include="Evaluations\Service\EvaluationService.cs" />
@@ -51,6 +52,9 @@
     <Compile Include="GradeRanges\Models\GradeRangeDomainModel.cs" />
     <Compile Include="Instructors\Models\InstructorDomainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scores\Models\ScoreDomainModel.cs" />
+    <Compile Include="Scores\Service\IScoreService.cs" />
+    <Compile Include="Scores\Service\ScoreService.cs" />
     <Compile Include="Semesters\Models\SemesterDomainModel.cs" />
   </ItemGroup>
   <ItemGroup>

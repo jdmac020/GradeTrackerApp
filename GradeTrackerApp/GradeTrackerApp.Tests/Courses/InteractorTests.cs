@@ -1,15 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using GradeTrackerApp.Core.Entities;
+﻿using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
-using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Tests.TestDatas.Courses;
 using Shouldly;
 using Xunit;
 
-namespace GradeTrackerApp.Tests.Courses.Interactors
+namespace GradeTrackerApp.Tests.Courses
 {
-    public class CreateCourseTests
+    public class InteractorTests
     {
         [Fact]
         public void CreateCourse_EmptyModel_ThrowsMissingInfoException()

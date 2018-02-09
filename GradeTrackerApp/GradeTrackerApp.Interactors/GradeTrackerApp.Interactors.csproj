@@ -44,7 +44,9 @@
     <Compile Include="Course\ICourseInteractor.cs" />
     <Compile Include="Evaluation\EvaluationInteractor.cs" />
     <Compile Include="Evaluation\IEvaluationInteractor.cs" />
+    <Compile Include="Score\IScoreInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score\ScoreInteractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">

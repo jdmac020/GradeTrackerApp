@@ -1,9 +1,9 @@
-﻿using GradeTrackerApp.Domain.Courses.Models;
-using System;
+﻿using System;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
 
-namespace GradeTrackerApp.Tests.TestDatas.Courses
+namespace GradeTrackerApp.Tests.TestDatas.Evaluations
 {
     public static class EvaluationFactory
     {
