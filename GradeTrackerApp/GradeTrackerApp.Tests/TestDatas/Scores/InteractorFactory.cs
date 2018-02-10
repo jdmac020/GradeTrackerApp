@@ -12,12 +12,12 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
 
         public static ScoreInteractor Create_ScoreInteractor()
         {
-            var mockRepo = new MockRepository<EvaluationEntity, Guid>();
+            var mockRepo = new MockRepository<ScoreEntity>();
 
             return new ScoreInteractor(mockRepo);
         }
 
-        public static ScoreInteractor Create_ScoreInteractor(MockRepository<EvaluationEntity, Guid> mockRepo)
+        public static ScoreInteractor Create_ScoreInteractor(MockRepository<ScoreEntity> mockRepo)
         {
             return new ScoreInteractor(mockRepo);
         }

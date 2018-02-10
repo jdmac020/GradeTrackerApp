@@ -15,12 +15,12 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
         
         public static EvaluationInteractor Create_EvaluationInteractor()
         {
-            var mockRepo = new MockRepository<EvaluationEntity, Guid>();
+            var mockRepo = new MockRepository<EvaluationEntity>();
 
             return new EvaluationInteractor(mockRepo);
         }
 
-        public static EvaluationInteractor Create_EvaluationInteractor(MockRepository<EvaluationEntity, Guid> mockRepo)
+        public static EvaluationInteractor Create_EvaluationInteractor(MockRepository<EvaluationEntity> mockRepo)
         {
             return new EvaluationInteractor(mockRepo);
         }

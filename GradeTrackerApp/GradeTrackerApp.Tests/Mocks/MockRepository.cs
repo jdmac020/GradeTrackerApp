@@ -9,7 +9,7 @@ using GradeTrackerApp.EntityFramework.Repositories;
 
 namespace GradeTrackerApp.Tests.Mocks
 {
-    public class MockRepository<TEntity,TKey> : Repository<TEntity,TKey> where TEntity : class, IEntity<TKey>
+    public class MockRepository<TEntity> : Repository<TEntity, Guid> where TEntity : class, IEntity<Guid>
     {
         private List<TEntity> _dataSet;
 
@@ -18,15 +18,17 @@ namespace GradeTrackerApp.Tests.Mocks
             _dataSet = new List<TEntity>();
         }
 
-        public override TEntity GetById(TKey id)
+        public override TEntity GetById(Guid id)
         {
             return _dataSet.Find(e => e.Id.Equals(id));
         }
 
-        public override TKey Create(TEntity entity)
+        public override Guid Create(TEntity entity)
         {
-            if (entity.Id.Equals(Guid.Empty) || string.IsNullOrEmpty(entity.Name))
+            if (string.IsNullOrEmpty(entity.Name))
                 throw new InvalidOperationException(); // is this what happens when you insert a bad entity??
+
+            entity.Id = Guid.NewGuid();
 
             _dataSet.Add(entity);
 

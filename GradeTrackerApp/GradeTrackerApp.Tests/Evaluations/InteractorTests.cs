@@ -5,7 +5,6 @@ using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestDatas.Evaluations;
 using Shouldly;
 using Xunit;
-using InteractorFactory = GradeTrackerApp.Tests.TestDatas.Courses.InteractorFactory;
 
 namespace GradeTrackerApp.Tests.Evaluations
 {
@@ -35,7 +34,7 @@ namespace GradeTrackerApp.Tests.Evaluations
         [Fact]
         public void CreateEval_DuplicateName_ThrowsObjectAlreadyExists()
         {
-            var testRepo = new MockRepository<EvaluationEntity, Guid>();
+            var testRepo = new MockRepository<EvaluationEntity>();
             var existingEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(Guid.NewGuid());
             testRepo.Update(existingEval);
 
@@ -59,7 +58,7 @@ namespace GradeTrackerApp.Tests.Evaluations
         [Fact]
         public void GetById_ValidGuid_ReturnsTestEntity()
         {
-            var testRepo = new Mocks.MockRepository<EvaluationEntity, Guid>();
+            var testRepo = new Mocks.MockRepository<EvaluationEntity>();
             var testEntity = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(Guid.NewGuid());
             testRepo.Update(testEntity);
             var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);

@@ -36,8 +36,6 @@ namespace GradeTrackerApp.Interactors.Evaluation
 
             ValidateNewEvaluation(newEvaluationEntity);
 
-            newEvaluationEntity.Id = Guid.NewGuid();
-
             return Repo.Create(newEvaluationEntity);
 
         }

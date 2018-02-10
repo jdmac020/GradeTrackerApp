@@ -6,12 +6,12 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
 {
     public static class ScoreFactory
     {
-        public static CreateScoreDomainModel CreateCCreateCourseDomainModel_Empty()
+        public static CreateScoreDomainModel Create_CreateScoreDomainModel_Empty()
         {
             return new CreateScoreDomainModel();
         }
 
-        public static CreateScoreDomainModel Create_CreateCourseDomainModel_ValidMinimum()
+        public static CreateScoreDomainModel Create_CreateScoreDomainModel_ValidMinimum()
         {
             return new CreateScoreDomainModel
             {
@@ -22,6 +22,11 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
                 PointsEarned = 0,
                 PointsGrade = 0
             };
+        }
+
+        public static ScoreEntity Create_ScoreEntity_Empty()
+        {
+            return new ScoreEntity();
         }
 
         public static ScoreEntity Create_ScoreEntity_ValidMinimum()

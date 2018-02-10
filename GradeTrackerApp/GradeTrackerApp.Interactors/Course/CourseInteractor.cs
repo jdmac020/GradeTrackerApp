@@ -60,7 +60,6 @@ namespace GradeTrackerApp.Interactors.Course
         {
             return new CourseEntity
             {
-                Id = Guid.NewGuid(),
                 Name = domainModel.Name,
                 Department = domainModel.Department,
                 Number = domainModel.Number,
