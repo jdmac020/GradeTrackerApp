@@ -23,12 +23,12 @@ namespace GradeTrackerApp.Interactors.Score
             _repo = mockRepo;
         }
 
-        public ScoreEntity GetScore(Guid id)
+        public ScoreEntity GetScore(Guid scoreId)
         {
-            if (id.Equals(Guid.Empty))
+            if (scoreId.Equals(Guid.Empty))
                 throw new ObjectNotFoundException("The Score Requested Does Not Exist.");
 
-            var foundScore = Repo.GetById(id);
+            var foundScore = Repo.GetById(scoreId);
 
             return foundScore;
         }

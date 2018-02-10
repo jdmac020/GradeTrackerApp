@@ -27,5 +27,7 @@ namespace GradeTrackerApp.Tests.Courses
 
             result.ShouldNotBeNull();
         }
+
+
     }
 }

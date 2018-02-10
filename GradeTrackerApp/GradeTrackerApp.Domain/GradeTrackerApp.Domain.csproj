@@ -44,6 +44,8 @@
     <Compile Include="Courses\Models\CreateCourseDomainModel.cs" />
     <Compile Include="Courses\Service\CourseService.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />
+    <Compile Include="DomainModel.cs" />
+    <Compile Include="IDomainModel.cs" />
     <Compile Include="Scores\Models\CreateScoreDomainModel.cs" />
     <Compile Include="Evaluations\Models\CreateEvaluationDomainModel.cs" />
     <Compile Include="Evaluations\Models\EvaluationDomainModel.cs" />

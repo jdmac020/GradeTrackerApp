@@ -57,6 +57,8 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 // pass the exception to the controller as an error model
 
                 // TO DO: Create ErrorModel
+
+                throw; // stand-in till ErrorModel is figured out
             }
             
             return courseModel;
@@ -81,6 +83,8 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 // pass the exception to the controller as an error model
 
                 // TO DO: Create ErrorModel
+
+                throw; // stand-in till ErrorModel is figured out
             }
             
             var courseModel = new CourseDomainModel(courseEntity);

@@ -3,10 +3,9 @@ using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp.Domain.Evaluations.Models
 {
-    public class EvaluationDomainModel
+    public class EvaluationDomainModel : DomainModel
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
         public Guid CourseId { get; set; }
         public Guid WeightId { get; set; }
         public int NumberOfScores { get; set; }

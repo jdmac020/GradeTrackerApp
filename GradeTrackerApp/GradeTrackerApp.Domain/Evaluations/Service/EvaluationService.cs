@@ -58,6 +58,8 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 // pass the exception to the controller as an error model
 
                 // TO DO: Create ErrorModel
+
+                throw; // stand-in till ErrorModel is figured out
             }
 
             return evaluationModel;
@@ -84,12 +86,14 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 // pass the exception to the controller as an error model
 
                 // TO DO: Create ErrorModel
+
+                throw; // stand-in till ErrorModel is figured out
             }
             
             return evaluationModel;
         }
         
-        private EvaluationEntity ConvertModelToEntity(CreateEvaluationDomainModel createModel)
+        private static EvaluationEntity ConvertModelToEntity(CreateEvaluationDomainModel createModel)
         {
             return new EvaluationEntity
             {

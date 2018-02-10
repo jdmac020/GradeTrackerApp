@@ -8,7 +8,7 @@ namespace GradeTrackerApp.Tests.Mocks
 {
     public class MockScoreInteractor : IScoreInteractor
     {
-        public Guid CreateCourse(ScoreEntity domainModel)
+        public Guid CreateScore(ScoreEntity domainModel)
         {
             if (string.IsNullOrEmpty(domainModel.Name))
             {
@@ -20,9 +20,12 @@ namespace GradeTrackerApp.Tests.Mocks
             }
         }
 
-        public ScoreEntity GetCourseById(Guid courseId)
+        public ScoreEntity GetScore(Guid scoreId)
         {
-            return ScoreFactory.Create_ScoreEntity_ValidMinimum(courseId);
+            if (scoreId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
+
+            return ScoreFactory.Create_ScoreEntity_ValidMinimum(scoreId);
         }
     }
 }

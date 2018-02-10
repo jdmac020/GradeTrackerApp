@@ -26,6 +26,9 @@ namespace GradeTrackerApp.Tests.Mocks
         
         public CourseEntity GetCourseById(Guid courseId)
         {
+            if (courseId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
+
             return CourseFactory.Create_CourseEntity_ValidMinimum(courseId);
         }
     }

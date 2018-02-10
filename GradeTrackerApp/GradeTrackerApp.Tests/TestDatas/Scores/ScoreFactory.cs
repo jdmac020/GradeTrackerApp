@@ -19,8 +19,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
                 EvaluationId = Guid.Empty,
                 Date = DateTime.Parse("1/23/2018"),
                 PointsPossible = 0,
-                PointsEarned = 0,
-                PointsGrade = 0
+                PointsEarned = 0
             };
         }
 

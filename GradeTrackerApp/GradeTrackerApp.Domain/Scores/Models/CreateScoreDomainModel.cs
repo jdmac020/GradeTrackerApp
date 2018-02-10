@@ -4,7 +4,6 @@ namespace GradeTrackerApp.Domain.Scores.Models
 {
     public class CreateScoreDomainModel 
     {
-        public double PointsGrade { get; set; }
         public double PointsEarned { get; set; }
         public double PointsPossible { get; set; }
         public DateTime Date { get; set; }
