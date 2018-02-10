@@ -7,6 +7,6 @@ namespace GradeTrackerApp.Interactors.Course
     {
         Guid CreateCourse(CourseEntity domainModel);
 
-        CourseEntity GetCourseById(Guid courseId);
+        CourseEntity GetCourse(Guid courseId);
     }
 }

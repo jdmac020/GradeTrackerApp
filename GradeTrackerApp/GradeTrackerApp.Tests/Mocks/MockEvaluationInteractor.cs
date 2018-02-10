@@ -29,7 +29,7 @@ namespace GradeTrackerApp.Tests.Mocks
             return Guid.NewGuid();
         }
 
-        public EvaluationEntity GetEvaluationById(Guid evaluationId)
+        public EvaluationEntity GetEvaluation(Guid evaluationId)
         {
             if (evaluationId.Equals(Guid.Empty))
                 throw new ObjectNotFoundException();

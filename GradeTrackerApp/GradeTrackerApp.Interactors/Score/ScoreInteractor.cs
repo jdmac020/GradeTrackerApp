@@ -6,7 +6,7 @@ using GradeTrackerApp.EntityFramework.Repositories;
 
 namespace GradeTrackerApp.Interactors.Score
 {
-    public class ScoreInteractor : IScoreInteractor 
+    public class ScoreInteractor : IScoreInteractor
     {
         public IRepository<ScoreEntity, Guid> Repo
         {
@@ -18,7 +18,7 @@ namespace GradeTrackerApp.Interactors.Score
 
         public ScoreInteractor() { }
 
-        public ScoreInteractor(IRepository<ScoreEntity,Guid> mockRepo)
+        public ScoreInteractor(IRepository<ScoreEntity, Guid> mockRepo)
         {
             _repo = mockRepo;
         }
@@ -35,18 +35,22 @@ namespace GradeTrackerApp.Interactors.Score
 
         public Guid CreateScore(ScoreEntity newScore)
         {
-            var validModel = ValidateNewScore(newScore);
-            var newGuid = Guid.Empty;
+            var existingScore = GetExistingRecord(newScore.EvaluationId, newScore.Name);
 
-            if (validModel)
-            {
-                newGuid = Repo.Create(newScore);
-            }
+            if (existingScore != null)
+                throw new ObjectAlreadyExistsException("There is already a Score for that Evaluation with that Name.");
 
-            return newGuid;
+            ValidateNewScore(newScore);
+
+            return Repo.Create(newScore);
         }
 
-        protected bool ValidateNewScore(ScoreEntity newScore)
+        protected ScoreEntity GetExistingRecord(Guid evaluationId, string scoreName)
+        {
+            return  Repo.GetAll().FirstOrDefault(s => s.EvaluationId.Equals(evaluationId) && s.Name.Equals(scoreName));
+        }
+
+        protected void ValidateNewScore(ScoreEntity newScore)
         {
             if (newScore.PointsPossible < 0)
                 throw new BadInfoException("Minimum Value for Points Possible is Zero.");
@@ -64,7 +68,6 @@ namespace GradeTrackerApp.Interactors.Score
             if (existingScore != null)
                 throw new ObjectAlreadyExistsException("There is already a Score for that Evaluation with that Name.");
 
-            return true;
         }
     }
 }

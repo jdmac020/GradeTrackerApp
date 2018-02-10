@@ -16,7 +16,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
                 EndDate = DateTime.Parse("5/28/2018"),
                 Number = "1145",
                 SchoolId = Guid.Empty,
-                SemesterId = Guid.Empty,
+                SemesterId = Guid.NewGuid(),
                 Year = 2018
             };
         }
@@ -31,7 +31,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
                 EndDate = DateTime.Parse("5/28/2018"),
                 Number = "1145",
                 SchoolId = Guid.Empty,
-                SemesterId = Guid.Empty,
+                SemesterId = Guid.NewGuid(),
                 Year = 2018
             };
         }

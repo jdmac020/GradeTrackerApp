@@ -77,7 +77,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
             try
             {
-                var evaluationEntity = EvaluationInteractor.GetEvaluationById(evaluationId);
+                var evaluationEntity = EvaluationInteractor.GetEvaluation(evaluationId);
 
                 evaluationModel = new EvaluationDomainModel(evaluationEntity);
             }

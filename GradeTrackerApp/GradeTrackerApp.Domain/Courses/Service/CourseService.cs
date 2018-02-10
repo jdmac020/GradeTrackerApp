@@ -40,7 +40,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         }
 
-        public CourseDomainModel CreateNewCourse(CreateCourseDomainModel createModel)
+        public CourseDomainModel CreateCourse(CreateCourseDomainModel createModel)
         {
             var courseModel = new CourseDomainModel();
 
@@ -76,7 +76,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
             try
             {
-                courseEntity = CourseInteractor.GetCourseById(courseId);
+                courseEntity = CourseInteractor.GetCourse(courseId);
             }
             catch (Exception e)
             {

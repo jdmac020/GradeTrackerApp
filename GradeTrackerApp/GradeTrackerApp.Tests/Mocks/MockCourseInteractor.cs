@@ -24,7 +24,7 @@ namespace GradeTrackerApp.Tests.Mocks
             }
         }
         
-        public CourseEntity GetCourseById(Guid courseId)
+        public CourseEntity GetCourse(Guid courseId)
         {
             if (courseId.Equals(Guid.Empty))
                 throw new ObjectNotFoundException();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.EntityFramework.Repositories;
@@ -26,61 +27,43 @@ namespace GradeTrackerApp.Interactors.Course
 
         public CourseInteractor() { }
 
-        public Guid CreateCourse(CourseEntity domainModel)
+        public Guid CreateCourse(CourseEntity newCourse)
         {
-            var courseToAdd = new CourseEntity();
-            var addedCourseId = Guid.Empty;
+            var existingCourse = GetExistingRecord(newCourse);
 
-            try
-            {
-                courseToAdd = ConvertModelToNewEntity(domainModel);
-                addedCourseId = Repo.Create(courseToAdd);
-            }
-            catch (InvalidOperationException e)
-            {
-                throw new MissingInfoException("There was missing data that prevented creation. See Inner Exception for details.", e);
-            }
-            catch (NullReferenceException e)
-            {
-                throw new MissingInfoException("There was missing data that prevented creation. See Inner Exception for details.", e);
-            }
+            if (existingCourse != null)
+                throw new ObjectAlreadyExistsException("A Course With the Same Department and Number Already Exists for this Semester.");
 
-            return addedCourseId;
+            ValidateNewCourse(newCourse);
+
+            return Repo.Create(newCourse);
         }
 
-        public CourseEntity GetCourseById(Guid courseId)
+        protected CourseEntity GetExistingRecord(CourseEntity newCourse)
+        {
+            return Repo.GetAll().FirstOrDefault(c => c.SemesterId.Equals(newCourse.SemesterId) && 
+                                                     c.Department.Equals(newCourse.Department) && 
+                                                     c.Number.Equals(newCourse.Number));
+        }
+
+        protected void ValidateNewCourse(CourseEntity newCourse)
+        {
+            if (string.IsNullOrEmpty(newCourse.Name))
+                throw new MissingInfoException("Course Must Have a Name.");
+            if (string.IsNullOrEmpty(newCourse.Department))
+                throw new MissingInfoException("Course Must Have a Department.");
+            if (string.IsNullOrEmpty(newCourse.Number))
+                throw new MissingInfoException("Course Must Have a Number.");
+            if (newCourse.SemesterId.Equals(Guid.Empty))
+                throw new MissingInfoException("Course Must Have a Semester.");
+        }
+
+        public CourseEntity GetCourse(Guid courseId)
         {
             if (courseId.Equals(Guid.Empty))
-                throw new MissingInfoException();
+                throw new ObjectNotFoundException("Requested Course Does Not Exist.");
 
             return Repo.GetById(courseId);
-        }
-
-        private CourseEntity ConvertModelToNewEntity(CourseEntity domainModel)
-        {
-            return new CourseEntity
-            {
-                Name = domainModel.Name,
-                Department = domainModel.Department,
-                Number = domainModel.Number,
-                SchoolId = domainModel.SchoolId,
-                InstructorId = domainModel.InstructorId,
-                Year = domainModel.Year,
-                SemesterId = domainModel.SemesterId,
-                EndTime = domainModel.EndTime,
-                StartTime = domainModel.StartTime,
-                StartDate = domainModel.StartDate,
-                EndDate = domainModel.EndDate,
-                TotalPointsPossible = 0,
-                CurrentPointsPossible = 0,
-                PointsEarned = 0,
-                EvaluationCount = domainModel.EvaluationCount,
-                CurrentPointsGrade = 100,
-                FinalPointsGrade = 100,
-                CurrentLetterGrade = "A",
-                FinalLetterGrade = "A",
-                CreatedOn = DateTime.Now,
-            };
         }
     }
 }

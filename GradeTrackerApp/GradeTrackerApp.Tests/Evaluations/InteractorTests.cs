@@ -51,7 +51,7 @@ namespace GradeTrackerApp.Tests.Evaluations
             var testClass = InteractorFactory.Create_EvaluationInteractor();
             var testGuid = Guid.Empty;
 
-            Should.Throw<ObjectNotFoundException>(() => testClass.GetEvaluationById(testGuid));
+            Should.Throw<ObjectNotFoundException>(() => testClass.GetEvaluation(testGuid));
 
         }
 
@@ -63,7 +63,7 @@ namespace GradeTrackerApp.Tests.Evaluations
             testRepo.Update(testEntity);
             var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
 
-            var result = testClass.GetEvaluationById(testEntity.Id);
+            var result = testClass.GetEvaluation(testEntity.Id);
 
             result.ShouldBe(testEntity);
 

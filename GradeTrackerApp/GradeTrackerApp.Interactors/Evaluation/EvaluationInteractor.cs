@@ -43,19 +43,19 @@ namespace GradeTrackerApp.Interactors.Evaluation
         protected void ValidateNewEvaluation(EvaluationEntity newEvaluationEntity)
         {
             if (string.IsNullOrEmpty(newEvaluationEntity.Name))
-                throw new MissingInfoException($"The name for the Evaluation cannot be blank.");
+                throw new MissingInfoException("Evaluation Must Have a Name.");
             if (newEvaluationEntity.CourseId.Equals(Guid.Empty))
-                throw new MissingInfoException("The Evaluation must be linked to a specific Course.");
+                throw new MissingInfoException("Evaluation Must be Linked to a Course.");
             if (newEvaluationEntity.WeightId.Equals(Guid.Empty))
-                throw new MissingInfoException("The weight value for this Evaluation must be selected.");
+                throw new MissingInfoException("Evaluation Must Have a Weight Value.");
             if (newEvaluationEntity.NumberOfScores < 0)
-                throw new MissingInfoException("The number of Scores for this Evaluation cannot be less than 0.");
+                throw new MissingInfoException("The Number of Scores for this Evaluation Cannot be Less than 0.");
         }
 
-        public EvaluationEntity GetEvaluationById(Guid evaluationId)
+        public EvaluationEntity GetEvaluation(Guid evaluationId)
         {
             if (evaluationId.Equals(Guid.Empty))
-                throw new ObjectNotFoundException($"There is no Evaluation with an Id of {evaluationId}");
+                throw new ObjectNotFoundException("Requested Evaluation Does Not Exist.");
 
             return Repo.GetById(evaluationId);
         }

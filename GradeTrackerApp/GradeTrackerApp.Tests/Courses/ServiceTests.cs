@@ -1,4 +1,5 @@
-﻿using GradeTrackerApp.Core.Exceptions;
+﻿using System;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Tests.TestDatas.Courses;
 using Shouldly;
@@ -9,25 +10,44 @@ namespace GradeTrackerApp.Tests.Courses
     public class ServiceTests
     {
         [Fact]
-        public void CreateNewCourse_EmptyModel_ThrowsMissingInfoException()
+        public void CreateCourse_EmptyModel_ThrowsMissingInfoException()
         {
             var testClass = ServiceFactory.Create_MockInteractor();
             var testModel = new CreateCourseDomainModel();
 
-            Should.Throw<MissingInfoException>(() => testClass.CreateNewCourse(testModel));
+            Should.Throw<MissingInfoException>(() => testClass.CreateCourse(testModel));
         }
 
         [Fact]
-        public void CreateNewCourse_ValidModel_ResultNotNull()
+        public void CreateCourse_ValidModel_ResultNotNull()
         {
             var testClass = ServiceFactory.Create_MockInteractor();
             var testModel = CourseFactory.Create_CreateCourseDomainModel_ValidMinimum();
 
-            var result = testClass.CreateNewCourse(testModel);
+            var result = testClass.CreateCourse(testModel);
 
             result.ShouldNotBeNull();
         }
 
+        [Fact]
+        public void GetCourse_EmptyGuid_ThrowsObjectNotFound()
+        {
+            var testClass = ServiceFactory.Create_MockInteractor();
+            var testGuid = Guid.Empty;
 
+            Should.Throw<ObjectNotFoundException>(() => testClass.GetCourse(testGuid));
+        }
+
+        [Fact]
+        public void GetCourse_ValidGuid_NameNotEmpty()
+        {
+            var testGuid = Guid.NewGuid();
+
+            var testClass = ServiceFactory.Create_MockInteractor();
+
+            var result = testClass.GetCourse(testGuid);
+
+            result.Name.ShouldNotBe(string.Empty);
+        }
     }
 }
