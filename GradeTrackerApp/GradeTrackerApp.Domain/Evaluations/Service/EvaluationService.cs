@@ -44,11 +44,21 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
         public EvaluationDomainModel CreateNewEvaluation(CreateEvaluationDomainModel createModel)
         {
+            var evaluationModel = new EvaluationDomainModel();
             var newEvaluationEntity = ConvertModelToEntity(createModel);
 
-            var evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
+            try
+            {
+                var evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
 
-            var evaluationModel = GetEvaluation(evaluationId);
+                evaluationModel = GetEvaluation(evaluationId);
+            }
+            catch (Exception e)
+            {
+                // pass the exception to the controller as an error model
+
+                // TO DO: Create ErrorModel
+            }
 
             return evaluationModel;
 
@@ -61,10 +71,21 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         /// <returns></returns>
         public EvaluationDomainModel GetEvaluation(Guid evaluationId)
         {
-            var evaluationEntity = EvaluationInteractor.GetEvaluationById(evaluationId);
+            var evaluationModel = new EvaluationDomainModel();
 
-            var evaluationModel = new EvaluationDomainModel(evaluationEntity);
+            try
+            {
+                var evaluationEntity = EvaluationInteractor.GetEvaluationById(evaluationId);
 
+                evaluationModel = new EvaluationDomainModel(evaluationEntity);
+            }
+            catch (Exception e)
+            {
+                // pass the exception to the controller as an error model
+
+                // TO DO: Create ErrorModel
+            }
+            
             return evaluationModel;
         }
         

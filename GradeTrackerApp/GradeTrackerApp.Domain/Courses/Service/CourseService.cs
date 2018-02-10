@@ -42,12 +42,23 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         public CourseDomainModel CreateNewCourse(CreateCourseDomainModel createModel)
         {
+            var courseModel = new CourseDomainModel();
+
             var newCourseEntity = ConvertModelToEntity(createModel);
 
-            var courseId = CourseInteractor.CreateCourse(newCourseEntity);
+            try
+            {
+                var courseId = CourseInteractor.CreateCourse(newCourseEntity);
 
-            var courseModel = GetCourse(courseId);
+                courseModel = GetCourse(courseId);
+            }
+            catch (Exception e)
+            {
+                // pass the exception to the controller as an error model
 
+                // TO DO: Create ErrorModel
+            }
+            
             return courseModel;
 
         }
@@ -59,8 +70,19 @@ namespace GradeTrackerApp.Domain.Courses.Service
         /// <returns></returns>
         public CourseDomainModel GetCourse(Guid courseId)
         {
-            var courseEntity = CourseInteractor.GetCourseById(courseId);
+            var courseEntity = new CourseEntity();
 
+            try
+            {
+                courseEntity = CourseInteractor.GetCourseById(courseId);
+            }
+            catch (Exception e)
+            {
+                // pass the exception to the controller as an error model
+
+                // TO DO: Create ErrorModel
+            }
+            
             var courseModel = new CourseDomainModel(courseEntity);
 
             return courseModel;

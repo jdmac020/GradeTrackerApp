@@ -35,6 +35,8 @@ namespace GradeTrackerApp.Domain.Courses.Models
         public DateTime? LastUpdated { get; set; }
         public DateTime CreatedOn { get; set; }
 
+        public CourseDomainModel() { }
+
         public CourseDomainModel(CourseEntity courseEntity)
         {
             Id = courseEntity.Id;
