@@ -20,7 +20,7 @@ namespace GradeTrackerApp.EntityFramework.Contexts
         {
         }
 
-        public GradeTrackerDbContext() : base("GradeTrackerDbContext", throwIfV1Schema: false)
+        public GradeTrackerDbContext() : base("name=GradeTrackerDbContext", throwIfV1Schema: false)
         {
         }
 
