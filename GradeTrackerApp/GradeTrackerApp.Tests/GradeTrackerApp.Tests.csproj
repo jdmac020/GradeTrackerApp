@@ -76,6 +76,7 @@
     <Compile Include="Courses\ServiceTests.cs" />
     <Compile Include="Evaluations\ServiceTests.cs" />
     <Compile Include="Evaluations\InteractorTests.cs" />
+    <Compile Include="Mocks\MockSemesterInteractor.cs" />
     <Compile Include="Mocks\MockCourseInteractor.cs" />
     <Compile Include="Mocks\MockEvaluationInteractor.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scores\InteractorTests.cs" />
     <Compile Include="Scores\ServiceTests.cs" />
+    <Compile Include="Semesters\InteractorTests.cs" />
+    <Compile Include="Semesters\ServiceTests.cs" />
     <Compile Include="TestDatas\Scores\ScoreFactory.cs" />
     <Compile Include="TestDatas\Evaluations\EvaluationFactory.cs" />
     <Compile Include="TestDatas\Courses\CourseFactory.cs" />
@@ -92,6 +95,9 @@
     <Compile Include="TestDatas\Evaluations\ServiceFactory.cs" />
     <Compile Include="TestDatas\Scores\InteractorFactory.cs" />
     <Compile Include="TestDatas\Scores\ServiceFactory.cs" />
+    <Compile Include="TestDatas\Semesters\InteractorFactory.cs" />
+    <Compile Include="TestDatas\Semesters\SemesterFactory.cs" />
+    <Compile Include="TestDatas\Semesters\ServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

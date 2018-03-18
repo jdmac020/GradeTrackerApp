@@ -58,11 +58,12 @@
     <Compile Include="Scores\Service\IScoreService.cs" />
     <Compile Include="Scores\Service\ScoreService.cs" />
     <Compile Include="Semesters\Models\SemesterDomainModel.cs" />
+    <Compile Include="Semesters\Service\ISemesterService.cs" />
+    <Compile Include="Semesters\Service\SemesterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GradeRanges\Service\" />
     <Folder Include="Instructors\Service\" />
-    <Folder Include="Semesters\Service\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GradeTrackerApp.Core\GradeTrackerApp.Core.csproj">
