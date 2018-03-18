@@ -1,4 +1,5 @@
-﻿
+﻿@model GradeTrackerApp.Models.Course.CourseListViewModel
+
 @{
     ViewBag.Title = "Courses";
 }
@@ -6,4 +7,23 @@
 <h2>Courses</h2>
 <p>
     This is where the Courses live, I guess, maybe.
+
+    @if (Model.Count > 0)
+    {
+
+    foreach (var course in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItemm => course.Name)
+                @Html.DisplayFor(modelItem => course.Number)
+            </td>
+        </tr>
+    }
+    }
+
+</p>
+
+<p>
+    @Html.ActionLink("Add a New Course", "Add", "Course", routeValues: null, htmlAttributes: new { title = "Add Course" })
 </p>

@@ -1,0 +1,98 @@
+﻿@model GradeTrackerApp.Models.Course.CreateCourseViewModel
+
+@{
+    ViewBag.Title = "Add Course";
+}
+
+<h2>Add New Course Info</h2>
+
+@using (@Html.BeginForm("Create", "Course", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>
+                @Html.Label("Course Name:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Course Number:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Number)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Department:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Department)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Instructor:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.InstructorId) will need to be a drop down picker
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Semester:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.SemesterId) will need to be a drop down picker
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Year:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Year)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Start Date:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.StartDate)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Start Time:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.StartTime)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("End Time:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.EndTime)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("End Date:")
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.EndDate)
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <input type="submit" value="Log in" class="btn btn-default" />
+        @*@Html.ActionLink("Add This Course", "Create", "Course", routeValues: null, htmlAttributes: new { title = "Add Course" })*@
+    </div>
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Interactors.Course;
@@ -90,6 +91,12 @@ namespace GradeTrackerApp.Domain.Courses.Service
             var courseModel = new CourseDomainModel(courseEntity);
 
             return courseModel;
+        }
+
+        // Will eventually pass in a student identifier and get all the courses associated
+        public List<CourseDomainModel> GetCourses()
+        {
+            return new List<CourseDomainModel>();
         }
 
 
