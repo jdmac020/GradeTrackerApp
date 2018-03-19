@@ -2,9 +2,8 @@
 
 namespace GradeTrackerApp.Core.Entities
 {
-    public class SemesterEntity : IEntity<Guid>
+    public class SemesterEntity : EntityBase<Guid>
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        
     }
 }

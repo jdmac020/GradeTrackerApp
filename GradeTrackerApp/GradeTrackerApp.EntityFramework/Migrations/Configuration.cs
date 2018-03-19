@@ -21,28 +21,41 @@ namespace GradeTrackerApp.EntityFramework.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            context.AccessLevels.AddOrUpdate(x => x.Id,
-                new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Basic" },
-                new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Enhanced" },
-                new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Admin" }
-            );
+            if (context.AccessLevels.Count().Equals(0))
+            {
+                context.AccessLevels.AddOrUpdate(x => x.Id,
+                    new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Basic" },
+                    new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Enhanced" },
+                    new AccessLevelEntity { Id = Guid.NewGuid(), Name = "Admin" }
+                );
+            }
 
-            context.Semesters.AddOrUpdate(x => x.Id,
-                new SemesterEntity { Id = Guid.NewGuid(), Name = "Fall" },
-                new SemesterEntity { Id = Guid.NewGuid(), Name = "Spring" },
-                new SemesterEntity { Id = Guid.NewGuid(), Name = "Summer" }
-            );
+            
+
+            if (context.Semesters.Count().Equals(0))
+            {
+                context.Semesters.AddOrUpdate(x => x.Id,
+                    new SemesterEntity { Id = Guid.NewGuid(), Name = "Fall" },
+                    new SemesterEntity { Id = Guid.NewGuid(), Name = "Spring" },
+                    new SemesterEntity { Id = Guid.NewGuid(), Name = "Summer" }
+                );
+            }
+            
 
             // add school type
 
-            context.SchoolTypes.AddOrUpdate(x => x.Id,
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Four Year" },
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Two Year" },
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "High School" },
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Middle School" },
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Elementary School" },
-                new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Professional/Tech Course" }
-            );
+            if (context.SchoolTypes.Count().Equals(0))
+            {
+                context.SchoolTypes.AddOrUpdate(x => x.Id,
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Four Year" },
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "College, Two Year" },
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "High School" },
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Middle School" },
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Elementary School" },
+                    new SchoolTypeEntity { Id = Guid.NewGuid(), Name = "Professional/Tech Course" }
+                );
+            }
+            
 
             // add test school
 

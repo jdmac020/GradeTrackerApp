@@ -203,6 +203,7 @@
     <Compile Include="Models\Course\CreateCourseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageModels.cs" />
+    <Compile Include="Models\Semester\SemesterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

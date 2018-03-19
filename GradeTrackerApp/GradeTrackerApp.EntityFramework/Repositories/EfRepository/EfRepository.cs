@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.EntityFramework.Contexts;
 using GradeTrackerApp.EntityFramework.UnitOfWork;
 
 namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
@@ -16,9 +17,9 @@ namespace GradeTrackerApp.EntityFramework.Repositories.EfRepository
         protected DbSet<TEntity> _objectset;
         protected virtual DbSet<TEntity> ObjectSet { get { return _objectset ?? (_objectset = EfUnitOfWork.Context.Set<TEntity>()); } }
 
-        public EfRepository()
+        public EfRepository() 
         {
-
+            EfUnitOfWork = new EfUnitOfWork(GradeTrackerDbContext.Create());
         }
 
         public EfRepository(IEfUnitOfWork unitOfWork)

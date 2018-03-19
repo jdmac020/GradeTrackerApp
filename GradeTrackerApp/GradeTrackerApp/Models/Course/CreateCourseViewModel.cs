@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using GradeTrackerApp.Models.Semester;
 
 namespace GradeTrackerApp.Models.Course
 {
@@ -25,5 +28,7 @@ namespace GradeTrackerApp.Models.Course
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
+
+        public List<SelectListItem> Semesters { get; set; }
     }
 }

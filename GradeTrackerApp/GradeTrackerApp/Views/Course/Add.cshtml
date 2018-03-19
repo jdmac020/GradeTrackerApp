@@ -46,7 +46,7 @@
                 @Html.Label("Semester:")
             </td>
             <td>
-                @Html.TextBoxFor(model => model.SemesterId) will need to be a drop down picker
+                @Html.DropDownListFor(m => m.SemesterId, Model.Semesters)
             </td>
         </tr>
         <tr>
