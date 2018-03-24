@@ -58,9 +58,6 @@ namespace GradeTrackerApp.Controllers
 
         public ActionResult Add()
         {
-            // maybe we get a model for this based on the student defaults?
-            // will need a model to assign values...
-
             var createModel = new CreateCourseViewModel();
             
             createModel.Semesters = GetSemestersForDropDown();

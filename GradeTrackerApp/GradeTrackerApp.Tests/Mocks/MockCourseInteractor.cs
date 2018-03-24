@@ -31,5 +31,15 @@ namespace GradeTrackerApp.Tests.Mocks
 
             return CourseFactory.Create_CourseEntity_ValidMinimum(courseId);
         }
+
+        public List<CourseEntity> GetAllCourses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CourseEntity> GetCoursesByStudentId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

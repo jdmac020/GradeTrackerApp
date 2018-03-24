@@ -24,5 +24,6 @@ namespace GradeTrackerApp.Core.Entities
         public double FinalPointsGrade { get; set; }
         public string CurrentLetterGrade { get; set; }
         public string FinalLetterGrade { get; set; }
+        public bool IsActive { get; set; }
     }
 }

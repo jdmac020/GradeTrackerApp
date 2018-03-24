@@ -12,10 +12,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
             {
                 Name = "Intro to Physics",
                 Department = "PHYS",
-                StartDate = DateTime.Parse("1/15/2018"),
-                EndDate = DateTime.Parse("5/28/2018"),
                 Number = "1145",
-                SchoolId = Guid.Empty,
                 SemesterId = Guid.NewGuid(),
                 Year = 2018
             };
@@ -25,12 +22,10 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
         {
             return new CourseEntity
             {
+                
                 Name = "Intro to Physics",
                 Department = "PHYS",
-                StartDate = DateTime.Parse("1/15/2018"),
-                EndDate = DateTime.Parse("5/28/2018"),
                 Number = "1145",
-                SchoolId = Guid.Empty,
                 SemesterId = Guid.NewGuid(),
                 Year = 2018
             };
@@ -43,11 +38,8 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
                 Id = courseId,
                 Name = "Intro to Physics",
                 Department = "PHYS",
-                StartDate = DateTime.Parse("1/15/2018"),
-                EndDate = DateTime.Parse("5/28/2018"),
                 Number = "1145",
-                SchoolId = Guid.Empty,
-                SemesterId = Guid.Empty,
+                SemesterId = Guid.NewGuid(),
                 Year = 2018
             };
         }
