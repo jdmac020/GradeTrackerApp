@@ -8,6 +8,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
     {
         CourseDomainModel CreateCourse(CreateCourseDomainModel createModel);
         CourseDomainModel GetCourse(Guid courseId);
-        List<CourseDomainModel> GetCourses();
+        List<CourseDomainModel> GetCourses(Guid userId);
     }
 }

@@ -11,6 +11,7 @@ using GradeTrackerApp.Domain.Semesters.Service;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
 using GradeTrackerApp.Models.Semester;
+using Microsoft.AspNet.Identity;
 
 namespace GradeTrackerApp.Controllers
 {
@@ -39,8 +40,9 @@ namespace GradeTrackerApp.Controllers
         // GET: Course
         public ActionResult Index()
         {
-
-            var courses = Courses.GetCourses();
+            var userId = User.Identity.GetUserId();
+            
+            var courses = Courses.GetCourses(Guid.Parse(userId));
 
             var courseViewModels = new List<CourseViewModel>();
 
@@ -86,7 +88,11 @@ namespace GradeTrackerApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.Identity.GetUserId();
+
                 var createModel = ConvertToDomainModel(createViewModel);
+
+                createModel.StudentId = Guid.Parse(userId);
 
                 var domainModel = Courses.CreateCourse(createModel);
 
@@ -119,17 +125,12 @@ namespace GradeTrackerApp.Controllers
         {
             return new CreateCourseDomainModel
             {
+                StudentId = viewModel.StudentId,
                 Name = viewModel.Name,
                 Number = viewModel.Number,
                 Department = viewModel.Department,
-                //SchoolId = viewModel.SchoolId,
-                // = viewModel.InstructorId,
                 Year = viewModel.Year,
-                SemesterId = viewModel.SemesterId,
-                //StartDate = DateTime.Parse(viewModel.StartDate),
-                //StartTime = DateTime.Parse(viewModel.StartTime),
-                //EndDate = DateTime.Parse(viewModel.EndDate),
-                //EndTime = DateTime.Parse(viewModel.EndTime),
+                SemesterId = viewModel.SemesterId
 
             };
         }

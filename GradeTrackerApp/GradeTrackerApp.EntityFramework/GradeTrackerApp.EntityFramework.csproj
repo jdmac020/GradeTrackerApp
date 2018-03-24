@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201803232254258_removedExtraCourseFields.Designer.cs">
       <DependentUpon>201803232254258_removedExtraCourseFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803241342131_addedStudentIdToCourseEntity.cs" />
+    <Compile Include="Migrations\201803241342131_addedStudentIdToCourseEntity.Designer.cs">
+      <DependentUpon>201803241342131_addedStudentIdToCourseEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EfRepository\EfRepository.cs" />
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803232254258_removedExtraCourseFields.resx">
       <DependentUpon>201803232254258_removedExtraCourseFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803241342131_addedStudentIdToCourseEntity.resx">
+      <DependentUpon>201803241342131_addedStudentIdToCourseEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

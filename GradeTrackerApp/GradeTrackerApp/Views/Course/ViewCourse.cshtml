@@ -5,29 +5,52 @@
 }
 
 <h2>@Model.Name: @Model.Department-@Model.Number</h2>
-<table>
-    <tr>
-        <td>
-            @Html.Label("Semester:")
-            @Model.SemesterName
-            @Html.Label("Year:")
-            @Model.Year
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Grade:")
-            Coming Soon
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("Last Updated:")
-            @Model.LastUpdated
-        </td>
-    </tr>
 
-</table>
+<div id="details">
+
+    <h3>Details</h3>
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Semester)
+                @Html.DisplayFor(model => model.Name)
+                @Html.LabelFor(model => model.Year)
+                @Html.DisplayFor(model => model.Year)
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="grades">
+
+    <h3>Grade Info</h3>
+
+    <table>
+        <tr>
+            <td>
+                @Html.Label("Grade:")
+                Coming Soon
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="miscinfo">
+
+    <h3>Misc Info</h3>
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.LastUpdated)
+                @Html.DisplayFor(model => model.LastUpdated)
+            </td>
+        </tr>
+    </table>
+</div>
+
+
 
 <div>
     @Html.ActionLink("Back To All Courses", "Index", "Course", routeValues: null, htmlAttributes: null)

@@ -1,11 +1,12 @@
 ﻿@using GradeTrackerApp.Core
+@using Microsoft.AspNet.Identity
 @model dynamic
 
 <ul class="nav navbar-nav">
 
     @if (Request.IsAuthenticated)
     {
-        <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+        <li>@Html.ActionLink("Courses", "Index", "Course", routeValues: User.Identity.GetUserId(), htmlAttributes: null)</li>
 
 
         @*if (User.IsInRole(AppRoles.Underwriter))

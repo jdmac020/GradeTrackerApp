@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Semesters.Models;
 
@@ -8,19 +9,21 @@ namespace GradeTrackerApp.Models.Course
     {
         public Guid? Id { get; set; }
 
+        public Guid StudentId { get; set; }
+
+        [DisplayName("Name")]
         public string Name { get; set; }
 
+        [DisplayName("Department")]
         public string Department { get; set; }
 
+        [DisplayName("Number")]
         public string Number { get; set; }
 
-        //public string SchoolName { get; set; }
-        //public Guid? SchoolId { get; set; }
-        //public string InstructorName { get; set; }
-        //public Guid? InstructorId { get; set; }
-
+        [DisplayName("Academic Year")]
         public int Year { get; set; }
 
+        [DisplayName("Semester")]
         public string SemesterName
         {
             get { return Semester.Name; }
@@ -30,14 +33,17 @@ namespace GradeTrackerApp.Models.Course
         {
             get { return Semester.Id; }
         }
+
         public SemesterDomainModel Semester { get; set; }
 
-        //public DateTime? StartTime { get; set; }
-        //public DateTime? EndTime { get; set; }
-        //public DateTime StartDate { get; set; }
-        //public DateTime EndDate { get; set; }
+        [DisplayName("Last Updated")]
+        public string LastUpdated
+        {
+            get { return $"{_lastModified.ToShortTimeString()}, {_lastModified.ToShortDateString()}";}
+            set { _lastModified = DateTime.Parse(value); }
+        }
 
-        public DateTime? LastUpdated { get; set; }
+        protected DateTime _lastModified;
 
         public CourseViewModel() { }
 
@@ -47,14 +53,13 @@ namespace GradeTrackerApp.Models.Course
             Name = course.Name;
             Number = course.Number;
             Department = course.Department;
-            //SchoolId = course.SchoolId;
-            //InstructorId = course.InstructorId;
             Year = course.Year;
-            //StartDate = course.StartDate;
-            //StartTime = course.StartTime;
-            //EndDate = course.EndDate;
-            //EndTime = course.EndTime;
-            LastUpdated = course.LastUpdated;
+
+            if (course.LastUpdated != null)
+            {
+                _lastModified = (DateTime)course.LastUpdated;
+            }
+            
         }
     }
 }

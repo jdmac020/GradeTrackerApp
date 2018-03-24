@@ -94,11 +94,11 @@ namespace GradeTrackerApp.Domain.Courses.Service
         }
 
         // Will eventually pass in a student identifier and get all the courses associated
-        public List<CourseDomainModel> GetCourses()
+        public List<CourseDomainModel> GetCourses(Guid userId)
         {
             var domainModels = new List<CourseDomainModel>();
 
-            var courseEntities = CourseInteractor.GetAllCourses();
+            var courseEntities = CourseInteractor.GetCoursesByStudentId(userId);
 
             foreach (var entity in courseEntities)
             {
@@ -114,6 +114,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
         {
             return new CourseEntity
             {
+                StudentId = createModel.StudentId,
                 Name = createModel.Name,
                 Department = createModel.Department,
                 Number = createModel.Number,

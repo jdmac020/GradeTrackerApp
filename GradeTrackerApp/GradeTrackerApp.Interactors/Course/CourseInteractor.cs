@@ -38,14 +38,16 @@ namespace GradeTrackerApp.Interactors.Course
             ValidateNewCourse(newCourse);
 
             newCourse.Id = Guid.NewGuid();
+            newCourse.LastModified = DateTime.Now;
 
             return Repo.Create(newCourse);
         }
 
         protected CourseEntity GetExistingRecord(CourseEntity newCourse)
         {
-            return Repo.GetAll().FirstOrDefault(c => c.SemesterId.Equals(newCourse.SemesterId) && 
-                                                     c.Department.Equals(newCourse.Department) && 
+            return Repo.GetAll().FirstOrDefault(c => c.SemesterId.Equals(newCourse.SemesterId) &&
+                                                                 c.Year.Equals(newCourse.Year) &&
+                                                     c.Department.Equals(newCourse.Department) &&
                                                      c.Number.Equals(newCourse.Number));
         }
 
@@ -72,6 +74,11 @@ namespace GradeTrackerApp.Interactors.Course
         public List<CourseEntity> GetAllCourses()
         {
             return Repo.GetAll().ToList();
+        }
+
+        public List<CourseEntity> GetCoursesByStudentId(Guid userId)
+        {
+            return Repo.GetAll().Where(c => c.StudentId.Equals(userId)).ToList();
         }
     }
 }

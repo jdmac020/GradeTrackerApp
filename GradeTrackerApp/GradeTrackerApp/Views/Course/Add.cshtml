@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Course";
 }
 
-<h2>Course Info</h2>
+<h2>New Course Details</h2>
 <hr/>
 
 @using (@Html.BeginForm("Create", "Course", FormMethod.Post))
@@ -12,7 +12,7 @@
 <table>
     <tr>
         <td>
-            @Html.Label("Course Name:")
+            @Html.LabelFor(model => model.Name)
         </td>
         <td>
             @Html.TextBoxFor(model => model.Name)
@@ -23,31 +23,29 @@
     </tr>
     <tr>
         <td>
-            @Html.Label("Course Number:")
+            @Html.LabelFor(model => model.Number)
         </td>
         <td>
             @Html.TextBoxFor(model => model.Number)
         </td>
+        <td>
+            @Html.ValidationMessageFor(model => model.Number, string.Empty, new { @class = "text-danger" })
+        </td>
     </tr>
     <tr>
         <td>
-            @Html.Label("Department:")
+            @Html.LabelFor(model => model.Department)
         </td>
         <td>
             @Html.TextBoxFor(model => model.Department)
         </td>
+        <td>
+            @Html.ValidationMessageFor(model => model.Department, string.Empty, new { @class = "text-danger" })
+        </td>
     </tr>
-    @*<tr>
-        <td>
-            @Html.Label("Instructor:")
-        </td>
-        <td>
-            @Html.TextBoxFor(model => model.InstructorId)
-        </td>
-    </tr>*@
     <tr>
         <td>
-            @Html.Label("Semester:")
+            @Html.LabelFor(model => model.SemesterId)
         </td>
         <td>
             @Html.DropDownListFor(m => m.SemesterId, Model.Semesters)
@@ -55,49 +53,20 @@
     </tr>
     <tr>
         <td>
-            @Html.Label("Year:")
+            @Html.LabelFor(model => model.Year)
         </td>
         <td>
             @Html.TextBoxFor(model => model.Year)
         </td>
-    </tr>
-    @*<tr>
         <td>
-            @Html.Label("Start Date:")
-        </td>
-        <td>
-            @Html.EditorFor(model => model.StartDate, new { @class = "form-control datepicker", @id = "startdatepicker" })
+            @Html.ValidationMessageFor(model => model.Year, string.Empty, new { @class = "text-danger" })
         </td>
     </tr>
-    <tr>
-        <td>
-            @Html.Label("End Date:")
-        </td>
-        <td>
-            @Html.EditorFor(model => model.EndDate, new { @class = "form-control datepicker", @id = "enddatepicker" })
-        </td>
-    </tr>*@
-    @*<tr>
-        <td>
-            @Html.Label("Start Time:")
-        </td>
-        <td>
-            @Html.EditorFor(model => model.StartTime, new { @class = "form-control timepicker", @id = "starttimepicker" })
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @Html.Label("End Time:")
-        </td>
-        <td>
-            @Html.EditorFor(model => model.EndTime, new { @class = "form-control timepicker", @id = "endtimepicker" })
-        </td>
-    </tr>*@
 
 </table>
 
-    <div style="padding-top: 15px">
-        <input type="submit" value="Add Course" class="btn btn-default" />
-        @*@Html.ActionLink("Add This Course", "Create", "Course", routeValues: null, htmlAttributes: new { title = "Add Course" })*@
-    </div>
+<div style="padding-top: 15px">
+    <input type="submit" value="Add Course" class="btn btn-default" />
+    @Html.ActionLink("Cancel", "Index", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+</div>
 }
