@@ -96,7 +96,16 @@ namespace GradeTrackerApp.Domain.Courses.Service
         // Will eventually pass in a student identifier and get all the courses associated
         public List<CourseDomainModel> GetCourses()
         {
-            return new List<CourseDomainModel>();
+            var domainModels = new List<CourseDomainModel>();
+
+            var courseEntities = CourseInteractor.GetAllCourses();
+
+            foreach (var entity in courseEntities)
+            {
+                domainModels.Add(new CourseDomainModel(entity));
+            }
+
+            return domainModels;
         }
 
 
@@ -108,14 +117,14 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 Name = createModel.Name,
                 Department = createModel.Department,
                 Number = createModel.Number,
-                SchoolId = createModel.SchoolId,
-                InstructorId = createModel.InstructorId,
+                //SchoolId = createModel.SchoolId,
+                //InstructorId = createModel.InstructorId,
                 Year = createModel.Year,
                 SemesterId = createModel.SemesterId,
-                StartTime = createModel.StartTime,
-                EndTime = createModel.EndTime,
-                StartDate = createModel.StartDate,
-                EndDate = createModel.EndDate
+                //StartTime = createModel.StartTime,
+                //EndTime = createModel.EndTime,
+                //StartDate = createModel.StartDate,
+                //EndDate = createModel.EndDate
             };
         }
     }

@@ -39,6 +39,7 @@ namespace GradeTrackerApp.Controllers
         // GET: Course
         public ActionResult Index()
         {
+
             var courses = Courses.GetCourses();
 
             var courseViewModels = new List<CourseViewModel>();
@@ -59,21 +60,21 @@ namespace GradeTrackerApp.Controllers
             // will need a model to assign values...
 
             var createModel = new CreateCourseViewModel();
-
-            var semesterModels = Semesters.GetAllSemesters();
-
-            createModel.Semesters = ConvertSemesterDomainModels(semesterModels);
+            
+            createModel.Semesters = GetSemestersForDropDown();
 
             return View(createModel);
         }
 
-        protected List<SelectListItem> ConvertSemesterDomainModels(List<IDomainModel> models)
+        protected List<SelectListItem> GetSemestersForDropDown()
         {
+            var semesterModels = Semesters.GetAllSemesters();
+
             var modelList = new List<SelectListItem>();
 
-            foreach (var domainModel in models)
+            foreach (var semester in semesterModels)
             {
-                var semesterModel = (SemesterDomainModel)domainModel;
+                var semesterModel = (SemesterDomainModel)semester;
 
                 modelList.Add(new SelectListItem {Value = semesterModel.Id.ToString(), Text = semesterModel.Name});
             }
@@ -83,18 +84,35 @@ namespace GradeTrackerApp.Controllers
 
         public ActionResult Create(CreateCourseViewModel createViewModel)
         {
-            var createModel = ConvertToDomainModel(createViewModel);
+            if (ModelState.IsValid)
+            {
+                var createModel = ConvertToDomainModel(createViewModel);
 
-            var domainModel = Courses.CreateCourse(createModel);
+                var domainModel = Courses.CreateCourse(createModel);
 
-            var newCourseViewModel = new CourseViewModel(domainModel);
+                var newCourseViewModel = new CourseViewModel(domainModel);
 
-            return ViewCourse(newCourseViewModel);
+                newCourseViewModel.Semester = (SemesterDomainModel)Semesters.GetSemester(domainModel.SemesterId);
+
+                return View("ViewCourse",newCourseViewModel);
+            }
+            else
+            {
+                createViewModel.Semesters = GetSemestersForDropDown();
+
+                return View("Add", createViewModel);
+            }
+            
         }
 
-        public ActionResult ViewCourse(CourseViewModel model)
+        public ActionResult ViewCourse(Guid courseId)
         {
-            return View(model);
+            var courseDomainModel = Courses.GetCourse(courseId);
+            var courseViewModel = new CourseViewModel(courseDomainModel);
+
+            courseViewModel.Semester = (SemesterDomainModel)Semesters.GetSemester(courseDomainModel.SemesterId);
+
+            return View(courseViewModel);
         }
 
         protected CreateCourseDomainModel ConvertToDomainModel(CreateCourseViewModel viewModel)
@@ -104,14 +122,14 @@ namespace GradeTrackerApp.Controllers
                 Name = viewModel.Name,
                 Number = viewModel.Number,
                 Department = viewModel.Department,
-                SchoolId = viewModel.SchoolId,
-                InstructorId = viewModel.InstructorId,
+                //SchoolId = viewModel.SchoolId,
+                // = viewModel.InstructorId,
                 Year = viewModel.Year,
                 SemesterId = viewModel.SemesterId,
-                StartDate = viewModel.StartDate,
-                StartTime = viewModel.StartTime,
-                EndDate = viewModel.EndDate,
-                EndTime = viewModel.EndTime,
+                //StartDate = DateTime.Parse(viewModel.StartDate),
+                //StartTime = DateTime.Parse(viewModel.StartTime),
+                //EndDate = DateTime.Parse(viewModel.EndDate),
+                //EndTime = DateTime.Parse(viewModel.EndTime),
 
             };
         }

@@ -1,29 +1,34 @@
-﻿@model GradeTrackerApp.Models.Course.CourseListViewModel
+﻿@using System.Web.Mvc.Html
+@model GradeTrackerApp.Models.Course.CourseListViewModel
 
 @{
     ViewBag.Title = "Courses";
 }
 
 <h2>Courses</h2>
-<p>
-    This is where the Courses live, I guess, maybe.
+<hr/>
 
-    @if (Model.Count > 0)
-    {
 
-    foreach (var course in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItemm => course.Name)
-                @Html.DisplayFor(modelItem => course.Number)
-            </td>
-        </tr>
-    }
-    }
+@if (Model.Count > 0)
+{
+    <table>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink($"{course.Name}", "ViewCourse", "Course", routeValues: new { courseId = course.Id }, htmlAttributes: null)
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>This is where the Courses live, I guess, maybe.</p>
+}
 
-</p>
 
-<p>
-    @Html.ActionLink("Add a New Course", "Add", "Course", routeValues: null, htmlAttributes: new { title = "Add Course" })
-</p>
+
+<div style="padding-top: 15px">
+    @Html.ActionLink("Add a New Course", "Add", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+</div>

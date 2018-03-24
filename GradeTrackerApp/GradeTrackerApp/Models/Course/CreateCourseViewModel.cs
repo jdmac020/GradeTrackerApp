@@ -8,27 +8,55 @@ namespace GradeTrackerApp.Models.Course
 {
     public class CreateCourseViewModel
     {
+        [Required(ErrorMessage = "*Every Course Need a Name*")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "*We need a Department*")]
         public string Department { get; set; }
+
+        [Required(ErrorMessage = "*Every Course Needs a Number*")]
         public string Number { get; set; }
-        public Guid? SchoolId { get; set; }
-        public Guid? InstructorId { get; set; }
-        public int Year { get; set; }
+
+        //public Guid? SchoolId { get; set; }
+        //public Guid? InstructorId { get; set; }
+        public int Year { get; set; } = DateTime.Today.Year;
         public Guid SemesterId { get; set; }
 
-        [DataType(DataType.Time)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        //[DataType(DataType.Time)]
+        //public string StartTime
+        //{
+        //    get { return _startTime.ToShortTimeString();}
+        //    set { _startTime = DateTime.Parse(value); }
+        //}
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime StartDate { get; set; }
+        //[DataType(DataType.Time)]
+        //public string EndTime
+        //{
+        //    get { return _endTime.ToShortTimeString();}
+        //    set { _endTime = DateTime.Parse(value);}
+        //}
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime EndDate { get; set; }
+        //[DataType(DataType.Date)]
+        //public string StartDate
+        //{
+        //    get { return _startDate.ToShortDateString(); }
+        //    set { _startDate = DateTime.Parse(value); }
+        //}
+
+        //[DataType(DataType.Date)]
+        //public string EndDate
+        //{
+        //    get { return _endDate.ToShortDateString();}
+        //    set { _endDate = DateTime.Parse(value); }
+        //}
 
         public List<SelectListItem> Semesters { get; set; }
+
+        //private DateTime _startDate = DateTime.Today;
+        //private DateTime _endDate = DateTime.Today.AddDays(120);
+        //private DateTime _startTime = DateTime.Today.AddHours(8);
+        //private DateTime _endTime = DateTime.Today.AddHours(10);
+
+        
     }
 }

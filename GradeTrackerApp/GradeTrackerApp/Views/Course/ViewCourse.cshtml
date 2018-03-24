@@ -1,8 +1,34 @@
 ﻿@model GradeTrackerApp.Models.Course.CourseViewModel
 
 @{
-    ViewBag.Title = "Course View";
+    ViewBag.Title = "Course Details";
 }
 
-<h2>Course View</h2>
+<h2>@Model.Name: @Model.Department-@Model.Number</h2>
+<table>
+    <tr>
+        <td>
+            @Html.Label("Semester:")
+            @Model.SemesterName
+            @Html.Label("Year:")
+            @Model.Year
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Grade:")
+            Coming Soon
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Last Updated:")
+            @Model.LastUpdated
+        </td>
+    </tr>
 
+</table>
+
+<div>
+    @Html.ActionLink("Back To All Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
+</div>

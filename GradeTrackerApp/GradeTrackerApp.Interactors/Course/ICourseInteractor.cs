@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp.Interactors.Course
@@ -8,5 +9,6 @@ namespace GradeTrackerApp.Interactors.Course
         Guid CreateCourse(CourseEntity domainModel);
 
         CourseEntity GetCourse(Guid courseId);
+        List<CourseEntity> GetAllCourses();
     }
 }

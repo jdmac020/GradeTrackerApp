@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
@@ -36,6 +37,8 @@ namespace GradeTrackerApp.Interactors.Course
 
             ValidateNewCourse(newCourse);
 
+            newCourse.Id = Guid.NewGuid();
+
             return Repo.Create(newCourse);
         }
 
@@ -64,6 +67,11 @@ namespace GradeTrackerApp.Interactors.Course
                 throw new ObjectNotFoundException("Requested Course Does Not Exist.");
 
             return Repo.GetById(courseId);
+        }
+
+        public List<CourseEntity> GetAllCourses()
+        {
+            return Repo.GetAll().ToList();
         }
     }
 }
