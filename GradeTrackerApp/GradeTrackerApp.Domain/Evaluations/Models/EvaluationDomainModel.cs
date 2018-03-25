@@ -7,7 +7,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
     {
         public Guid Id { get; set; }
         public Guid CourseId { get; set; }
-        public Guid WeightId { get; set; }
+        public double Weight { get; set; }
         public int NumberOfScores { get; set; }
         public double PointsPossible { get; set; } // Calculated
         public double PointsEarned { get; set; } // Calculated
@@ -22,7 +22,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
             Id = evaluationEntity.Id;
             Name = evaluationEntity.Name;
             CourseId = evaluationEntity.CourseId;
-            WeightId = evaluationEntity.WeightId;
+            Weight = evaluationEntity.Weight;
             NumberOfScores = evaluationEntity.NumberOfScores;
             DropLowest = evaluationEntity.DropLowest;
         }

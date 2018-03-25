@@ -99,7 +99,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
             {
                 Name = createModel.Name,
                 CourseId = createModel.CourseId,
-                WeightId = createModel.WeightId,
+                Weight = createModel.Weight,
                 NumberOfScores = createModel.NumberOfScores,
                 DropLowest = createModel.DropLowest
             };

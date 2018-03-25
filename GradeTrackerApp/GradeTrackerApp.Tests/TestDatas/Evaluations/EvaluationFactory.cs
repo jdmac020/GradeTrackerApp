@@ -13,7 +13,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             {
                 Name = "Tests",
                 CourseId =  Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
-                WeightId = Guid.NewGuid(),
+                Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
             };
@@ -25,7 +25,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             {
                 Name = "Tests",
                 CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
-                WeightId = Guid.NewGuid(),
+                Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
             };
@@ -38,7 +38,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
                 Id = courseId,
                 Name = "Tests",
                 CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
-                WeightId = Guid.NewGuid(),
+                Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
             };

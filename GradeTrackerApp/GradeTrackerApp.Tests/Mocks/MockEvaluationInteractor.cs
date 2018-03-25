@@ -21,7 +21,7 @@ namespace GradeTrackerApp.Tests.Mocks
                 throw new MissingInfoException();
             if (newEvaluationEntity.CourseId.Equals(Guid.Empty))
                 throw new MissingInfoException();
-            if (newEvaluationEntity.WeightId.Equals(Guid.Empty))
+            if (newEvaluationEntity.Weight.Equals(0))
                 throw new MissingInfoException();
             if (newEvaluationEntity.NumberOfScores < 0 )
                 throw new MissingInfoException();

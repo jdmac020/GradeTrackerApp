@@ -9,7 +9,7 @@ namespace GradeTrackerApp.Core.Entities
     public class EvaluationEntity : EntityBase<Guid>
     {
         public Guid CourseId { get; set; }
-        public Guid WeightId { get; set; }
+        public double Weight { get; set; }
         public int NumberOfScores { get; set; }
         public double PointsPossible { get; set; } // Calculated
         public double PointsEarned { get; set; } // Calculated
