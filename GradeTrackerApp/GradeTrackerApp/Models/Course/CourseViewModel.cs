@@ -37,6 +37,8 @@ namespace GradeTrackerApp.Models.Course
             get { return Semester.Id; }
         }
 
+        public double CurrentGrade { get; set; }
+
         public List<EvaluationViewModel> Evaluations { get; set; } = new List<EvaluationViewModel>();
 
         public SemesterViewModel Semester { get; set; }
@@ -62,6 +64,7 @@ namespace GradeTrackerApp.Models.Course
             Department = course.Department;
             Year = course.Year;
             IsActive = course.IsActive;
+            CurrentGrade = course.CurrentPointsGrade;
 
             if (course.LastUpdated != null)
             {

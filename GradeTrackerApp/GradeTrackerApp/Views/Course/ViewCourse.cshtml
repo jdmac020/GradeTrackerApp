@@ -4,6 +4,32 @@
     ViewBag.Title = "Course Details";
 }
 
+<style>
+
+    #evaluationTable {
+         width: 35%;
+    }
+
+    #evaluationTable th {
+         font-size: larger; 
+        padding-bottom: 5px
+    }
+
+    #evaluationTable td {
+        padding-left: 10px
+    }
+
+    #details td {
+        padding-bottom: 15px; 
+        padding-left: 10px
+    }
+
+    #details th {
+         font-size: larger;
+    }
+
+</style>
+
 <h2>@Model.Name: @Model.Department-@Model.Number</h2>
 
 <div id="details">
@@ -11,13 +37,20 @@
     <h3>Details</h3>
 
     <table>
+        
         <tr>
-            <td>
-                @Html.LabelFor(model => model.Semester)
-                @Html.DisplayFor(model => model.Name)
-                @Html.LabelFor(model => model.Year)
-                @Html.DisplayFor(model => model.Year)
-            </td>
+            <th>@Html.LabelFor(model => model.Semester)</th>
+            
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+            
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.Year)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Year)</td>
         </tr>
     </table>
 </div>
@@ -28,27 +61,30 @@
 
     @if (Model.Evaluations.Count > 0)
     {
-        <table>
+        <table id="evaluationTable">
+            <tr>
+                <th>Type</th> <th> Current Grade</th>
+            </tr>
             @foreach (var evaluation in Model.Evaluations)
             {
+
                 <tr>
                     <td>
-                        @evaluation.Name
+                        @Html.ActionLink($"{evaluation.Name}", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = evaluation.Id}, htmlAttributes: null)
                     </td>
                     <td>
                         @evaluation.CurrentPointsGrade
                     </td>
-                    <td>
-                        @Html.ActionLink("Details", "ViewEvaluation", "Evaluation", routeValues: evaluation.Id, htmlAttributes: null)
-                    </td>
                 </tr>
             }
         </table>
-
+        <h4>Current Overall Grade: @Model.CurrentGrade</h4>
+        <hr/>
+        @Html.ActionLink("Add Another Evaluation Type", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
     }
     else
     {
-        <p>There are no Evaluations associated with this course yet--@Html.ActionLink("Click Here To Add One!", "Add", "Evaluation", routeValues: Model.Id, htmlAttributes: null)</p>
+        <p>There are no Evaluations associated with this course yet -- @Html.ActionLink("Add One!", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
     }
 
 </div>

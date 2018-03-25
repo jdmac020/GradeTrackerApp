@@ -16,11 +16,11 @@ namespace GradeTrackerApp.Models.Evaluation
         public string Name { get; set; }
 
         [Required(ErrorMessage = "*Weight is required*")]
-        [RegularExpression(@"^[0 - 9] *$", ErrorMessage = "Must Be a Whole Number")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "*Must Be a Whole Number*")]
         public double Weight { get; set; }
 
         [DisplayName("Number of Scores")]
-        [RegularExpression(@"^[0 - 9] *$", ErrorMessage = "Must Be a Whole Number")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "*Must Be a Whole Number*")]
         public int NumberOfScores { get; set; } = 1;
 
         [DisplayName("Lowest Score Get Dropped?")]

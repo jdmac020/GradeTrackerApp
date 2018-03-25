@@ -57,7 +57,12 @@ namespace GradeTrackerApp.Controllers
             return View(model);
         }
 
-        
+        public ActionResult Complete(EvaluationDomainModel evaluationModel)
+        {
+            var evaluationViewModel = new EvaluationViewModel(evaluationModel);
+
+            return PartialView("_evaluationComplete", evaluationViewModel);
+        }
 
         protected CreateEvaluationDomainModel ConvertToDomainModel(CreateEvaluationViewModel viewModel)
         {
@@ -78,14 +83,33 @@ namespace GradeTrackerApp.Controllers
             return View(createModel);
         }
 
-        public ActionResult ViewEvaluation(Guid guid)
+        public ActionResult ViewEvaluation(Guid evaluationId)
         {
             throw new NotImplementedException();
         }
 
         public ActionResult Create(CreateEvaluationViewModel viewModel)
         {
-            throw new NotImplementedException();
+
+            if (ModelState.IsValid)
+            {
+                var createDomainModel = ConvertToDomainModel(viewModel);
+
+                var newDomainModel = Evaluations.CreateNewEvaluation(createDomainModel);
+
+                if (newDomainModel.GetType().Equals(typeof(EvaluationDomainModel)))
+                {
+                    return Complete((EvaluationDomainModel)newDomainModel);
+                }
+
+                return View();
+            }
+            else
+            {
+                return View("Add", viewModel);
+            }
+
+            
         }
     }
 }
