@@ -1,0 +1,26 @@
+﻿using System;
+using GradeTrackerApp.Core.Entities;
+
+namespace GradeTrackerApp.Domain.Scores.Models
+{
+    public class ScoreDomainModel : DomainModel
+    {
+        public Guid EvaluationId { get; set; }
+        public DateTime Date { get; set; }
+        public double PointsPossible { get; set; }
+        public double PointsEarned { get; set; }
+        public double PointsGrade { get; set; }
+
+        public ScoreDomainModel() { }
+
+        public ScoreDomainModel(ScoreEntity scoreEntity)
+        {
+            Name = scoreEntity.Name;
+            EvaluationId = scoreEntity.EvaluationId;
+            Date = scoreEntity.Date;
+            PointsPossible = scoreEntity.PointsPossible;
+            PointsEarned = scoreEntity.PointsEarned;
+            PointsGrade = scoreEntity.PointsGrade;
+        }
+    }
+}

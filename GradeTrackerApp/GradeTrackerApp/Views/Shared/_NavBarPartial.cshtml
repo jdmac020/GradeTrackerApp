@@ -1,0 +1,32 @@
+﻿@using GradeTrackerApp.Core
+@using Microsoft.AspNet.Identity
+@model dynamic
+
+<ul class="nav navbar-nav">
+
+    @if (Request.IsAuthenticated)
+    {
+        <li>@Html.ActionLink("Courses", "Index", "Course", routeValues: User.Identity.GetUserId(), htmlAttributes: null)</li>
+
+
+        @*if (User.IsInRole(AppRoles.Underwriter))
+        {
+            <li>@Html.ActionLink("Claims", "Index", "Claims", new { Area = "Underwriter" }, new { })</li>
+        }
+        if (User.IsInRole(AppRoles.Admin))
+        {
+            // Placeholder, needs to be implemented
+            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+        }
+        if (User.IsInRole(AppRoles.PolicyHolder))
+        {
+            <li>@Html.ActionLink("My Devices", "Index", "Devices")</li>
+        }*@
+
+    }
+    else
+    {
+        <li> <p>""</p> </li>
+
+    }
+</ul>

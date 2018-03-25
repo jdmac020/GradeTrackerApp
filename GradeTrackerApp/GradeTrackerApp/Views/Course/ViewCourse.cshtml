@@ -1,0 +1,74 @@
+﻿@model GradeTrackerApp.Models.Course.CourseViewModel
+
+@{
+    ViewBag.Title = "Course Details";
+}
+
+<h2>@Model.Name: @Model.Department-@Model.Number</h2>
+
+<div id="details">
+
+    <h3>Details</h3>
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Semester)
+                @Html.DisplayFor(model => model.Name)
+                @Html.LabelFor(model => model.Year)
+                @Html.DisplayFor(model => model.Year)
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="grades">
+
+    <h3>Grade Info</h3>
+
+    @if (Model.Evaluations.Count > 0)
+    {
+        <table>
+            @foreach (var evaluation in Model.Evaluations)
+            {
+                <tr>
+                    <td>
+                        @evaluation.Name
+                    </td>
+                    <td>
+                        @evaluation.CurrentPointsGrade
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "ViewEvaluation", "Evaluation", routeValues: evaluation.Id, htmlAttributes: null)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+    else
+    {
+        <p>There are no Evaluations associated with this course yet--@Html.ActionLink("Click Here To Add One!", "Add", "Evaluation", routeValues: Model.Id, htmlAttributes: null)</p>
+    }
+
+</div>
+
+<div id="miscinfo">
+
+    <h3>Misc Info</h3>
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.LastUpdated)
+                @Html.DisplayFor(model => model.LastUpdated)
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back To All Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
+</div>
