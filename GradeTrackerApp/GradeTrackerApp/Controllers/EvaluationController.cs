@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using GradeTrackerApp.Domain;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Courses.Service;
+using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Semesters.Service;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
+using GradeTrackerApp.Models.Evaluation;
 using GradeTrackerApp.Models.Semester;
 using Microsoft.AspNet.Identity;
 
@@ -57,26 +59,31 @@ namespace GradeTrackerApp.Controllers
 
         
 
-        protected CreateCourseDomainModel ConvertToDomainModel(CreateCourseViewModel viewModel)
+        protected CreateEvaluationDomainModel ConvertToDomainModel(CreateEvaluationViewModel viewModel)
         {
-            return new CreateCourseDomainModel
+            return new CreateEvaluationDomainModel
             {
-                StudentId = viewModel.StudentId,
+                CourseId = viewModel.CourseId,
                 Name = viewModel.Name,
-                Number = viewModel.Number,
-                Department = viewModel.Department,
-                Year = viewModel.Year,
-                SemesterId = viewModel.SemesterId
-
+                Weight = viewModel.Weight,
+                NumberOfScores = viewModel.NumberOfScores,
+                DropLowest = viewModel.DropLowest
             };
         }
 
-        public ActionResult Add(Guid? guid)
+        public ActionResult Add(Guid courseId)
+        {
+            var createModel = new CreateEvaluationViewModel(courseId);
+
+            return View(createModel);
+        }
+
+        public ActionResult ViewEvaluation(Guid guid)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult ViewEvaluation(Guid guid)
+        public ActionResult Create(CreateEvaluationViewModel viewModel)
         {
             throw new NotImplementedException();
         }

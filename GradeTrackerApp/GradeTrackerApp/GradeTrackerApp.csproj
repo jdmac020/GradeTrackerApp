@@ -203,6 +203,7 @@
     <Compile Include="Models\Course\CourseViewModel.cs" />
     <Compile Include="Models\Course\CreateCourseViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
+    <Compile Include="Models\Evaluation\CreateEvaluationViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageModels.cs" />
@@ -316,6 +317,7 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\ViewCourse.cshtml" />
+    <Content Include="Views\Evaluation\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
