@@ -61,7 +61,7 @@ namespace GradeTrackerApp.Controllers
         {
             var evaluationViewModel = new EvaluationViewModel(evaluationModel);
 
-            return PartialView("_evaluationComplete", evaluationViewModel);
+            return PartialView("EvaluationComplete", evaluationViewModel);
         }
 
         protected CreateEvaluationDomainModel ConvertToDomainModel(CreateEvaluationViewModel viewModel)
