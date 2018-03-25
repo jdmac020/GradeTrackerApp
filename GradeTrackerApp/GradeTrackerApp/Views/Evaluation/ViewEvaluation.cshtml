@@ -1,0 +1,137 @@
+﻿@model GradeTrackerApp.Models.Evaluation.EvaluationViewModel
+
+<style>
+
+    table td {
+        padding-bottom: 15px; 
+        padding-left: 10px
+    }
+
+    table th {
+        font-size: larger;
+    }
+
+</style>
+
+<h2>@Model.Name</h2>
+
+
+<div id="details">
+
+    <h3>Details</h3>
+    <hr/>
+
+    <table>
+        <tr>
+            <th>@Html.LabelFor(model => model.Name)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.Weight)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Weight)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.NumberOfScores)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.NumberOfScores)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.PointsPossible)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.PointsPossible)</td>
+        </tr>
+    </table>
+</div>
+
+<div id="grades">
+
+    <h3>Grade</h3>
+    <hr/>
+
+    <table>
+        <tr>
+            <th>@Html.LabelFor(model => model.PointsPossible)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.PointsPossible)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.PointsEarned)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.PointsEarned)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.CurrentPointsGrade)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.CurrentPointsGrade)</td>
+        </tr>
+    </table>
+</div>
+
+<div id="scores">
+
+    <h3>Scores</h3>
+    <hr />
+
+    @if (Model.Scores.Count > 0)
+    {
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Current Grade</th>
+            </tr>
+            @foreach (var score in Model.Scores)
+            {
+
+                <tr>
+                    <td>
+                        @Html.ActionLink($"{score.Name}", "ViewScore", "Score", routeValues: new { evaluationId = score.Id }, htmlAttributes: null)
+                    </td>
+                    <td>
+                        @score.CurrentPointsGrade
+                    </td>
+                </tr>
+            }
+        </table>
+        <h4>Current Overall Grade: @Model.CurrentPointsGrade</h4>
+        <hr />
+        @Html.ActionLink("Add Another Score", "AddScore", "Score", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
+    }
+    else
+    {
+        <p>There are no Scores associated with this Evaluation yet -- @Html.ActionLink("Add One!", "AddScore", "Score", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
+    }
+
+    @*<table>
+            <tr>
+                <th>@Html.LabelFor(model => model.PointsEarned)</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.PointsEarned)</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.CurrentPointsGrade)</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.CurrentPointsGrade)</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.PointsPossible)</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.PointsPossible)</td>
+            </tr>
+        </table>*@
+
+
+</div>
+
+

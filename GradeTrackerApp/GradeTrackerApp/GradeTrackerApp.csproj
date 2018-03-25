@@ -207,6 +207,8 @@
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageModels.cs" />
+    <Compile Include="Models\Score\ScoreViewModel.cs" />
+    <Compile Include="Models\Score\ScoreListViewModel.cs" />
     <Compile Include="Models\Semester\SemesterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -319,6 +321,7 @@
     <Content Include="Views\Course\ViewCourse.cshtml" />
     <Content Include="Views\Evaluation\Add.cshtml" />
     <Content Include="Views\Evaluation\EvaluationComplete.cshtml" />
+    <Content Include="Views\Evaluation\ViewEvaluation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,11 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using GradeTrackerApp.Domain.Evaluations.Models;
-using GradeTrackerApp.Models.Score;
 
-namespace GradeTrackerApp.Models.Evaluation
+namespace GradeTrackerApp.Models.Score
 {
-    public class EvaluationViewModel
+    public class ScoreViewModel
     {
         public Guid Id { get; set; }
         public Guid CourseId { get; set; }
@@ -35,13 +34,11 @@ namespace GradeTrackerApp.Models.Evaluation
         [DisplayName("Drop Lowest Score?")]
         public bool DropLowest { get; set; }
 
-        public ScoreListViewModel Scores { get; set; }
 
-        public EvaluationListViewModel Evaluations { get; set; }
 
-        public EvaluationViewModel() { }
+        public ScoreViewModel() { }
 
-        public EvaluationViewModel(EvaluationDomainModel domainModel)
+        public ScoreViewModel(EvaluationDomainModel domainModel)
         {
             Id = domainModel.Id;
             Name = domainModel.Name;
