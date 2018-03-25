@@ -6,15 +6,19 @@ using System.Web.Mvc;
 using GradeTrackerApp.Domain;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Courses.Service;
+using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Semesters.Service;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
+using GradeTrackerApp.Models.Evaluation;
 using GradeTrackerApp.Models.Semester;
 using Microsoft.AspNet.Identity;
 
 namespace GradeTrackerApp.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         #region Services
@@ -34,6 +38,14 @@ namespace GradeTrackerApp.Controllers
         }
 
         private ISemesterService _semesterService;
+
+        public IEvaluationService Evaluations
+        {
+            get { return _evaluationService ?? (_evaluationService = new EvaluationService()); }
+            set { _evaluationService = value; }
+        }
+
+        private IEvaluationService _evaluationService;
 
         #endregion
 
@@ -93,9 +105,11 @@ namespace GradeTrackerApp.Controllers
 
                 var domainModel = Courses.CreateCourse(createModel);
 
+                var semesterDomainModel = (SemesterDomainModel)Semesters.GetSemester(domainModel.SemesterId);
+
                 var newCourseViewModel = new CourseViewModel(domainModel);
 
-                newCourseViewModel.Semester = (SemesterDomainModel)Semesters.GetSemester(domainModel.SemesterId);
+                newCourseViewModel.Semester = new SemesterViewModel(semesterDomainModel);
 
                 return View("ViewCourse",newCourseViewModel);
             }
@@ -113,9 +127,25 @@ namespace GradeTrackerApp.Controllers
             var courseDomainModel = Courses.GetCourse(courseId);
             var courseViewModel = new CourseViewModel(courseDomainModel);
 
-            courseViewModel.Semester = (SemesterDomainModel)Semesters.GetSemester(courseDomainModel.SemesterId);
+            var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
+            var semester = (SemesterDomainModel) Semesters.GetSemester(courseDomainModel.SemesterId);
+
+            courseViewModel.Semester = new SemesterViewModel(semester);
+            courseViewModel.Evaluations = ConvertToListViewModel(evaluationDomainModels);
 
             return View(courseViewModel);
+        }
+
+        protected EvaluationListViewModel ConvertToListViewModel(List<EvaluationDomainModel> domainModels)
+        {
+            var listOfViewModels = new List<EvaluationViewModel>();
+
+            foreach (var eval in domainModels)
+            {
+                listOfViewModels.Add(new EvaluationViewModel(eval));
+            }
+
+            return new EvaluationListViewModel(listOfViewModels);
         }
 
         protected CreateCourseDomainModel ConvertToDomainModel(CreateCourseViewModel viewModel)

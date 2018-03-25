@@ -59,5 +59,25 @@ namespace GradeTrackerApp.Tests.Evaluations
 
             result.Id.ShouldBe(testGuid);
         }
+
+        [Fact]
+        public void GetEvaluationsForCourse_EmptyGuid_ThrowsBadInfoException()
+        {
+            var testClass = ServiceFactory.Create_EvaluationService();
+            var testGuid = Guid.Empty;
+
+            Should.Throw<BadInfoException>(() => testClass.GetEvaluationsForCourse(testGuid));
+        }
+
+        [Fact]
+        public void GetEvaluationsForCourse_ValidGuid_GetsTwoEvals()
+        {
+            var testClass = ServiceFactory.Create_EvaluationService();
+            var testGuid = Guid.NewGuid();
+
+            var result = testClass.GetEvaluationsForCourse(testGuid);
+
+            result.Count.ShouldBe(2);
+        }
     }
 }

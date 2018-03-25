@@ -31,13 +31,26 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             };
         }
 
+        public static EvaluationEntity Create_EvaluationEntity_ValidMinimum_CustomId(Guid evalId)
+        {
+            return new EvaluationEntity
+            {
+                Id = evalId,
+                Name = "Tests",
+                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
+                Weight = 1,
+                NumberOfScores = 3,
+                DropLowest = false
+            };
+        }
+
         public static EvaluationEntity Create_EvaluationEntity_ValidMinimum(Guid courseId)
         {
             return new EvaluationEntity
             {
                 Id = courseId,
                 Name = "Tests",
-                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
+                CourseId = courseId,
                 Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false

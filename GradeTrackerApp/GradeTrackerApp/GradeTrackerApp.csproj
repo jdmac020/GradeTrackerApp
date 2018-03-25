@@ -191,6 +191,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StartupAuth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -201,6 +202,8 @@
     <Compile Include="Models\Course\CourseListViewModel.cs" />
     <Compile Include="Models\Course\CourseViewModel.cs" />
     <Compile Include="Models\Course\CreateCourseViewModel.cs" />
+    <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
+    <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageModels.cs" />
     <Compile Include="Models\Semester\SemesterViewModel.cs" />

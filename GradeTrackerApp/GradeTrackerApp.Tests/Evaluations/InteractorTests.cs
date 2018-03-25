@@ -35,7 +35,7 @@ namespace GradeTrackerApp.Tests.Evaluations
         public void CreateEval_DuplicateName_ThrowsObjectAlreadyExists()
         {
             var testRepo = new MockRepository<EvaluationEntity>();
-            var existingEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(Guid.NewGuid());
+            var existingEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum_CustomId(Guid.NewGuid());
             testRepo.Update(existingEval);
 
             var testEval = EvaluationFactory.Create_EvaluationEntity_ValidMinimum();
@@ -67,6 +67,52 @@ namespace GradeTrackerApp.Tests.Evaluations
 
             result.ShouldBe(testEntity);
 
+        }
+
+        [Fact]
+        public void GetByCourseId_EmptyGuid_ThrowsBadInfoException()
+        {
+            var testClass = InteractorFactory.Create_EvaluationInteractor();
+            var testGuid = Guid.Empty;
+
+            Should.Throw<BadInfoException>(() => testClass.GetByCourseId(testGuid));
+        }
+
+        [Fact]
+        public void GetByCourseId_ValidCourseId_ReturnsTwoEvals()
+        {
+            var testRepo = new MockRepository<EvaluationEntity>();
+            var testGuid = Guid.NewGuid();
+            var testEvalOne = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(testGuid);
+            var testEvalTwo = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(testGuid);
+
+            testRepo.Create(testEvalOne);
+            testRepo.Create(testEvalTwo);
+
+            var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
+
+            var result = testClass.GetByCourseId(testGuid);
+
+            result.Count.ShouldBe(2);
+        }
+
+        [Fact]
+        public void GetByCourseId_2ValidCourseIds_ReturnsOneEvals()
+        {
+            var testRepo = new MockRepository<EvaluationEntity>();
+            var testGuid1 = Guid.NewGuid();
+            var testGuid2 = Guid.NewGuid();
+            var testEvalOne = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(testGuid1);
+            var testEvalTwo = EvaluationFactory.Create_EvaluationEntity_ValidMinimum(testGuid2);
+
+            testRepo.Create(testEvalOne);
+            testRepo.Create(testEvalTwo);
+
+            var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
+
+            var result = testClass.GetByCourseId(testGuid1);
+
+            result.Count.ShouldBe(1);
         }
     }
 }

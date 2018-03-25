@@ -36,5 +36,20 @@ namespace GradeTrackerApp.Tests.Mocks
 
             return EvaluationFactory.Create_EvaluationEntity_ValidMinimum(evaluationId);
         }
+
+        public List<EvaluationEntity> GetByCourseId(Guid courseId)
+        {
+            if (courseId.Equals(Guid.Empty))
+                throw new BadInfoException();
+
+            var listOfEvaluations = new List<EvaluationEntity>
+            {
+                EvaluationFactory.Create_EvaluationEntity_ValidMinimum(courseId),
+                EvaluationFactory.Create_EvaluationEntity_ValidMinimum(courseId)
+            };
+
+
+            return listOfEvaluations;
+        }
     }
 }

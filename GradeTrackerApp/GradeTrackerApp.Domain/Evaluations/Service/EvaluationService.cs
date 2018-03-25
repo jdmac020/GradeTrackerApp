@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
@@ -92,7 +93,26 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
             
             return evaluationModel;
         }
-        
+
+        public List<EvaluationDomainModel> GetEvaluationsForCourse(Guid courseId)
+        {
+            var evaluationEntities = EvaluationInteractor.GetByCourseId(courseId);
+
+            return ConvertToDomainModel(evaluationEntities);
+        }
+
+        protected List<EvaluationDomainModel> ConvertToDomainModel(List<EvaluationEntity> entities)
+        {
+            var modelList = new List<EvaluationDomainModel>();
+
+            foreach (var eval in entities)
+            {
+                modelList.Add(new EvaluationDomainModel(eval));
+            }
+
+            return modelList;
+        }
+
         private static EvaluationEntity ConvertModelToEntity(CreateEvaluationDomainModel createModel)
         {
             return new EvaluationEntity

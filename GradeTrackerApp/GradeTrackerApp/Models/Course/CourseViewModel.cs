@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Semesters.Models;
+using GradeTrackerApp.Models.Evaluation;
+using GradeTrackerApp.Models.Semester;
 
 namespace GradeTrackerApp.Models.Course
 {
@@ -34,7 +37,9 @@ namespace GradeTrackerApp.Models.Course
             get { return Semester.Id; }
         }
 
-        public SemesterDomainModel Semester { get; set; }
+        public List<EvaluationViewModel> Evaluations { get; set; } = new List<EvaluationViewModel>();
+
+        public SemesterViewModel Semester { get; set; }
 
         [DisplayName("Last Updated")]
         public string LastUpdated

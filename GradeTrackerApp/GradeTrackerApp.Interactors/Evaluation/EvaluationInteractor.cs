@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
@@ -58,6 +59,18 @@ namespace GradeTrackerApp.Interactors.Evaluation
                 throw new ObjectNotFoundException("Requested Evaluation Does Not Exist.");
 
             return Repo.GetById(evaluationId);
+        }
+
+        public List<EvaluationEntity> GetByCourseId(Guid courseId)
+        {
+            if (courseId.Equals(Guid.Empty))
+                throw new BadInfoException("There are no evaluations with an Empty Id");
+
+            var allEvals = Repo.GetAll();
+
+            var forCourse = allEvals.Where(e => e.CourseId == courseId);
+
+            return Repo.GetAll().Where(e => e.CourseId.Equals(courseId)).ToList();
         }
     }
 }

@@ -26,14 +26,31 @@
 
     <h3>Grade Info</h3>
 
-    <table>
-        <tr>
-            <td>
-                @Html.Label("Grade:")
-                Coming Soon
-            </td>
-        </tr>
-    </table>
+    @if (Model.Evaluations.Count > 0)
+    {
+        <table>
+            @foreach (var evaluation in Model.Evaluations)
+            {
+                <tr>
+                    <td>
+                        @evaluation.Name
+                    </td>
+                    <td>
+                        @evaluation.CurrentPointsGrade
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "ViewEvaluation", "Evaluation", routeValues: evaluation.Id, htmlAttributes: null)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+    else
+    {
+        <p>There are no Evaluations associated with this course yet--@Html.ActionLink("Click Here To Add One!", "Add", "Evaluation", routeValues: Model.Id, htmlAttributes: null)</p>
+    }
+
 </div>
 
 <div id="miscinfo">
