@@ -29,6 +29,7 @@ namespace GradeTrackerApp.Domain.Courses.Models
         public string FinalLetterGrade { get; set; }
         public DateTime? LastUpdated { get; set; }
         public DateTime CreatedOn { get; set; }
+        public bool IsActive { get; set; }
 
         public CourseDomainModel() { }
 
@@ -53,6 +54,7 @@ namespace GradeTrackerApp.Domain.Courses.Models
             FinalLetterGrade = courseEntity.FinalLetterGrade;
             LastUpdated = courseEntity.LastModified;
             CreatedOn = courseEntity.CreatedOn;
+            IsActive = courseEntity.IsActive;
         }
 
         

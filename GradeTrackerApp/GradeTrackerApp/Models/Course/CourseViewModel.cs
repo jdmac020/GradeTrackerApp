@@ -45,6 +45,8 @@ namespace GradeTrackerApp.Models.Course
 
         protected DateTime _lastModified;
 
+        public bool IsActive { get; set; }
+
         public CourseViewModel() { }
 
         public CourseViewModel(CourseDomainModel course)
@@ -54,6 +56,7 @@ namespace GradeTrackerApp.Models.Course
             Number = course.Number;
             Department = course.Department;
             Year = course.Year;
+            IsActive = course.IsActive;
 
             if (course.LastUpdated != null)
             {

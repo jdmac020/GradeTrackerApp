@@ -39,7 +39,10 @@ namespace GradeTrackerApp.Tests.Mocks
 
         public List<CourseEntity> GetCoursesByStudentId(Guid userId)
         {
-            throw new NotImplementedException();
+            if (userId.Equals(Guid.Empty))
+                throw new BadInfoException();
+
+            return CourseFactory.Create_TwoCourseEntities_ValidMinimum_CustomStudentId(userId);
         }
     }
 }

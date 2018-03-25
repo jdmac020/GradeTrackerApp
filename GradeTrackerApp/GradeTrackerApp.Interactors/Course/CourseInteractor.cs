@@ -39,6 +39,7 @@ namespace GradeTrackerApp.Interactors.Course
 
             newCourse.Id = Guid.NewGuid();
             newCourse.LastModified = DateTime.Now;
+            newCourse.IsActive = true;
 
             return Repo.Create(newCourse);
         }
@@ -78,7 +79,10 @@ namespace GradeTrackerApp.Interactors.Course
 
         public List<CourseEntity> GetCoursesByStudentId(Guid userId)
         {
-            return Repo.GetAll().Where(c => c.StudentId.Equals(userId)).ToList();
+            if (userId.Equals(Guid.Empty))
+                throw new BadInfoException("There is no valid StudentId attached to this Request.");
+
+            return Repo.GetAll().Where(c => c.StudentId.Equals(userId) && c.IsActive.Equals(true)).ToList();
         }
     }
 }

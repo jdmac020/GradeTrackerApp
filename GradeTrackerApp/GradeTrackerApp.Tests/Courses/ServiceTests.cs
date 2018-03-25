@@ -49,5 +49,25 @@ namespace GradeTrackerApp.Tests.Courses
 
             result.Name.ShouldNotBe(string.Empty);
         }
+
+        [Fact]
+        public void GetCourses_EmptyGuid_ThrowsBadInfoException()
+        {
+            var testGuid = Guid.Empty;
+
+            var testClass = ServiceFactory.Create_MockInteractor();
+
+            Should.Throw<BadInfoException>(() => testClass.GetCourses(testGuid));
+        }
+
+        [Fact]
+        public void GetCourses_NewGuid_ReturnsTwoDomainModels()
+        {
+            var testGuid = Guid.NewGuid();
+
+            var testClass = ServiceFactory.Create_MockInteractor();
+
+            var result = testClass.GetCourses(testGuid);
+        }
     }
 }
