@@ -96,8 +96,9 @@
     <table>
         <tr>
             <td>
-                @Html.LabelFor(model => model.LastUpdated)
-                @Html.DisplayFor(model => model.LastUpdated)
+                @Html.LabelFor(model => model.LastModified)
+                @Model.LastModified.ToShortDateString() @Model.LastModified.ToShortTimeString()
+                @*@Html.DisplayFor(model => $"{model.LastModified.ToShortDateString()} {model.LastModified.ToShortTimeString()}")*@
             </td>
         </tr>
     </table>

@@ -98,6 +98,7 @@
     <Compile Include="TestDatas\Semesters\InteractorFactory.cs" />
     <Compile Include="TestDatas\Semesters\SemesterFactory.cs" />
     <Compile Include="TestDatas\Semesters\ServiceFactory.cs" />
+    <Compile Include="ViewModels\CourseViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -123,6 +124,10 @@
     <ProjectReference Include="..\GradeTrackerApp.Interactors\GradeTrackerApp.Interactors.csproj">
       <Project>{6816caa2-ba2b-4831-8b5b-945dd09b6a4f}</Project>
       <Name>GradeTrackerApp.Interactors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GradeTrackerApp\GradeTrackerApp.csproj">
+      <Project>{F0A32A36-F33A-49A2-AAF2-1EA85520D756}</Project>
+      <Name>GradeTrackerApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

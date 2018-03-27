@@ -55,7 +55,7 @@ namespace GradeTrackerApp.Tests.Evaluations
             var testClass = ServiceFactory.Create_EvaluationService();
             var testGuid = Guid.NewGuid();
 
-            var result = testClass.GetEvaluation(testGuid);
+            var result = (EvaluationDomainModel)testClass.GetEvaluation(testGuid);
 
             result.Id.ShouldBe(testGuid);
         }
