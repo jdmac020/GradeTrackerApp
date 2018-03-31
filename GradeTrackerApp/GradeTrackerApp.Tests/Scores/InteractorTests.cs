@@ -66,5 +66,46 @@ namespace GradeTrackerApp.Tests.Scores
             result.Name.ShouldNotBe(string.Empty);
             result.Id.ShouldBe(testGuid);
         }
+
+        [Fact]
+        public void GetScoresByEvalId_ExistingScores_ReturnsThree()
+        {
+            var testGuid = Guid.NewGuid();
+            var testScores = ScoreFactory.Create_ListOfScoreEntity(testGuid);
+            var testRepo = new MockRepository<ScoreEntity>(testScores);
+            var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
+
+            var result = testClass.GetScoresByEvaluationId(testGuid);
+
+            result.Count.ShouldBe(3);
+
+        }
+
+        [Fact]
+        public void GetScoresByEvalId_NoScores_ReturnsZero()
+        {
+            var testGuid = Guid.NewGuid();
+            var testRepo = new MockRepository<ScoreEntity>();
+            var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
+
+            var result = testClass.GetScoresByEvaluationId(testGuid);
+
+            result.Count.ShouldBe(0);
+
+        }
+
+        [Fact]
+        public void GetScoresByEvalId_DiffGuidExistingScores_ReturnsZero()
+        {
+            var testGuid = Guid.NewGuid();
+            var testScores = ScoreFactory.Create_ListOfScoreEntity(testGuid);
+            var testRepo = new MockRepository<ScoreEntity>(testScores);
+            var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
+
+            var result = testClass.GetScoresByEvaluationId(Guid.NewGuid());
+
+            result.Count.ShouldBe(0);
+
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
 using GradeTrackerApp.Interactors.Evaluation;
 

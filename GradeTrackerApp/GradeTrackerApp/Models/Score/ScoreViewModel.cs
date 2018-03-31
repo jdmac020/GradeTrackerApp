@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Scores.Models;
 
 namespace GradeTrackerApp.Models.Score
 {
     public class ScoreViewModel
     {
         public Guid Id { get; set; }
-        public Guid CourseId { get; set; }
+        public Guid EvaluationId { get; set; }
+
+        [DisplayName("Score Name")]
         public string Name { get; set; }
 
-        [DisplayName("Weight Percent")]
-        public double Weight { get; set; }
+        [DisplayName("Date Completed")]
+        public DateTime Date { get; set; }
 
-        [DisplayName("Number of Scores")]
-        public int NumberOfScores { get; set; }
+        [DisplayName("Grade Percent")]
+        public double PointsGrade { get; set; }
 
         [DisplayName("Points Possible")]
         public double PointsPossible { get; set; }
@@ -25,32 +28,25 @@ namespace GradeTrackerApp.Models.Score
         [DisplayName("Points Earned")]
         public double PointsEarned { get; set; }
 
-        [DisplayName("Current Grade Percent")]
-        public double CurrentPointsGrade { get; set; }
+        [DisplayName("Last Updated")]
+        public DateTime? LastModified { get; set; }
 
-        [DisplayName("Final Grade Percent")]
-        public double FinalPointsGrade { get; set; }
-
-        [DisplayName("Drop Lowest Score?")]
-        public bool DropLowest { get; set; }
-
-
+        [DisplayName("Created")]
+        public DateTime CreatedOn { get; set; }
 
         public ScoreViewModel() { }
 
-        public ScoreViewModel(EvaluationDomainModel domainModel)
+        public ScoreViewModel(ScoreDomainModel domainModel)
         {
             Id = domainModel.Id;
             Name = domainModel.Name;
-            CourseId = domainModel.CourseId;
-            Weight = domainModel.Weight;
-            NumberOfScores = domainModel.NumberOfScores;
+            Date = domainModel.Date;
+            EvaluationId = domainModel.EvaluationId;
             PointsPossible = domainModel.PointsPossible;
             PointsEarned = domainModel.PointsEarned;
-            CurrentPointsGrade = domainModel.CurrentPointsGrade;
-            FinalPointsGrade = domainModel.FinalPointsGrade;
-            DropLowest = domainModel.DropLowest;
-
+            PointsGrade = domainModel.PointsGrade;
+            LastModified = domainModel.LastModified;
+            CreatedOn = domainModel.CreatedOn;
         }
     }
 }

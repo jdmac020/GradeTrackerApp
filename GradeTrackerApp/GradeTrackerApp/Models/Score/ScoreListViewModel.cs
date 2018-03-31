@@ -4,6 +4,11 @@ namespace GradeTrackerApp.Models.Score
 {
     public class ScoreListViewModel : List<ScoreViewModel>
     {
+        public ScoreListViewModel()
+        {
+
+        }
+
         public ScoreListViewModel(IEnumerable<ScoreViewModel> scores)
         {
             foreach (var score in scores)

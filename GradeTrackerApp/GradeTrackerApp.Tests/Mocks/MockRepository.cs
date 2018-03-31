@@ -18,6 +18,11 @@ namespace GradeTrackerApp.Tests.Mocks
             _dataSet = new List<TEntity>();
         }
 
+        public MockRepository(List<TEntity> seedData)
+        {
+            _dataSet = seedData;
+        }
+
         public override TEntity GetById(Guid id)
         {
             return _dataSet.Find(e => e.Id.Equals(id));

@@ -1,5 +1,6 @@
 ﻿using System;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Evaluations.Models
 {

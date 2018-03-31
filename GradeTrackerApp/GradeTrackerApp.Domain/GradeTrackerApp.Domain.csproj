@@ -44,8 +44,8 @@
     <Compile Include="Courses\Models\CreateCourseDomainModel.cs" />
     <Compile Include="Courses\Service\CourseService.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />
-    <Compile Include="DomainModel.cs" />
-    <Compile Include="IDomainModel.cs" />
+    <Compile Include="Shared\DomainModel.cs" />
+    <Compile Include="Shared\IDomainModel.cs" />
     <Compile Include="Scores\Models\CreateScoreDomainModel.cs" />
     <Compile Include="Evaluations\Models\CreateEvaluationDomainModel.cs" />
     <Compile Include="Evaluations\Models\EvaluationDomainModel.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Semesters\Models\SemesterDomainModel.cs" />
     <Compile Include="Semesters\Service\ISemesterService.cs" />
     <Compile Include="Semesters\Service\SemesterService.cs" />
+    <Compile Include="Shared\ErrorDomainModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GradeRanges\Service\" />

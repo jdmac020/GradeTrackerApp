@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Evaluations.Service
 {

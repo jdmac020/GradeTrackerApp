@@ -1,4 +1,4 @@
-﻿namespace GradeTrackerApp.Domain
+﻿namespace GradeTrackerApp.Domain.Shared
 {
     public class DomainModel : IDomainModel
     {

@@ -1,0 +1,30 @@
+﻿@model GradeTrackerApp.Models.GradeTrackerErrorViewModel
+
+@{
+    ViewBag.Title = "GradeTrackerError";
+}
+
+<h1>@Model.Name</h1>
+
+<div>
+    
+    <h2>@Model.Exception</h2>
+    
+    <h2>Details:</h2>
+    <p>@Model.Exception.Message</p>
+
+</div>
+
+<div>
+    
+    @if (Model.Retry.Equals(true))
+    {
+        // do the thing to go back to adding/updating/whatever
+    }
+    else
+    {
+        // link back to Course index maybe?
+    }
+
+</div>
+

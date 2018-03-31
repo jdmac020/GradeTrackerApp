@@ -1,4 +1,5 @@
 ﻿using System;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Semesters.Models
 {

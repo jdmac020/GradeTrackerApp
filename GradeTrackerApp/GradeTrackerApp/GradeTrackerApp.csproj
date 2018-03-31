@@ -195,6 +195,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ScoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,8 +206,10 @@
     <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
     <Compile Include="Models\Evaluation\CreateEvaluationViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
+    <Compile Include="Models\GradeTrackerErrorViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageModels.cs" />
+    <Compile Include="Models\Score\CreateScoreViewModel.cs" />
     <Compile Include="Models\Score\ScoreViewModel.cs" />
     <Compile Include="Models\Score\ScoreListViewModel.cs" />
     <Compile Include="Models\Semester\SemesterViewModel.cs" />
@@ -322,6 +325,10 @@
     <Content Include="Views\Evaluation\Add.cshtml" />
     <Content Include="Views\Evaluation\EvaluationComplete.cshtml" />
     <Content Include="Views\Evaluation\ViewEvaluation.cshtml" />
+    <Content Include="Views\Shared\GradeTrackerError.cshtml" />
+    <Content Include="Views\Score\ViewScore.cshtml" />
+    <Content Include="Views\Score\AddScore.cshtml" />
+    <Content Include="Views\Score\ScoreAdded.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

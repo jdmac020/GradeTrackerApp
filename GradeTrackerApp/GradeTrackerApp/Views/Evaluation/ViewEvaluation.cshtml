@@ -93,21 +93,21 @@
 
                 <tr>
                     <td>
-                        @Html.ActionLink($"{score.Name}", "ViewScore", "Score", routeValues: new { evaluationId = score.Id }, htmlAttributes: null)
+                        @Html.ActionLink($"{score.Name}", "ViewScore", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
                     </td>
                     <td>
-                        @score.CurrentPointsGrade
+                        @score.PointsGrade
                     </td>
                 </tr>
             }
         </table>
         <h4>Current Overall Grade: @Model.CurrentPointsGrade</h4>
         <hr />
-        @Html.ActionLink("Add Another Score", "AddScore", "Score", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
+        @Html.ActionLink("Add Another Score", "AddScore", "Score", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
     }
     else
     {
-        <p>There are no Scores associated with this Evaluation yet -- @Html.ActionLink("Add One!", "AddScore", "Score", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
+        <p>There are no Scores associated with this Evaluation yet -- @Html.ActionLink("Add One!", "AddScore", "Score", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)</p>
     }
 
     @*<table>
