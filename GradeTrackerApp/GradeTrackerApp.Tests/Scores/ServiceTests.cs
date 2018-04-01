@@ -2,6 +2,7 @@
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Scores.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestDatas.Scores;
 using Shouldly;
@@ -37,7 +38,9 @@ namespace GradeTrackerApp.Tests.Scores
             var testClass = ServiceFactory.Create_ScoreService();
             var testGuid = Guid.Empty;
 
-            Should.Throw<ObjectNotFoundException>((() => testClass.GetScore(testGuid)));
+            var result = testClass.GetScore(testGuid);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
