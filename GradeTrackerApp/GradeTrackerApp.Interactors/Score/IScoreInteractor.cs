@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 
 namespace GradeTrackerApp.Interactors.Score
@@ -7,5 +8,6 @@ namespace GradeTrackerApp.Interactors.Score
     {
         Guid CreateScore(ScoreEntity newScoreEntity);
         ScoreEntity GetScore(Guid scoreId);
+        List<ScoreEntity> GetScoresByEvaluationId(Guid evaluationId);
     }
 }

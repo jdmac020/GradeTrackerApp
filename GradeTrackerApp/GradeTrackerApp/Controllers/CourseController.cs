@@ -132,6 +132,7 @@ namespace GradeTrackerApp.Controllers
 
             courseViewModel.Semester = new SemesterViewModel(semester);
             courseViewModel.Evaluations = ConvertToListViewModel(evaluationDomainModels);
+            courseViewModel.SetLastModified();
 
             return View(courseViewModel);
         }

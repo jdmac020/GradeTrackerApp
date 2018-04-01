@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Semesters.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Semester;
 
 namespace GradeTrackerApp.Domain.Semesters.Service

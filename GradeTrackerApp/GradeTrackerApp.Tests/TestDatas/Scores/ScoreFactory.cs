@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Scores.Models;
 
@@ -57,6 +58,21 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
             };
         }
 
+        public static ScoreEntity Create_ScoreEntity_ValidMinimum(Guid scoreId, string scoreName, Guid evalId)
+        {
+            return new ScoreEntity
+            {
+                Id = scoreId,
+                Name = scoreName,
+                EvaluationId = evalId,
+                Date = DateTime.Parse("1/23/2018"),
+                PointsPossible = 0,
+                PointsEarned = 0,
+                PointsGrade = 0
+
+            };
+        }
+
         public static ScoreEntity Create_ScoreEntity_ValidMinimum(double pointsPossible, double pointsEarned)
         {
             return new ScoreEntity
@@ -71,5 +87,15 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
             };
         }
 
+        public static List<ScoreEntity> Create_ListOfScoreEntity(Guid evaluationId)
+        {
+            var list = new List<ScoreEntity>();
+
+            list.Add(Create_ScoreEntity_ValidMinimum(Guid.NewGuid(), "Test 1", evaluationId));
+            list.Add(Create_ScoreEntity_ValidMinimum(Guid.NewGuid(), "Test 2", evaluationId));
+            list.Add(Create_ScoreEntity_ValidMinimum(Guid.NewGuid(), "Test 3", evaluationId));
+
+            return list;
+        }
     }
 }

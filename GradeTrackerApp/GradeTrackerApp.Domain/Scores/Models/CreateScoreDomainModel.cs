@@ -9,5 +9,6 @@ namespace GradeTrackerApp.Domain.Scores.Models
         public DateTime Date { get; set; }
         public Guid EvaluationId { get; set; }
         public string Name { get; set; }
+        
     }
 }

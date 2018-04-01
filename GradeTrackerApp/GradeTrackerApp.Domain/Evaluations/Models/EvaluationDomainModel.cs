@@ -1,5 +1,6 @@
 ﻿using System;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Evaluations.Models
 {
@@ -14,6 +15,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
         public double CurrentPointsGrade { get; set; } // Calculated
         public double FinalPointsGrade { get; set; } // Calculated
         public bool DropLowest { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public EvaluationDomainModel() { }
 
@@ -25,6 +27,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
             Weight = evaluationEntity.Weight;
             NumberOfScores = evaluationEntity.NumberOfScores;
             DropLowest = evaluationEntity.DropLowest;
+            LastModified = evaluationEntity.LastModified;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Models.Evaluation;
@@ -37,18 +38,14 @@ namespace GradeTrackerApp.Models.Course
             get { return Semester.Id; }
         }
 
-        public List<EvaluationViewModel> Evaluations { get; set; } = new List<EvaluationViewModel>();
+        public double CurrentGrade { get; set; }
+
+        public EvaluationListViewModel Evaluations { get; set; } = new EvaluationListViewModel();
 
         public SemesterViewModel Semester { get; set; }
 
         [DisplayName("Last Updated")]
-        public string LastUpdated
-        {
-            get { return $"{_lastModified.ToShortTimeString()}, {_lastModified.ToShortDateString()}";}
-            set { _lastModified = DateTime.Parse(value); }
-        }
-
-        protected DateTime _lastModified;
+        public DateTime LastModified { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -62,12 +59,30 @@ namespace GradeTrackerApp.Models.Course
             Department = course.Department;
             Year = course.Year;
             IsActive = course.IsActive;
+            CurrentGrade = course.CurrentPointsGrade;
+            LastModified = course.LastUpdated ?? course.CreatedOn;
 
-            if (course.LastUpdated != null)
+        }
+
+        public void SetLastModified()
+        {
+            var possibleTimes = new List<DateTime>();
+
+            if (LastModified != null)
+                possibleTimes.Add((DateTime)LastModified);
+
+            foreach (var eval in Evaluations)
             {
-                _lastModified = (DateTime)course.LastUpdated;
+                var lastModified = new DateTime();
+
+                if (eval.LastModified != null)
+                    lastModified = (DateTime) eval.LastModified;
+
+                possibleTimes.Add(lastModified);
             }
-            
+
+            possibleTimes.Sort();
+            LastModified = possibleTimes.LastOrDefault();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
 using GradeTrackerApp.Interactors.Evaluation;
 
@@ -43,7 +44,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
         }
 
-        public EvaluationDomainModel CreateNewEvaluation(CreateEvaluationDomainModel createModel)
+        public IDomainModel CreateNewEvaluation(CreateEvaluationDomainModel createModel)
         {
             var evaluationModel = new EvaluationDomainModel();
             var newEvaluationEntity = ConvertModelToEntity(createModel);
@@ -52,7 +53,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
             {
                 var evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
 
-                evaluationModel = GetEvaluation(evaluationId);
+                evaluationModel = (EvaluationDomainModel)GetEvaluation(evaluationId);
             }
             catch (Exception e)
             {
@@ -72,7 +73,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         /// </summary>
         /// <param name="evaluationId"></param>
         /// <returns></returns>
-        public EvaluationDomainModel GetEvaluation(Guid evaluationId)
+        public IDomainModel GetEvaluation(Guid evaluationId)
         {
             var evaluationModel = new EvaluationDomainModel();
 

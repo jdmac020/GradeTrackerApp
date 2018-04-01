@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Interactors.Score;
@@ -26,6 +27,11 @@ namespace GradeTrackerApp.Tests.Mocks
                 throw new ObjectNotFoundException();
 
             return ScoreFactory.Create_ScoreEntity_ValidMinimum(scoreId);
+        }
+
+        public List<ScoreEntity> GetScoresByEvaluationId(Guid evaluationId)
+        {
+            return ScoreFactory.Create_ListOfScoreEntity(evaluationId);
         }
     }
 }

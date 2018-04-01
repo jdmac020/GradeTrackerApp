@@ -38,6 +38,7 @@ namespace GradeTrackerApp.Interactors.Course
             ValidateNewCourse(newCourse);
 
             newCourse.Id = Guid.NewGuid();
+            newCourse.CreatedOn = DateTime.Now;
             newCourse.LastModified = DateTime.Now;
             newCourse.IsActive = true;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
@@ -33,6 +34,11 @@ namespace GradeTrackerApp.Interactors.Score
             return foundScore;
         }
 
+        public List<ScoreEntity> GetScoresByEvaluationId(Guid evaluationId)
+        {
+            return Repo.GetAll().Where(s => s.EvaluationId.Equals(evaluationId)).ToList();
+        }
+
         public Guid CreateScore(ScoreEntity newScore)
         {
             var existingScore = GetExistingRecord(newScore.EvaluationId, newScore.Name);
@@ -41,6 +47,8 @@ namespace GradeTrackerApp.Interactors.Score
                 throw new ObjectAlreadyExistsException("There is already a Score for that Evaluation with that Name.");
 
             ValidateNewScore(newScore);
+
+            newScore.Id = Guid.NewGuid();
 
             return Repo.Create(newScore);
         }

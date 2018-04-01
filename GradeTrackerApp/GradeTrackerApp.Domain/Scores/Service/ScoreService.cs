@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Scores.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Score;
 
 namespace GradeTrackerApp.Domain.Scores.Service
@@ -61,14 +63,26 @@ namespace GradeTrackerApp.Domain.Scores.Service
             }
             catch (Exception e)
             {
-                // pass the exception to the controller as an error model
+                var errorModel = new ErrorDomainModel("Problem Getting Score", e, false);
 
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+                return errorModel;
             }
 
             return scoreModel;
+        }
+
+        public List<IDomainModel> GetScoresForEvaluation(Guid evaluationId)
+        {
+            var entities = Interactor.GetScoresByEvaluationId(evaluationId);
+
+            var models = new List<IDomainModel>();
+
+            foreach (var entity in entities)
+            {
+                models.Add(new ScoreDomainModel(entity));
+            }
+
+            return models;
         }
 
         private static ScoreEntity ConvertModelToEntity(CreateScoreDomainModel createModel)

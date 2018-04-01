@@ -1,0 +1,15 @@
+﻿@model GradeTrackerApp.Models.Score.ScoreViewModel
+
+<h2>Your Score Has Been Added!</h2>
+
+<div>
+
+    <p>Would You Like to Add Another?</p>
+
+    <p>
+        @Html.ActionLink("Yes!", "AddScore", "Score", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: new { Class = "btn btn-default" })
+
+        @Html.ActionLink("Not Now", "ViewScore", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: new { Class = "btn btn-default" })
+    </p>
+
+</div>
