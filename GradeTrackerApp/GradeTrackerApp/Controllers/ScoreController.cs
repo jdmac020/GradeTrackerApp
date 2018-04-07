@@ -85,7 +85,7 @@ namespace GradeTrackerApp.Controllers
             {
                 EvaluationId = createViewModel.EvaluationId,
                 Name = createViewModel.Name,
-                Date = createViewModel.Date,
+                Date = createViewModel.Date.Value,
                 PointsEarned = createViewModel.PointsEarned,
                 PointsPossible = createViewModel.PointsPossible,
             };

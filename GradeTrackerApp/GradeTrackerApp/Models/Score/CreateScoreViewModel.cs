@@ -10,8 +10,10 @@ namespace GradeTrackerApp.Models.Score
         [Required(ErrorMessage = "*All Scores Must Have a Unique Name*")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "*Date Is Required*")]
         [DisplayName("Date Completed")]
-        public DateTime Date { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? Date { get; set; }
 
         public Guid EvaluationId { get; set; }
 

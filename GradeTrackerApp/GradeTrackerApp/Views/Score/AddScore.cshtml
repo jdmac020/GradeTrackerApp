@@ -1,9 +1,9 @@
 ﻿@model GradeTrackerApp.Models.Score.CreateScoreViewModel
 
-@section Scripts {
+@*@section Scripts {
 
-    @*@Scripts.Render("~/bundles/jquery-ui")
-    @Styles.Render("~/Content/cssjqryUi")*@
+    @Scripts.Render("~/bundles/jquery-ui")
+    @Styles.Render("~/Content/cssjqryUi")
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -20,7 +20,7 @@
 
     });
     </script>
-}
+}*@
 
     <h2>New Score Details</h2>
 
@@ -47,7 +47,10 @@
                 @Html.LabelFor(model => model.Date)
             </td>
             <td>
-                @Html.EditorFor(model => model.Date, new { @class = "form-control datepicker", id = "earnedPicker", placeholder = "Date Earned"})
+                @Html.EditorFor(model => model.Date, new { @class = "form-control datepicker", id = "earnedPicker", placeholder = "Date Earned" })
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Date, string.Empty, new { @class = "text-danger" })
             </td>
         </tr>
         <tr>
