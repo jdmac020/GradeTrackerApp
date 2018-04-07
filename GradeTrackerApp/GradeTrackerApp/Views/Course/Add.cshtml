@@ -56,7 +56,7 @@
             @Html.LabelFor(model => model.Year)
         </td>
         <td>
-            @Html.TextBoxFor(model => model.Year)
+            @Html.DropDownListFor(model => model.Year, Model.YearOptions)
         </td>
         <td>
             @Html.ValidationMessageFor(model => model.Year, string.Empty, new { @class = "text-danger" })

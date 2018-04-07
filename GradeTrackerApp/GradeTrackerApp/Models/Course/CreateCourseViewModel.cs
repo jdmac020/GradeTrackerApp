@@ -26,10 +26,12 @@ namespace GradeTrackerApp.Models.Course
         //public Guid? SchoolId { get; set; }
         //public Guid? InstructorId { get; set; }
         [DisplayName("Year")]
-        public int Year { get; set; } = DateTime.Today.Year;
+        public string Year { get; set; }
 
         [DisplayName("Semester")]
         public Guid SemesterId { get; set; }
+
+        public List<SelectListItem> YearOptions { get; set; }
 
         //[DataType(DataType.Time)]
         //public string StartTime

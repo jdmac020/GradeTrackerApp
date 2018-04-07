@@ -73,8 +73,23 @@ namespace GradeTrackerApp.Controllers
             var createModel = new CreateCourseViewModel();
             
             createModel.Semesters = GetSemestersForDropDown();
+            createModel.YearOptions = GetYearDropDownOptions();
 
             return View(createModel);
+        }
+
+        protected List<SelectListItem> GetYearDropDownOptions()
+        {
+            var today = DateTime.Today;
+            var dropDownList = new List<SelectListItem>();
+
+            var thisYear = today.Year.ToString();
+            var nextYear = today.AddYears(1).Year.ToString();
+
+            dropDownList.Add(new SelectListItem {Text = thisYear, Value = thisYear});
+            dropDownList.Add(new SelectListItem {Text = nextYear, Value = nextYear});
+
+            return dropDownList;
         }
 
         protected List<SelectListItem> GetSemestersForDropDown()
@@ -157,7 +172,7 @@ namespace GradeTrackerApp.Controllers
                 Name = viewModel.Name,
                 Number = viewModel.Number,
                 Department = viewModel.Department,
-                Year = viewModel.Year,
+                Year = int.Parse(viewModel.Year),
                 SemesterId = viewModel.SemesterId
 
             };
