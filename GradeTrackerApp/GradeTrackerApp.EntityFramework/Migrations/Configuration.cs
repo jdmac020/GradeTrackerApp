@@ -12,6 +12,7 @@ namespace GradeTrackerApp.EntityFramework.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            
         }
 
         protected override void Seed(GradeTrackerApp.EntityFramework.Contexts.GradeTrackerDbContext context)
