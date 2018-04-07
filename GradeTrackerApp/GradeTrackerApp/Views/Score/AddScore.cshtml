@@ -1,7 +1,28 @@
 ﻿@model GradeTrackerApp.Models.Score.CreateScoreViewModel
 
+@section Scripts {
 
-<h2>New Score Details</h2>
+    @*@Scripts.Render("~/bundles/jquery-ui")
+    @Styles.Render("~/Content/cssjqryUi")*@
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "m/d/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-0:+1"
+            });
+
+            $('#ui-datepicker-div').css(
+                { 'background-color': ' white','font-size' : '20px' }
+            );
+
+    });
+    </script>
+}
+
+    <h2>New Score Details</h2>
 
 @using (@Html.BeginForm("CreateScore", "Score", FormMethod.Post))
 {
@@ -26,7 +47,7 @@
                 @Html.LabelFor(model => model.Date)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Date)
+                @Html.EditorFor(model => model.Date, new { @class = "form-control datepicker", id = "earnedPicker", placeholder = "Date Earned"})
             </td>
         </tr>
         <tr>
