@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Courses.Service
 {
     public interface ICourseService
     {
-        CourseDomainModel CreateCourse(CreateCourseDomainModel createModel);
-        CourseDomainModel GetCourse(Guid courseId);
-        List<CourseDomainModel> GetCourses(Guid userId);
+        IDomainModel CreateCourse(CreateCourseDomainModel createModel);
+        IDomainModel GetCourse(Guid courseId);
+        List<IDomainModel> GetCourses(Guid userId);
     }
 }

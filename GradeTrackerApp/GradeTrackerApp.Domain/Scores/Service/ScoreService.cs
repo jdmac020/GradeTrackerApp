@@ -72,9 +72,18 @@ namespace GradeTrackerApp.Domain.Scores.Service
 
         public List<IDomainModel> GetScoresForEvaluation(Guid evaluationId)
         {
-            var entities = Interactor.GetScoresByEvaluationId(evaluationId);
-
+            var entities = new List<ScoreEntity>();
             var models = new List<IDomainModel>();
+
+            try
+            {
+                entities = Interactor.GetScoresByEvaluationId(evaluationId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new List<IDomainModel> {new ErrorDomainModel(gte, false)};
+            } 
+            
 
             foreach (var entity in entities)
             {

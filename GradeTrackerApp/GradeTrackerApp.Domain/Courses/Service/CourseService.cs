@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
 
 namespace GradeTrackerApp.Domain.Courses.Service
@@ -41,25 +43,29 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         }
 
-        public CourseDomainModel CreateCourse(CreateCourseDomainModel createModel)
+        public IDomainModel CreateCourse(CreateCourseDomainModel createModel)
         {
-            var courseModel = new CourseDomainModel();
-
             var newCourseEntity = ConvertModelToEntity(createModel);
+
+            var courseId = Guid.Empty;
+            var courseModel = new CourseDomainModel();
 
             try
             {
-                var courseId = CourseInteractor.CreateCourse(newCourseEntity);
-
-                courseModel = GetCourse(courseId);
+                courseId = CourseInteractor.CreateCourse(newCourseEntity);
             }
-            catch (Exception e)
+            catch (GradeTrackerException gte)
             {
-                // pass the exception to the controller as an error model
+                return new ErrorDomainModel(gte, true);
+            }
 
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+            try
+            {
+                courseModel = (CourseDomainModel)GetCourse(courseId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
             }
             
             return courseModel;
@@ -71,7 +77,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
         /// </summary>
         /// <param name="courseId"></param>
         /// <returns></returns>
-        public CourseDomainModel GetCourse(Guid courseId)
+        public IDomainModel GetCourse(Guid courseId)
         {
             var courseEntity = new CourseEntity();
 
@@ -79,26 +85,30 @@ namespace GradeTrackerApp.Domain.Courses.Service
             {
                 courseEntity = CourseInteractor.GetCourse(courseId);
             }
-            catch (Exception e)
+            catch (GradeTrackerException gte)
             {
-                // pass the exception to the controller as an error model
-
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+                return new ErrorDomainModel(gte, false);
             }
-            
+
             var courseModel = new CourseDomainModel(courseEntity);
 
             return courseModel;
         }
 
         // Will eventually pass in a student identifier and get all the courses associated
-        public List<CourseDomainModel> GetCourses(Guid userId)
+        public List<IDomainModel> GetCourses(Guid userId)
         {
-            var domainModels = new List<CourseDomainModel>();
+            var domainModels = new List<IDomainModel>();
+            var courseEntities = new List<CourseEntity>();
 
-            var courseEntities = CourseInteractor.GetCoursesByStudentId(userId);
+            try
+            {
+                courseEntities = CourseInteractor.GetCoursesByStudentId(userId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new List<IDomainModel> {new ErrorDomainModel(gte, false)};
+            }
 
             foreach (var entity in courseEntities)
             {

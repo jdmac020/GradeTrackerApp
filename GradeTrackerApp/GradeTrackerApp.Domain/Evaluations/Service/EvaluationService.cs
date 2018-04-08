@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
@@ -49,19 +50,24 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
             var evaluationModel = new EvaluationDomainModel();
             var newEvaluationEntity = ConvertModelToEntity(createModel);
 
+            var evaluationId = Guid.Empty;
+
             try
             {
-                var evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
+                evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, true);
+            }
 
+            try
+            {
                 evaluationModel = (EvaluationDomainModel)GetEvaluation(evaluationId);
             }
-            catch (Exception e)
+            catch (GradeTrackerException gte)
             {
-                // pass the exception to the controller as an error model
-
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+                return new ErrorDomainModel(gte, false);
             }
 
             return evaluationModel;
@@ -76,35 +82,43 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         public IDomainModel GetEvaluation(Guid evaluationId)
         {
             var evaluationModel = new EvaluationDomainModel();
+            var evaluationEntity = new EvaluationEntity();
 
             try
             {
-                var evaluationEntity = EvaluationInteractor.GetEvaluation(evaluationId);
-
-                evaluationModel = new EvaluationDomainModel(evaluationEntity);
+                evaluationEntity = EvaluationInteractor.GetEvaluation(evaluationId);
             }
-            catch (Exception e)
+            catch (GradeTrackerException gte)
             {
-                // pass the exception to the controller as an error model
-
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+                return new ErrorDomainModel(gte, false);
             }
-            
+
+            evaluationModel = new EvaluationDomainModel(evaluationEntity);
+
             return evaluationModel;
         }
 
-        public List<EvaluationDomainModel> GetEvaluationsForCourse(Guid courseId)
+        public List<IDomainModel> GetEvaluationsForCourse(Guid courseId)
         {
-            var evaluationEntities = EvaluationInteractor.GetByCourseId(courseId);
+            var entityList = new List<EvaluationEntity>();
 
-            return ConvertToDomainModel(evaluationEntities);
+            try
+            {
+                entityList = EvaluationInteractor.GetByCourseId(courseId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new List<IDomainModel> { new ErrorDomainModel(gte, false)};
+            }
+
+            entityList = EvaluationInteractor.GetByCourseId(courseId);
+
+            return ConvertToDomainModel(entityList);
         }
 
-        protected List<EvaluationDomainModel> ConvertToDomainModel(List<EvaluationEntity> entities)
+        protected List<IDomainModel> ConvertToDomainModel(List<EvaluationEntity> entities)
         {
-            var modelList = new List<EvaluationDomainModel>();
+            var modelList = new List<IDomainModel>();
 
             foreach (var eval in entities)
             {

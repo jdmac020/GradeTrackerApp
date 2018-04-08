@@ -52,24 +52,7 @@ namespace GradeTrackerApp.Controllers
         private IScoreService _scoreService;
 
         #endregion
-
-        // GET: Course
-        public ActionResult Index(Guid courseId)
-        {
-            var courses = Courses.GetCourses(courseId);
-
-            var courseViewModels = new List<CourseViewModel>();
-
-            foreach (var course in courses)
-            {
-                courseViewModels.Add(new CourseViewModel(course));
-            }
-
-            var model = new CourseListViewModel(courseViewModels);
-
-            return View(model);
-        }
-
+        
         public ActionResult Complete(EvaluationDomainModel evaluationModel)
         {
             var evaluationViewModel = new EvaluationViewModel(evaluationModel);
@@ -109,7 +92,7 @@ namespace GradeTrackerApp.Controllers
         {
             var listOfDomainModels = Scores.GetScoresForEvaluation(evaluationId);
 
-            if (listOfDomainModels.GetType().Equals(typeof(List<ErrorDomainModel>)))
+            if (listOfDomainModels.GetType() == typeof(List<ErrorDomainModel>))
             {
                 return new ScoreListViewModel();
             }
@@ -142,7 +125,7 @@ namespace GradeTrackerApp.Controllers
 
                 var newDomainModel = Evaluations.CreateNewEvaluation(createDomainModel);
 
-                if (newDomainModel.GetType().Equals(typeof(EvaluationDomainModel)))
+                if (newDomainModel.GetType() == typeof(EvaluationDomainModel))
                 {
                     return Complete((EvaluationDomainModel)newDomainModel);
                 }
