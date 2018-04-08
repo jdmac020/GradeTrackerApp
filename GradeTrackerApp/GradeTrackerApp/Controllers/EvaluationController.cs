@@ -23,7 +23,7 @@ using Microsoft.AspNet.Identity;
 
 namespace GradeTrackerApp.Controllers
 {
-    public class EvaluationController : Controller
+    public class EvaluationController : BaseController
     {
         #region Services
 
@@ -52,7 +52,7 @@ namespace GradeTrackerApp.Controllers
         private IScoreService _scoreService;
 
         #endregion
-        
+
         public ActionResult Complete(EvaluationDomainModel evaluationModel)
         {
             var evaluationViewModel = new EvaluationViewModel(evaluationModel);
@@ -82,8 +82,16 @@ namespace GradeTrackerApp.Controllers
         public ActionResult ViewEvaluation(Guid evaluationId)
         {
             var evaluationDomainModel = Evaluations.GetEvaluation(evaluationId);
-            var evaluationViewModel = new EvaluationViewModel((EvaluationDomainModel)evaluationDomainModel);
-            evaluationViewModel.Scores = GetScoresForEvaluation(evaluationId);
+
+            if (evaluationDomainModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(evaluationDomainModel, null);
+            }
+
+            var evaluationViewModel = new EvaluationViewModel((EvaluationDomainModel)evaluationDomainModel)
+            {
+                Scores = GetScoresForEvaluation(evaluationId)
+            };
 
             return View(evaluationViewModel);
         }
@@ -131,19 +139,17 @@ namespace GradeTrackerApp.Controllers
                 }
                 else
                 {
-                    var errorModel = new GradeTrackerErrorViewModel((ErrorDomainModel)newDomainModel);
-
-                    return View("GradeTrackerError", errorModel);
+                    return GradeTrackerError(newDomainModel, viewModel);
                 }
 
-                
+
             }
             else
             {
                 return View("Add", viewModel);
             }
 
-            
+
         }
     }
 }

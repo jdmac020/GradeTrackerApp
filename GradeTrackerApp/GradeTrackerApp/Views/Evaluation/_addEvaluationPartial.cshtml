@@ -1,0 +1,59 @@
+﻿@model GradeTrackerApp.Models.Evaluation.CreateEvaluationViewModel
+
+@using (@Html.BeginForm("Create", "Evaluation", FormMethod.Post))
+{
+
+    @Html.HiddenFor(model => model.CourseId, Model.CourseId)
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Name)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Name)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Weight)
+                <p style="font-size: smaller">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
+                <p style="font-size: smaller">If your grade is based on total of all points, enter 100</p>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Weight)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Weight, string.Empty, new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.NumberOfScores)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.NumberOfScores)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.NumberOfScores, string.Empty, new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.DropLowest)
+            </td>
+            <td>
+                @Html.CheckBoxFor(m => m.DropLowest, Model.DropLowest)
+            </td>
+        </tr>
+
+    </table>
+
+    <div style="padding-top: 15px">
+        <input type="submit" value="Add Evaluation" class="btn btn-default" />
+        @Html.ActionLink("Cancel", "ViewCourse", "Course", routeValues: new { courseId = Model.CourseId }, htmlAttributes: new { Class = "btn btn-default" })
+    </div>
+}

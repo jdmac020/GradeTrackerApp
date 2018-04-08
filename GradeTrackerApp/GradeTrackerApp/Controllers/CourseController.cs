@@ -87,7 +87,7 @@ namespace GradeTrackerApp.Controllers
 
             if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
             {
-                return GradeTrackerError(semesterModels.First());
+                return GradeTrackerError(semesterModels.First(), null);
             }
 
             createModel.Semesters = GetSemestersForDropDown(semesterModels);
@@ -144,7 +144,17 @@ namespace GradeTrackerApp.Controllers
 
                 if (domainIModel.GetType() == typeof(ErrorDomainModel))
                 {
-                    return GradeTrackerError(domainIModel);
+                    var semesterModels = Semesters.GetAllSemesters();
+
+                    if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+                    {
+                        return GradeTrackerError(semesterModels.First(), null);
+                    }
+
+                    createViewModel.Semesters = GetSemestersForDropDown(semesterModels);
+                    createViewModel.YearOptions = GetYearDropDownOptions();
+
+                    return GradeTrackerError(domainIModel, createViewModel);
                 }
                 else
                 {
@@ -157,7 +167,7 @@ namespace GradeTrackerApp.Controllers
 
                 if (semesterModel.GetType() == typeof(ErrorDomainModel))
                 {
-                    return GradeTrackerError(semesterModel);
+                    return GradeTrackerError(semesterModel, null);
                 }
 
                 newCourseViewModel.Semester = GetSemesterViewModel(semesterModel);
@@ -170,7 +180,7 @@ namespace GradeTrackerApp.Controllers
 
                 if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
                 {
-                    return GradeTrackerError(semesterModels.First());
+                    return GradeTrackerError(semesterModels.First(), null);
                 }
 
                 createViewModel.Semesters = GetSemestersForDropDown(semesterModels);
@@ -187,7 +197,7 @@ namespace GradeTrackerApp.Controllers
 
             if (iModel.GetType() == typeof(ErrorDomainModel))
             {
-                return GradeTrackerError(iModel);
+                return GradeTrackerError(iModel, null);
             }
             else
             {
@@ -200,14 +210,14 @@ namespace GradeTrackerApp.Controllers
 
             if (evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
             {
-                return GradeTrackerError(evaluationDomainModels.First());
+                return GradeTrackerError(evaluationDomainModels.First(), null);
             }
 
             var semesterModel = Semesters.GetSemester(courseDomainModel.SemesterId);
 
             if (semesterModel.GetType() == typeof(ErrorDomainModel))
             {
-                return GradeTrackerError(semesterModel);
+                return GradeTrackerError(semesterModel, null);
             }
 
             courseViewModel.Semester = GetSemesterViewModel(semesterModel);

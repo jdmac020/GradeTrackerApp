@@ -10,11 +10,13 @@ namespace GradeTrackerApp.Controllers
 {
     public class BaseController : Controller
     {
-        public ActionResult GradeTrackerError(IDomainModel errorModel)
+        public ActionResult GradeTrackerError(IDomainModel errorModel, IViewModel viewModel)
         {
-            var viewModel = new GradeTrackerErrorViewModel((ErrorDomainModel)errorModel);
+            var errorViewModel = new GradeTrackerErrorViewModel((ErrorDomainModel)errorModel);
 
-            return View(viewModel);
+            errorViewModel.ViewModel = viewModel;
+
+            return View("GradeTrackerError", errorViewModel);
         }
     }
 }

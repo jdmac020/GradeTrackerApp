@@ -333,6 +333,8 @@
     <Content Include="Views\Score\AddScore.cshtml" />
     <Content Include="Views\Score\ScoreAdded.cshtml" />
     <Content Include="Views\Score\_addScorePartial.cshtml" />
+    <Content Include="Views\Course\_addCoursePartial.cshtml" />
+    <Content Include="Views\Evaluation\_addEvaluationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

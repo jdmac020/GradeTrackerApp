@@ -1,4 +1,6 @@
-﻿@using GradeTrackerApp.Models.Score
+﻿@using GradeTrackerApp.Models.Course
+@using GradeTrackerApp.Models.Evaluation
+@using GradeTrackerApp.Models.Score
 @model GradeTrackerApp.Models.GradeTrackerErrorViewModel
 
 @{
@@ -8,7 +10,7 @@
 <h1>@Model.Name</h1>
 
 <div>
-    
+
     <h2>Details: @Model.Exception.Message</h2>
 </div>
 
@@ -18,26 +20,33 @@
     {
 
         <h3>Adjust Your Info Below to Retry!</h3>
-        <hr/>
+        <hr />
 
         var modelType = Model.ViewModel.GetType();
 
         if (ReferenceEquals(modelType, typeof(CreateScoreViewModel)))
         {
             var model = (CreateScoreViewModel)Model.ViewModel;
-            
+
             @Html.Partial(@"~\Views\Score\_addScorePartial.cshtml", model)
         }
+        else if (ReferenceEquals(modelType, typeof(CreateCourseViewModel)))
+        {
+            var model = (CreateCourseViewModel)Model.ViewModel;
+
+            @Html.Partial(@"~\Views\Course\_addCoursePartial.cshtml", model)
+        }
+        else if (ReferenceEquals(modelType, typeof(CreateEvaluationViewModel)))
+        {
+            var model = (CreateEvaluationViewModel)Model.ViewModel;
+
+            @Html.Partial(@"~\Views\Evaluation\_addEvaluationPartial.cshtml", model)
+        }
+
     }
     else
     {
-        var modelType = Model.ViewModel.GetType();
-
-        if (ReferenceEquals(modelType, typeof(CreateScoreViewModel)))
-        {
-            var model = (CreateScoreViewModel)Model.ViewModel;
-            @Html.ActionLink("Start Over", "AddScore", "Score", routeValues: new { evaluationId = model.EvaluationId }, htmlAttributes: null)
-        }
+        @Html.ActionLink("Back To Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
     }
 
 </div>
