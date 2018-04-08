@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GradeTrackerApp.Models.Score
 {
-    public class CreateScoreViewModel
+    public class CreateScoreViewModel : IViewModel
     {
         [DisplayName("Score Name")]
         [Required(ErrorMessage = "*All Scores Must Have a Unique Name*")]

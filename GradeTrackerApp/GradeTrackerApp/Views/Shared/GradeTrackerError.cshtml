@@ -1,4 +1,5 @@
-﻿@model GradeTrackerApp.Models.GradeTrackerErrorViewModel
+﻿@using GradeTrackerApp.Models.Score
+@model GradeTrackerApp.Models.GradeTrackerErrorViewModel
 
 @{
     ViewBag.Title = "GradeTrackerError";
@@ -8,22 +9,35 @@
 
 <div>
     
-    <h2>@Model.Exception</h2>
-    
-    <h2>Details:</h2>
-    <p>@Model.Exception.Message</p>
-
+    <h2>Details: @Model.Exception.Message</h2>
 </div>
 
 <div>
-    
+
     @if (Model.Retry.Equals(true))
     {
-        // do the thing to go back to adding/updating/whatever
+
+        <h3>Adjust Your Info Below to Retry!</h3>
+        <hr/>
+
+        var modelType = Model.ViewModel.GetType();
+
+        if (ReferenceEquals(modelType, typeof(CreateScoreViewModel)))
+        {
+            var model = (CreateScoreViewModel)Model.ViewModel;
+            
+            @Html.Partial(@"~\Views\Score\_addScorePartial.cshtml", model)
+        }
     }
     else
     {
-        // link back to Course index maybe?
+        var modelType = Model.ViewModel.GetType();
+
+        if (ReferenceEquals(modelType, typeof(CreateScoreViewModel)))
+        {
+            var model = (CreateScoreViewModel)Model.ViewModel;
+            @Html.ActionLink("Start Over", "AddScore", "Score", routeValues: new { evaluationId = model.EvaluationId }, htmlAttributes: null)
+        }
     }
 
 </div>

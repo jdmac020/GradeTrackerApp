@@ -47,6 +47,11 @@ namespace GradeTrackerApp.Controllers
             return View(createModel);
         }
 
+        public ActionResult RetryAddScore(CreateScoreViewModel retryModel)
+        {
+            return View("AddScore", retryModel);
+        }
+
         public ActionResult CreateScore(CreateScoreViewModel createViewModel)
         {
             if (ModelState.IsValid)
@@ -59,6 +64,8 @@ namespace GradeTrackerApp.Controllers
                 {
                     var viewModel = new GradeTrackerErrorViewModel((ErrorDomainModel)newScore);
 
+                    viewModel.ViewModel = createViewModel;
+                    
                     return View("GradeTrackerError", viewModel);
                 }
                 else

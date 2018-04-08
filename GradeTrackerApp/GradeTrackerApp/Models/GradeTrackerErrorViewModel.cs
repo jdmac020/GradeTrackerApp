@@ -10,6 +10,7 @@ namespace GradeTrackerApp.Models
     {
         public string Name { get; set; }
         public bool Retry { get; set; }
+        public IViewModel ViewModel {get; set; }
         public Exception Exception { get; set; }
 
         public GradeTrackerErrorViewModel(ErrorDomainModel domainModel)
