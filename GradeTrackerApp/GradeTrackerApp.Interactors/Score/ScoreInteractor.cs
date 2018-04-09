@@ -39,6 +39,42 @@ namespace GradeTrackerApp.Interactors.Score
             return Repo.GetAll().Where(s => s.EvaluationId.Equals(evaluationId)).ToList();
         }
 
+        public void DeleteScore(Guid scoreId)
+        {
+            var scoreToDelete = Repo.GetById(scoreId);
+
+            if (scoreToDelete != null)
+            {
+                Repo.Delete(scoreToDelete);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
+
+        }
+
+        public void UpdateScore(ScoreEntity updatedScore)
+        {
+            var existingScore = Repo.GetById(updatedScore.Id);
+
+            if (existingScore != null)
+            {
+                existingScore.PointsEarned = updatedScore.PointsEarned;
+                existingScore.PointsPossible = updatedScore.PointsPossible;
+                existingScore.PointsGrade = updatedScore.PointsGrade;
+                existingScore.Date = updatedScore.Date;
+                existingScore.Name = updatedScore.Name;
+                existingScore.LastModified = DateTime.Now;
+
+                Repo.Update(existingScore);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
+        }
+
         public Guid CreateScore(ScoreEntity newScore)
         {
             var existingScore = GetExistingRecord(newScore.EvaluationId, newScore.Name);

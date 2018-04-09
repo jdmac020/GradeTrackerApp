@@ -9,6 +9,16 @@ namespace GradeTrackerApp.Tests.Mocks
 {
     public class MockScoreInteractor : IScoreInteractor
     {
+        public void DeleteScore(Guid scoreId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateScore(ScoreEntity updatedScore)
+        {
+            throw new NotImplementedException();
+        }
+
         public Guid CreateScore(ScoreEntity domainModel)
         {
             if (string.IsNullOrEmpty(domainModel.Name))

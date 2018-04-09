@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Tests.Mocks;
@@ -106,6 +107,61 @@ namespace GradeTrackerApp.Tests.Scores
 
             result.Count.ShouldBe(0);
 
+        }
+
+        [Fact]
+        public void DeleteScore_ValidGuid_RemovesScore()
+        {
+            var evalGuid = Guid.NewGuid();
+            var testList = ScoreFactory.Create_ListOfScoreEntity(evalGuid);
+            var testRepo = new MockRepository<ScoreEntity>(testList);
+            var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
+            var testGuid = testRepo.GetAll().First().Id;
+
+            testClass.DeleteScore(testGuid);
+
+            var result = testClass.GetScoresByEvaluationId(evalGuid);
+
+            result.Count.ShouldBe(2);
+        }
+
+        [Fact]
+        public void DeleteScore_EmptyGuid_ThrowsObjectNotFound()
+        {
+            var testGuid = Guid.Empty;
+            var testClass = InteractorFactory.Create_ScoreInteractor();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.DeleteScore(testGuid));
+        }
+
+        [Fact]
+        public void UpdateScore_ValidObject_UpdatesScore()
+        {
+            var evalGuid = Guid.NewGuid();
+            var testList = ScoreFactory.Create_ListOfScoreEntity(evalGuid);
+            var testRepo = new MockRepository<ScoreEntity>(testList);
+            var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
+            var scoreToUpdate = testRepo.GetAll().First();
+
+            var updatedScore = new ScoreEntity {Id = scoreToUpdate.Id, PointsPossible = 5, PointsEarned = 4};
+
+            testClass.UpdateScore(updatedScore);
+
+            var result = testClass.GetScore(scoreToUpdate.Id);
+
+            result.LastModified.ShouldNotBeSameAs(scoreToUpdate.LastModified);
+            result.PointsEarned.ShouldBe(4);
+            result.PointsPossible.ShouldBe(5);
+        }
+
+        [Fact]
+        public void UpdateScore_NewObject_ThrowsObjectNotFound()
+        {
+            var testClass = InteractorFactory.Create_ScoreInteractor();
+
+            var testScore = ScoreFactory.Create_ScoreEntity_ValidMinimum();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.UpdateScore(testScore));
         }
     }
 }
