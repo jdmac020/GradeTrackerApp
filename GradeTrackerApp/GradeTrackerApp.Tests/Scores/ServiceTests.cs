@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.Mocks;
+using GradeTrackerApp.Tests.TestDatas.Evaluations;
 using GradeTrackerApp.Tests.TestDatas.Scores;
 using Shouldly;
 using Xunit;
+using ServiceFactory = GradeTrackerApp.Tests.TestDatas.Scores.ServiceFactory;
 
 namespace GradeTrackerApp.Tests.Scores
 {
     public class ServiceTests
     {
         [Fact]
-        public void CreateNewScore_EmptyModel_ThrowsMissingInfoException()
+        public void CreateNewScore_EmptyModel_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_ScoreService();
             var testModel = ScoreFactory.Create_CreateScoreDomainModel_Empty();
@@ -33,7 +36,7 @@ namespace GradeTrackerApp.Tests.Scores
         }
 
         [Fact]
-        public void GetScore_EmptyGuid_ThrowsObjectNotFound()
+        public void GetScore_EmptyGuid_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_ScoreService();
             var testGuid = Guid.Empty;
@@ -56,6 +59,52 @@ namespace GradeTrackerApp.Tests.Scores
 
             result.Name.ShouldNotBe(string.Empty);
 
+        }
+
+        [Fact]
+        public void DeleteScore_EmptyGuid_ReturnsErrorModel()
+        {
+            var testGuid = Guid.Empty;
+            var testClass = ServiceFactory.Create_ScoreService();
+
+            var result = testClass.DeleteScore(testGuid);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
+        }
+
+        [Fact]
+        public void DeleteScore_ValidGuid_DeletesObject()
+        {
+            var evaluation = Guid.NewGuid();
+
+            var testClass = ServiceFactory.Create_ScoreService();
+
+            var result = testClass.DeleteScore(evaluation);
+
+            result.GetType().ShouldNotBe(typeof(ErrorDomainModel));
+        }
+
+        [Fact]
+        public void UpdateScore_EmptyGuid_ReturnsErrorModel()
+        {
+            var testScore = new ScoreDomainModel {Id = Guid.Empty};
+            var testClass = ServiceFactory.Create_ScoreService();
+
+            var result = testClass.UpdateScore(testScore);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
+        }
+
+        [Fact]
+        public void UpdateScore_ValidModel_ReturnsValidModel()
+        {
+            var testScoreEntity = ScoreFactory.Create_ScoreEntity_ValidMinimum(Guid.NewGuid());
+            var testScore = new ScoreDomainModel(testScoreEntity);
+            var testClass = ServiceFactory.Create_ScoreService();
+
+            var result = testClass.UpdateScore(testScore);
+
+            result.GetType().ShouldNotBe(typeof(ErrorDomainModel));
         }
     }
 }

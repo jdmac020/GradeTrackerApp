@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using GradeTrackerApp.Domain.Scores.Models;
 
 namespace GradeTrackerApp.Models.Score
 {
-    public class CreateScoreViewModel : IViewModel
+    public class CreateOrEditScoreViewModel : IViewModel
     {
+        public Guid Id { get; set; }
+        
         [DisplayName("Score Name")]
         [Required(ErrorMessage = "*All Scores Must Have a Unique Name*")]
         public string Name { get; set; }
@@ -23,9 +26,9 @@ namespace GradeTrackerApp.Models.Score
         [DisplayName("Points Possible")]
         public double PointsPossible { get; set; }
 
-        public CreateScoreViewModel() { }
+        public CreateOrEditScoreViewModel() { }
         
-        public CreateScoreViewModel(Guid evaluationId)
+        public CreateOrEditScoreViewModel(Guid evaluationId)
         {
             EvaluationId = evaluationId;
         }

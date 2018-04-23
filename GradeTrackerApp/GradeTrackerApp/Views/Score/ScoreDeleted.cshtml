@@ -1,0 +1,15 @@
+﻿@model GradeTrackerApp.Models.Score.ScoreViewModel
+
+<h2>Your Score Has Been Deleted</h2>
+
+<div>
+
+    <p>Would You Like to Add One to Replace It?</p>
+
+    <p>
+        @Html.ActionLink("Yes!", "AddScore", "Score", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: new { Class = "btn btn-default" })
+
+        @Html.ActionLink("Not Now", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: new { Class = "btn btn-default" })
+    </p>
+
+</div>

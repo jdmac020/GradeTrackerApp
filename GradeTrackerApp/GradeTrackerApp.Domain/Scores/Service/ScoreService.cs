@@ -29,6 +29,48 @@ namespace GradeTrackerApp.Domain.Scores.Service
             _interactor = interactor;
         }
 
+        public IDomainModel DeleteScore(Guid scoreId)
+        {
+            var deletedScoreModel = new ScoreDomainModel();
+
+            try
+            {
+                var score = Interactor.GetScore(scoreId);
+
+                Interactor.DeleteScore(scoreId);
+
+                deletedScoreModel = new ScoreDomainModel {EvaluationId = score.EvaluationId};
+
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
+            }
+
+            return deletedScoreModel;
+        }
+
+        public IDomainModel UpdateScore(ScoreDomainModel updatedScoreModel)
+        {
+            var returnModel = new ScoreDomainModel();
+
+            try
+            {
+                var entityToUpdate = ConvertModelToEntity(updatedScoreModel);
+                Interactor.UpdateScore(entityToUpdate);
+
+                var updatedEntity = Interactor.GetScore(entityToUpdate.Id);
+
+                returnModel = new ScoreDomainModel(updatedEntity);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, true);
+            }
+
+            return returnModel;
+        }
+
         public IDomainModel CreateNewScore(CreateScoreDomainModel createModel)
         {
             var scoreModel = new ScoreDomainModel();
@@ -97,6 +139,19 @@ namespace GradeTrackerApp.Domain.Scores.Service
         {
             return new ScoreEntity
             {
+                Name = createModel.Name,
+                EvaluationId = createModel.EvaluationId,
+                Date = createModel.Date,
+                PointsPossible = createModel.PointsPossible,
+                PointsEarned = createModel.PointsEarned
+            };
+        }
+
+        private static ScoreEntity ConvertModelToEntity(ScoreDomainModel createModel)
+        {
+            return new ScoreEntity
+            {
+                Id = createModel.Id,
                 Name = createModel.Name,
                 EvaluationId = createModel.EvaluationId,
                 Date = createModel.Date,

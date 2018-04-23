@@ -24,9 +24,9 @@
 
         var modelType = Model.ViewModel.GetType();
 
-        if (ReferenceEquals(modelType, typeof(CreateScoreViewModel)))
+        if (ReferenceEquals(modelType, typeof(CreateOrEditScoreViewModel)))
         {
-            var model = (CreateScoreViewModel)Model.ViewModel;
+            var model = (CreateOrEditScoreViewModel)Model.ViewModel;
 
             @Html.Partial(@"~\Views\Score\_addScorePartial.cshtml", model)
         }

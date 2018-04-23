@@ -11,12 +11,15 @@ namespace GradeTrackerApp.Tests.Mocks
     {
         public void DeleteScore(Guid scoreId)
         {
-            throw new NotImplementedException();
+            if (scoreId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException("The Score Requested Does Not Exist.");
+            
         }
 
         public void UpdateScore(ScoreEntity updatedScore)
         {
-            throw new NotImplementedException();
+            if (updatedScore.Id.Equals(Guid.Empty))
+                throw new ObjectNotFoundException("The Score Requested Does Not Exist.");
         }
 
         public Guid CreateScore(ScoreEntity domainModel)
