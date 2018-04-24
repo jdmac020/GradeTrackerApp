@@ -2,19 +2,21 @@
 
 namespace GradeTrackerApp.Core.Exceptions
 {
-    public class ObjectNotFoundException : Exception
+    public class ObjectNotFoundException : GradeTrackerException
     {
+        private const string NAME = "Object Not Found";
+
         public ObjectNotFoundException()
         {
 
         }
 
-        public ObjectNotFoundException(string message) : base(message)
+        public ObjectNotFoundException(string message) : base(NAME, message)
         {
 
         }
 
-        public ObjectNotFoundException(string message, Exception innerException) : base(message, innerException)
+        public ObjectNotFoundException(string message, Exception innerException) : base(NAME, message, innerException)
         {
 
         }

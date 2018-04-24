@@ -8,7 +8,7 @@ using GradeTrackerApp.Domain.Evaluations.Models;
 
 namespace GradeTrackerApp.Models.Evaluation
 {
-    public class CreateEvaluationViewModel
+    public class CreateEvaluationViewModel : IViewModel
     {
         public Guid CourseId { get; set; }
 
@@ -16,7 +16,7 @@ namespace GradeTrackerApp.Models.Evaluation
         public string Name { get; set; }
 
         [Required(ErrorMessage = "*Weight is required*")]
-        [RegularExpression(@"^[0-9]*$", ErrorMessage = "*Must Be a Whole Number*")]
+        [RegularExpression(@"^[1-9]$|^[1-9][1-9]$|^(100)$", ErrorMessage = "*Must Be a Whole Number Between 1 and 100*")]
         public double Weight { get; set; }
 
         [DisplayName("Number of Scores")]

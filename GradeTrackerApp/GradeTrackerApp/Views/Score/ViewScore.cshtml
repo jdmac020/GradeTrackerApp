@@ -52,18 +52,23 @@
         </tr>
 
         @if (Model.LastModified != null)
-        {
-            <tr>
-                <th>@Html.LabelFor(model => model.LastModified)</th>
-            </tr>
-            <tr>
-                <td>@Html.DisplayFor(model => model.LastModified)</td>
-            </tr>
-        }
+    {
+        <tr>
+            <th>@Html.LabelFor(model => model.LastModified)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.LastModified)</td>
+        </tr>
+}
 
         <tr>
             <th>
-                @Html.ActionLink("Make Changes To This Score", "Update", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
+                @Html.ActionLink("Make Changes To This Score", "StartUpdate", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
             </th>
         </tr>
         <tr>

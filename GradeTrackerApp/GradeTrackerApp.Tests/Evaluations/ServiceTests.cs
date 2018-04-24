@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.TestDatas.Evaluations;
 using Shouldly;
 using Xunit;
@@ -11,22 +13,26 @@ namespace GradeTrackerApp.Tests.Evaluations
     public class ServiceTests
     {
         [Fact]
-        public void CreateNewEvaluation_EmptyModel_ThrowsMissingInfoException()
+        public void CreateNewEvaluation_EmptyModel_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_EvaluationService();
             var testModel = new CreateEvaluationDomainModel();
 
-            Should.Throw<MissingInfoException>(() => testClass.CreateNewEvaluation(testModel));
+            var result = testClass.CreateNewEvaluation(testModel);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
-        public void CreateNewEvaluation_NegativeScoreCount_ThrowsMissingInfoException()
+        public void CreateNewEvaluation_NegativeScoreCount_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_EvaluationService();
             var testModel = EvaluationFactory.Create_CreateEvaluationDomainModel_ValidMinimum();
             testModel.NumberOfScores = -3;
 
-            Should.Throw<MissingInfoException>(() => testClass.CreateNewEvaluation(testModel));
+            var result = testClass.CreateNewEvaluation(testModel);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
@@ -41,12 +47,14 @@ namespace GradeTrackerApp.Tests.Evaluations
         }
 
         [Fact]
-        public void GetEvaluationById_EmptyGuid_ThrowsObjectNotFound()
+        public void GetEvaluationById_EmptyGuid_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_EvaluationService();
             var testGuid = Guid.Empty;
 
-            Should.Throw<ObjectNotFoundException>(() => testClass.GetEvaluation(testGuid));
+            var result = testClass.GetEvaluation(testGuid);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
@@ -61,12 +69,14 @@ namespace GradeTrackerApp.Tests.Evaluations
         }
 
         [Fact]
-        public void GetEvaluationsForCourse_EmptyGuid_ThrowsBadInfoException()
+        public void GetEvaluationsForCourse_EmptyGuid_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_EvaluationService();
             var testGuid = Guid.Empty;
 
-            Should.Throw<BadInfoException>(() => testClass.GetEvaluationsForCourse(testGuid));
+            var result = testClass.GetEvaluationsForCourse(testGuid);
+
+            result.First().GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]

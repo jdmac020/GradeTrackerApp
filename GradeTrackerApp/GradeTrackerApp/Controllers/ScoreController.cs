@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Scores.Service;
 using GradeTrackerApp.Domain.Shared;
@@ -8,7 +11,7 @@ using GradeTrackerApp.Models.Score;
 
 namespace GradeTrackerApp.Controllers
 {
-    public class ScoreController : Controller
+    public class ScoreController : BaseController
     {
         #region Services
 
@@ -22,11 +25,68 @@ namespace GradeTrackerApp.Controllers
 
         #endregion
 
+        public ActionResult StartUpdate(Guid scoreId)
+        {
+            var scoreDomainModel = Scores.GetScore(scoreId);
+
+            if (ReferenceEquals(scoreDomainModel.GetType(), typeof(ErrorDomainModel)))
+            {
+                return GradeTrackerError(scoreDomainModel, null);
+            }
+
+            var viewModel = new ScoreViewModel((ScoreDomainModel)scoreDomainModel);
+
+            return View("UpdateScore", viewModel);
+        }
+
+        public ActionResult UpdateScore(ScoreViewModel updatedScore)
+        {
+            if (ModelState.IsValid)
+            {
+                var domainModel = ConvertToDomainModel(updatedScore);
+
+                var updatedModel = Scores.UpdateScore(domainModel);
+
+                if (ReferenceEquals(updatedModel.GetType(), typeof(ErrorDomainModel)))
+                {
+                    return GradeTrackerError(updatedModel, updatedScore);
+                }
+                else
+                {
+                    var viewModel = new ScoreViewModel((ScoreDomainModel)updatedModel);
+
+                    return View("ScoreUpdated", viewModel);
+                }
+            }
+            else
+            {
+                return View("UpdateScore", updatedScore);
+            }
+        }
+
+        public ActionResult DeleteScore(Guid scoreId)
+        {
+            var deletedScore = Scores.DeleteScore(scoreId);
+
+            if (ReferenceEquals(deletedScore.GetType(), typeof(ErrorDomainModel)))
+            {
+                return GradeTrackerError(deletedScore, null);
+            }
+            else
+            {
+                var castedDomainModel = (ScoreDomainModel)deletedScore;
+
+                var evaluationIdModel = new ScoreViewModel {EvaluationId = castedDomainModel.EvaluationId};
+
+                return View("ScoreDeleted", evaluationIdModel);
+            }
+        }
+
         public ActionResult ViewScore(Guid scoreId)
         {
             var domainModel = Scores.GetScore(scoreId);
 
-            if (domainModel.GetType().Equals(typeof(ErrorDomainModel)))
+            if (ReferenceEquals(domainModel.GetType(), typeof(ErrorDomainModel)))
             {
                 var viewModel = new GradeTrackerErrorViewModel((ErrorDomainModel)domainModel);
 
@@ -42,24 +102,33 @@ namespace GradeTrackerApp.Controllers
 
         public ActionResult AddScore(Guid evaluationId)
         {
-            var createModel = new CreateScoreViewModel(evaluationId);
+            var createModel = new CreateOrEditScoreViewModel(evaluationId);
 
             return View(createModel);
         }
 
-        public ActionResult CreateScore(CreateScoreViewModel createViewModel)
+        public ActionResult RetryAddScore(CreateOrEditScoreViewModel retryModel)
+        {
+            return View("AddScore", retryModel);
+        }
+
+        public ActionResult CreateScore(CreateOrEditScoreViewModel createViewModel)
         {
             if (ModelState.IsValid)
             {
-                var createDomainModel = ConvertToDomainModel(createViewModel);
+                var createDomainModel = ConvertToCreateDomainModel(createViewModel);
 
                 var newScore = Scores.CreateNewScore(createDomainModel);
 
-                if (newScore.GetType().Equals(typeof(ErrorDomainModel)))
+                if (ReferenceEquals(newScore.GetType(), typeof(ErrorDomainModel)))
                 {
-                    var viewModel = new GradeTrackerErrorViewModel((ErrorDomainModel)newScore);
+                    var errorViewModel = new GradeTrackerErrorViewModel((ErrorDomainModel) newScore)
+                    {
+                        ViewModel = createViewModel
+                    };
 
-                    return View("GradeTrackerError", viewModel);
+
+                    return View("GradeTrackerError", errorViewModel);
                 }
                 else
                 {
@@ -79,13 +148,39 @@ namespace GradeTrackerApp.Controllers
             return View("ScoreAdded", scoreViewModel);
         }
 
-        private static CreateScoreDomainModel ConvertToDomainModel(CreateScoreViewModel createViewModel)
+        private static CreateOrEditScoreViewModel ConvertToCreateOrEditScoreViewModel(ScoreDomainModel domainModel)
+        {
+            return new CreateOrEditScoreViewModel
+            {
+                Id = domainModel.Id,
+                EvaluationId = domainModel.EvaluationId,
+                Name = domainModel.Name,
+                Date = domainModel.Date,
+                PointsEarned = domainModel.PointsEarned,
+                PointsPossible = domainModel.PointsPossible
+            };
+        }
+
+        private static ScoreDomainModel ConvertToDomainModel(ScoreViewModel createViewModel)
+        {
+            return new ScoreDomainModel
+            {
+                Id = createViewModel.Id,
+                EvaluationId = createViewModel.EvaluationId,
+                Name = createViewModel.Name,
+                Date = createViewModel.Date,
+                PointsEarned = createViewModel.PointsEarned,
+                PointsPossible = createViewModel.PointsPossible,
+            };
+        }
+
+        private static CreateScoreDomainModel ConvertToCreateDomainModel(CreateOrEditScoreViewModel createViewModel)
         {
             return new CreateScoreDomainModel
             {
                 EvaluationId = createViewModel.EvaluationId,
                 Name = createViewModel.Name,
-                Date = createViewModel.Date,
+                Date = createViewModel.Date.Value,
                 PointsEarned = createViewModel.PointsEarned,
                 PointsPossible = createViewModel.PointsPossible,
             };

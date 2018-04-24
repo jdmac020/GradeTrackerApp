@@ -9,6 +9,7 @@
  * http://api.jqueryui.com/datepicker/#theming
  */
 .ui-datepicker {
+    background: gray;
 	width: 17em;
 	padding: .2em .2em 0;
 	display: none;

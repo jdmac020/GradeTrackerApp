@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Score;
@@ -28,6 +29,48 @@ namespace GradeTrackerApp.Domain.Scores.Service
             _interactor = interactor;
         }
 
+        public IDomainModel DeleteScore(Guid scoreId)
+        {
+            var deletedScoreModel = new ScoreDomainModel();
+
+            try
+            {
+                var score = Interactor.GetScore(scoreId);
+
+                Interactor.DeleteScore(scoreId);
+
+                deletedScoreModel = new ScoreDomainModel {EvaluationId = score.EvaluationId};
+
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
+            }
+
+            return deletedScoreModel;
+        }
+
+        public IDomainModel UpdateScore(ScoreDomainModel updatedScoreModel)
+        {
+            var returnModel = new ScoreDomainModel();
+
+            try
+            {
+                var entityToUpdate = ConvertModelToEntity(updatedScoreModel);
+                Interactor.UpdateScore(entityToUpdate);
+
+                var updatedEntity = Interactor.GetScore(entityToUpdate.Id);
+
+                returnModel = new ScoreDomainModel(updatedEntity);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, true);
+            }
+
+            return returnModel;
+        }
+
         public IDomainModel CreateNewScore(CreateScoreDomainModel createModel)
         {
             var scoreModel = new ScoreDomainModel();
@@ -39,13 +82,11 @@ namespace GradeTrackerApp.Domain.Scores.Service
 
                 scoreModel = (ScoreDomainModel)GetScore(scoreId);
             }
-            catch (Exception e)
+            catch (ObjectAlreadyExistsException oae)
             {
-                // pass the exception to the controller as an error model
+                var errorModel = new ErrorDomainModel(oae, true);
 
-                // TO DO: Create ErrorModel
-
-                throw; // stand-in till ErrorModel is figured out
+                return errorModel;
             }
 
             return scoreModel;
@@ -61,9 +102,9 @@ namespace GradeTrackerApp.Domain.Scores.Service
 
                 scoreModel = new ScoreDomainModel(scoreEntity);
             }
-            catch (Exception e)
+            catch (GradeTrackerException e)
             {
-                var errorModel = new ErrorDomainModel("Problem Getting Score", e, false);
+                var errorModel = new ErrorDomainModel(e, false);
 
                 return errorModel;
             }
@@ -73,9 +114,18 @@ namespace GradeTrackerApp.Domain.Scores.Service
 
         public List<IDomainModel> GetScoresForEvaluation(Guid evaluationId)
         {
-            var entities = Interactor.GetScoresByEvaluationId(evaluationId);
-
+            var entities = new List<ScoreEntity>();
             var models = new List<IDomainModel>();
+
+            try
+            {
+                entities = Interactor.GetScoresByEvaluationId(evaluationId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new List<IDomainModel> {new ErrorDomainModel(gte, false)};
+            } 
+            
 
             foreach (var entity in entities)
             {
@@ -89,6 +139,19 @@ namespace GradeTrackerApp.Domain.Scores.Service
         {
             return new ScoreEntity
             {
+                Name = createModel.Name,
+                EvaluationId = createModel.EvaluationId,
+                Date = createModel.Date,
+                PointsPossible = createModel.PointsPossible,
+                PointsEarned = createModel.PointsEarned
+            };
+        }
+
+        private static ScoreEntity ConvertModelToEntity(ScoreDomainModel createModel)
+        {
+            return new ScoreEntity
+            {
+                Id = createModel.Id,
                 Name = createModel.Name,
                 EvaluationId = createModel.EvaluationId,
                 Date = createModel.Date,

@@ -1,4 +1,5 @@
 ﻿using System;
+using GradeTrackerApp.Core.Exceptions;
 
 namespace GradeTrackerApp.Domain.Shared
 {
@@ -6,11 +7,11 @@ namespace GradeTrackerApp.Domain.Shared
     {
         public string Name { get; set; }
         public bool Retry { get; set; }
-        public Exception Exception { get; set; }
+        public GradeTrackerException Exception { get; set; }
 
-        public ErrorDomainModel(string errorName, Exception exception, bool canRetry)
+        public ErrorDomainModel(GradeTrackerException exception, bool canRetry)
         {
-            Name = errorName;
+            Name = exception.Name;
             Exception = exception;
             Retry = canRetry;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.TestDatas.Courses;
 using Shouldly;
 using Xunit;
@@ -10,12 +12,14 @@ namespace GradeTrackerApp.Tests.Courses
     public class ServiceTests
     {
         [Fact]
-        public void CreateCourse_EmptyModel_ThrowsMissingInfoException()
+        public void CreateCourse_EmptyModel_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_MockInteractor();
             var testModel = new CreateCourseDomainModel();
 
-            Should.Throw<MissingInfoException>(() => testClass.CreateCourse(testModel));
+            var result = testClass.CreateCourse(testModel);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
@@ -30,12 +34,14 @@ namespace GradeTrackerApp.Tests.Courses
         }
 
         [Fact]
-        public void GetCourse_EmptyGuid_ThrowsObjectNotFound()
+        public void GetCourse_EmptyGuid_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_MockInteractor();
             var testGuid = Guid.Empty;
 
-            Should.Throw<ObjectNotFoundException>(() => testClass.GetCourse(testGuid));
+            var result = testClass.GetCourse(testGuid);
+
+            result.GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]
@@ -57,7 +63,9 @@ namespace GradeTrackerApp.Tests.Courses
 
             var testClass = ServiceFactory.Create_MockInteractor();
 
-            Should.Throw<BadInfoException>(() => testClass.GetCourses(testGuid));
+            var result = testClass.GetCourses(testGuid);
+
+            result.First().GetType().ShouldBe(typeof(ErrorDomainModel));
         }
 
         [Fact]

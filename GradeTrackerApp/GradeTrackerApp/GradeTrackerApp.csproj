@@ -191,6 +191,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StartupAuth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,8 +209,9 @@
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
     <Compile Include="Models\GradeTrackerErrorViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IViewModel.cs" />
     <Compile Include="Models\ManageModels.cs" />
-    <Compile Include="Models\Score\CreateScoreViewModel.cs" />
+    <Compile Include="Models\Score\CreateOrEditScoreViewModel.cs" />
     <Compile Include="Models\Score\ScoreViewModel.cs" />
     <Compile Include="Models\Score\ScoreListViewModel.cs" />
     <Compile Include="Models\Semester\SemesterViewModel.cs" />
@@ -330,9 +332,16 @@
     <Content Include="Views\Score\ViewScore.cshtml" />
     <Content Include="Views\Score\AddScore.cshtml" />
     <Content Include="Views\Score\ScoreAdded.cshtml" />
+    <Content Include="Views\Score\_addScorePartial.cshtml" />
+    <Content Include="Views\Course\_addCoursePartial.cshtml" />
+    <Content Include="Views\Evaluation\_addEvaluationPartial.cshtml" />
+    <Content Include="Views\Score\ScoreDeleted.cshtml" />
+    <Content Include="Views\Score\UpdateScore.cshtml" />
+    <Content Include="Views\Score\ScoreUpdated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

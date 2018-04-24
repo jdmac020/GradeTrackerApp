@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Semester;
@@ -30,7 +31,17 @@ namespace GradeTrackerApp.Domain.Semesters.Service
 
         public IDomainModel GetSemester(Guid semesterId)
         {
-            var entity = Interactor.GetSemester(semesterId);
+            var entity = new SemesterEntity();
+
+            try
+            {
+                entity = Interactor.GetSemester(semesterId);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
+            }
+            
 
             return ConvertEntityToModel(entity);
         }
@@ -47,8 +58,17 @@ namespace GradeTrackerApp.Domain.Semesters.Service
         public List<IDomainModel> GetAllSemesters()
         {
             var semesterModelList = new List<IDomainModel>();
+            var semesters = new List<SemesterEntity>();
 
-            var semesters = Interactor.GetAllSemesters();
+            try
+            {
+                semesters = Interactor.GetAllSemesters();
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new List<IDomainModel> {new ErrorDomainModel(gte, false)};
+            }
+            
 
             foreach (var semesterEntity in semesters)
             {

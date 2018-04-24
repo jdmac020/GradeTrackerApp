@@ -10,6 +10,7 @@ using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Semesters.Service;
+using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
 using GradeTrackerApp.Models.Evaluation;
@@ -19,7 +20,7 @@ using Microsoft.AspNet.Identity;
 namespace GradeTrackerApp.Controllers
 {
     [Authorize]
-    public class CourseController : Controller
+    public class CourseController : BaseController
     {
         #region Services
 
@@ -49,6 +50,15 @@ namespace GradeTrackerApp.Controllers
 
         #endregion
 
+        public CourseController() { }
+
+        public CourseController(ICourseService mockCourseServicePositives, IEvaluationService mockEvaluationServiceEmpties, ISemesterService mockSemesterServiceFails)
+        {
+            _courseService = mockCourseServicePositives;
+            _evaluationService = mockEvaluationServiceEmpties;
+            _semesterService = mockSemesterServiceFails;
+        }
+
         // GET: Course
         public ActionResult Index()
         {
@@ -60,7 +70,7 @@ namespace GradeTrackerApp.Controllers
 
             foreach (var course in courses)
             {
-                courseViewModels.Add(new CourseViewModel(course));
+                courseViewModels.Add(new CourseViewModel((CourseDomainModel)course));
             }
 
             var model = new CourseListViewModel(courseViewModels);
@@ -71,16 +81,37 @@ namespace GradeTrackerApp.Controllers
         public ActionResult Add()
         {
             var createModel = new CreateCourseViewModel();
-            
-            createModel.Semesters = GetSemestersForDropDown();
+
+
+            var semesterModels = Semesters.GetAllSemesters();
+
+            if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(semesterModels.First(), null);
+            }
+
+            createModel.Semesters = GetSemestersForDropDown(semesterModels);
+            createModel.YearOptions = GetYearDropDownOptions();
 
             return View(createModel);
         }
 
-        protected List<SelectListItem> GetSemestersForDropDown()
+        protected List<SelectListItem> GetYearDropDownOptions()
         {
-            var semesterModels = Semesters.GetAllSemesters();
+            var today = DateTime.Today;
+            var dropDownList = new List<SelectListItem>();
 
+            var thisYear = today.Year.ToString();
+            var nextYear = today.AddYears(1).Year.ToString();
+
+            dropDownList.Add(new SelectListItem {Text = thisYear, Value = thisYear});
+            dropDownList.Add(new SelectListItem {Text = nextYear, Value = nextYear});
+
+            return dropDownList;
+        }
+
+        protected List<SelectListItem> GetSemestersForDropDown(List<IDomainModel> semesterModels)
+        {  
             var modelList = new List<SelectListItem>();
 
             foreach (var semester in semesterModels)
@@ -93,6 +124,11 @@ namespace GradeTrackerApp.Controllers
             return modelList;
         }
 
+        protected SemesterViewModel GetSemesterViewModel(IDomainModel semesterDomainModel)
+        {
+            return new SemesterViewModel((SemesterDomainModel)semesterDomainModel);
+        }
+
         public ActionResult Create(CreateCourseViewModel createViewModel)
         {
             if (ModelState.IsValid)
@@ -103,19 +139,51 @@ namespace GradeTrackerApp.Controllers
 
                 createModel.StudentId = Guid.Parse(userId);
 
-                var domainModel = Courses.CreateCourse(createModel);
+                var domainIModel = Courses.CreateCourse(createModel);
+                var domainModel = new CourseDomainModel();
 
-                var semesterDomainModel = (SemesterDomainModel)Semesters.GetSemester(domainModel.SemesterId);
+                if (domainIModel.GetType() == typeof(ErrorDomainModel))
+                {
+                    var semesterModels = Semesters.GetAllSemesters();
 
+                    if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+                    {
+                        return GradeTrackerError(semesterModels.First(), null);
+                    }
+
+                    createViewModel.Semesters = GetSemestersForDropDown(semesterModels);
+                    createViewModel.YearOptions = GetYearDropDownOptions();
+
+                    return GradeTrackerError(domainIModel, createViewModel);
+                }
+                else
+                {
+                    domainModel = (CourseDomainModel)domainIModel;
+                }
+                
                 var newCourseViewModel = new CourseViewModel(domainModel);
 
-                newCourseViewModel.Semester = new SemesterViewModel(semesterDomainModel);
+                var semesterModel = Semesters.GetSemester(domainModel.SemesterId);
+
+                if (semesterModel.GetType() == typeof(ErrorDomainModel))
+                {
+                    return GradeTrackerError(semesterModel, null);
+                }
+
+                newCourseViewModel.Semester = GetSemesterViewModel(semesterModel);
 
                 return View("ViewCourse",newCourseViewModel);
             }
             else
             {
-                createViewModel.Semesters = GetSemestersForDropDown();
+                var semesterModels = Semesters.GetAllSemesters();
+
+                if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+                {
+                    return GradeTrackerError(semesterModels.First(), null);
+                }
+
+                createViewModel.Semesters = GetSemestersForDropDown(semesterModels);
 
                 return View("Add", createViewModel);
             }
@@ -124,26 +192,48 @@ namespace GradeTrackerApp.Controllers
 
         public ActionResult ViewCourse(Guid courseId)
         {
-            var courseDomainModel = Courses.GetCourse(courseId);
+            var courseDomainModel = new CourseDomainModel();
+            var iModel = Courses.GetCourse(courseId);
+
+            if (iModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(iModel, null);
+            }
+            else
+            {
+                courseDomainModel = (CourseDomainModel) iModel;
+            }
+
             var courseViewModel = new CourseViewModel(courseDomainModel);
 
             var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
-            var semester = (SemesterDomainModel) Semesters.GetSemester(courseDomainModel.SemesterId);
 
-            courseViewModel.Semester = new SemesterViewModel(semester);
+            if (evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(evaluationDomainModels.First(), null);
+            }
+
+            var semesterModel = Semesters.GetSemester(courseDomainModel.SemesterId);
+
+            if (semesterModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(semesterModel, null);
+            }
+
+            courseViewModel.Semester = GetSemesterViewModel(semesterModel);
             courseViewModel.Evaluations = ConvertToListViewModel(evaluationDomainModels);
             courseViewModel.SetLastModified();
 
             return View(courseViewModel);
         }
 
-        protected EvaluationListViewModel ConvertToListViewModel(List<EvaluationDomainModel> domainModels)
+        protected EvaluationListViewModel ConvertToListViewModel(List<IDomainModel> domainModels)
         {
             var listOfViewModels = new List<EvaluationViewModel>();
 
             foreach (var eval in domainModels)
             {
-                listOfViewModels.Add(new EvaluationViewModel(eval));
+                listOfViewModels.Add(new EvaluationViewModel((EvaluationDomainModel)eval));
             }
 
             return new EvaluationListViewModel(listOfViewModels);
@@ -157,7 +247,7 @@ namespace GradeTrackerApp.Controllers
                 Name = viewModel.Name,
                 Number = viewModel.Number,
                 Department = viewModel.Department,
-                Year = viewModel.Year,
+                Year = int.Parse(viewModel.Year),
                 SemesterId = viewModel.SemesterId
 
             };

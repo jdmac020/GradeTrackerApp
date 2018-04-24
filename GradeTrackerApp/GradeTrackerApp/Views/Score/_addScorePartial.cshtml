@@ -1,29 +1,5 @@
 ﻿@model GradeTrackerApp.Models.Score.CreateOrEditScoreViewModel
 
-@*@section Scripts {
-
-    @Scripts.Render("~/bundles/jquery-ui")
-    @Styles.Render("~/Content/cssjqryUi")
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('input[type=datetime]').datepicker({
-                dateFormat: "m/d/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-0:+1"
-            });
-
-            $('#ui-datepicker-div').css(
-                { 'background-color': ' white','font-size' : '20px' }
-            );
-
-    });
-    </script>
-}*@
-
-    <h2>New Score Details</h2>
-
 @using (@Html.BeginForm("CreateScore", "Score", FormMethod.Post))
 {
 
@@ -39,7 +15,7 @@
                 @Html.TextBoxFor(model => model.Name)
             </td>
             <td>
-                @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@class = "text-danger"})
             </td>
         </tr>
         <tr>
@@ -47,10 +23,10 @@
                 @Html.LabelFor(model => model.Date)
             </td>
             <td>
-                @Html.EditorFor(model => model.Date, new { @class = "form-control datepicker", id = "earnedPicker", placeholder = "Date Earned" })
+                @Html.EditorFor(model => model.Date, new {@class = "form-control datepicker", id = "earnedPicker", placeholder = "Date Earned"})
             </td>
             <td>
-                @Html.ValidationMessageFor(model => model.Date, string.Empty, new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Date, string.Empty, new {@class = "text-danger"})
             </td>
         </tr>
         <tr>
@@ -73,7 +49,7 @@
     </table>
 
     <div style="padding-top: 15px">
-        <input type="submit" value="Add Score" class="btn btn-default" />
-        @Html.ActionLink("Cancel", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: new { Class = "btn btn-default" })
+        <input type="submit" value="Add Score" class="btn btn-default"/>
+        @Html.ActionLink("Cancel", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = Model.EvaluationId}, htmlAttributes: new {Class = "btn btn-default"})
     </div>
 }

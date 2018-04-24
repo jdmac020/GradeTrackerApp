@@ -1,4 +1,7 @@
-﻿@model GradeTrackerApp.Models.GradeTrackerErrorViewModel
+﻿@using GradeTrackerApp.Models.Course
+@using GradeTrackerApp.Models.Evaluation
+@using GradeTrackerApp.Models.Score
+@model GradeTrackerApp.Models.GradeTrackerErrorViewModel
 
 @{
     ViewBag.Title = "GradeTrackerError";
@@ -7,23 +10,43 @@
 <h1>@Model.Name</h1>
 
 <div>
-    
-    <h2>@Model.Exception</h2>
-    
-    <h2>Details:</h2>
-    <p>@Model.Exception.Message</p>
 
+    <h2>Details: @Model.Exception.Message</h2>
 </div>
 
 <div>
-    
+
     @if (Model.Retry.Equals(true))
     {
-        // do the thing to go back to adding/updating/whatever
+
+        <h3>Adjust Your Info Below to Retry!</h3>
+        <hr />
+
+        var modelType = Model.ViewModel.GetType();
+
+        if (ReferenceEquals(modelType, typeof(CreateOrEditScoreViewModel)))
+        {
+            var model = (CreateOrEditScoreViewModel)Model.ViewModel;
+
+            @Html.Partial(@"~\Views\Score\_addScorePartial.cshtml", model)
+        }
+        else if (ReferenceEquals(modelType, typeof(CreateCourseViewModel)))
+        {
+            var model = (CreateCourseViewModel)Model.ViewModel;
+
+            @Html.Partial(@"~\Views\Course\_addCoursePartial.cshtml", model)
+        }
+        else if (ReferenceEquals(modelType, typeof(CreateEvaluationViewModel)))
+        {
+            var model = (CreateEvaluationViewModel)Model.ViewModel;
+
+            @Html.Partial(@"~\Views\Evaluation\_addEvaluationPartial.cshtml", model)
+        }
+
     }
     else
     {
-        // link back to Course index maybe?
+        @Html.ActionLink("Back To Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
     }
 
 </div>

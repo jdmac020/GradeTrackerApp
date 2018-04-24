@@ -23,7 +23,7 @@ using Microsoft.AspNet.Identity;
 
 namespace GradeTrackerApp.Controllers
 {
-    public class EvaluationController : Controller
+    public class EvaluationController : BaseController
     {
         #region Services
 
@@ -52,23 +52,6 @@ namespace GradeTrackerApp.Controllers
         private IScoreService _scoreService;
 
         #endregion
-
-        // GET: Course
-        public ActionResult Index(Guid courseId)
-        {
-            var courses = Courses.GetCourses(courseId);
-
-            var courseViewModels = new List<CourseViewModel>();
-
-            foreach (var course in courses)
-            {
-                courseViewModels.Add(new CourseViewModel(course));
-            }
-
-            var model = new CourseListViewModel(courseViewModels);
-
-            return View(model);
-        }
 
         public ActionResult Complete(EvaluationDomainModel evaluationModel)
         {
@@ -99,8 +82,16 @@ namespace GradeTrackerApp.Controllers
         public ActionResult ViewEvaluation(Guid evaluationId)
         {
             var evaluationDomainModel = Evaluations.GetEvaluation(evaluationId);
-            var evaluationViewModel = new EvaluationViewModel((EvaluationDomainModel)evaluationDomainModel);
-            evaluationViewModel.Scores = GetScoresForEvaluation(evaluationId);
+
+            if (evaluationDomainModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(evaluationDomainModel, null);
+            }
+
+            var evaluationViewModel = new EvaluationViewModel((EvaluationDomainModel)evaluationDomainModel)
+            {
+                Scores = GetScoresForEvaluation(evaluationId)
+            };
 
             return View(evaluationViewModel);
         }
@@ -109,7 +100,7 @@ namespace GradeTrackerApp.Controllers
         {
             var listOfDomainModels = Scores.GetScoresForEvaluation(evaluationId);
 
-            if (listOfDomainModels.GetType().Equals(typeof(List<ErrorDomainModel>)))
+            if (listOfDomainModels.GetType() == typeof(List<ErrorDomainModel>))
             {
                 return new ScoreListViewModel();
             }
@@ -142,25 +133,23 @@ namespace GradeTrackerApp.Controllers
 
                 var newDomainModel = Evaluations.CreateNewEvaluation(createDomainModel);
 
-                if (newDomainModel.GetType().Equals(typeof(EvaluationDomainModel)))
+                if (newDomainModel.GetType() == typeof(EvaluationDomainModel))
                 {
                     return Complete((EvaluationDomainModel)newDomainModel);
                 }
                 else
                 {
-                    var errorModel = new GradeTrackerErrorViewModel((ErrorDomainModel)newDomainModel);
-
-                    return View("GradeTrackerError", errorModel);
+                    return GradeTrackerError(newDomainModel, viewModel);
                 }
 
-                
+
             }
             else
             {
                 return View("Add", viewModel);
             }
 
-            
+
         }
     }
 }

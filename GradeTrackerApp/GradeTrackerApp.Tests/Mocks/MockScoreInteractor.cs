@@ -9,6 +9,19 @@ namespace GradeTrackerApp.Tests.Mocks
 {
     public class MockScoreInteractor : IScoreInteractor
     {
+        public void DeleteScore(Guid scoreId)
+        {
+            if (scoreId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException("The Score Requested Does Not Exist.");
+            
+        }
+
+        public void UpdateScore(ScoreEntity updatedScore)
+        {
+            if (updatedScore.Id.Equals(Guid.Empty))
+                throw new ObjectNotFoundException("The Score Requested Does Not Exist.");
+        }
+
         public Guid CreateScore(ScoreEntity domainModel)
         {
             if (string.IsNullOrEmpty(domainModel.Name))

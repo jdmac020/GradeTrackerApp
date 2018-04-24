@@ -5,10 +5,11 @@ using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.GradeRanges.Models;
 using GradeTrackerApp.Domain.Instructors.Models;
 using GradeTrackerApp.Domain.Semesters.Models;
+using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Courses.Models
 {
-    public class CourseDomainModel
+    public class CourseDomainModel : IDomainModel
     {
         public Guid Id { get; set; }
         public Guid StudentId { get; set; }

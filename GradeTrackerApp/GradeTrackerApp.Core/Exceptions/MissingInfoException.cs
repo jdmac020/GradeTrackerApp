@@ -2,19 +2,21 @@
 
 namespace GradeTrackerApp.Core.Exceptions
 {
-    public class MissingInfoException : Exception
+    public class MissingInfoException : GradeTrackerException
     {
+        private const string NAME = "Missing Info";
+
         public MissingInfoException()
         {
 
         }
 
-        public MissingInfoException(string message) : base(message)
+        public MissingInfoException(string message) : base(NAME, message)
         {
 
         }
 
-        public MissingInfoException(string message, Exception innerException) : base(message, innerException)
+        public MissingInfoException(string message, Exception innerException) : base(NAME, message, innerException)
         {
 
         }
