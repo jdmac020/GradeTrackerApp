@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Tests.Mocks;
@@ -75,7 +77,7 @@ namespace GradeTrackerApp.Tests.Evaluations
             var testClass = InteractorFactory.Create_EvaluationInteractor();
             var testGuid = Guid.Empty;
 
-            Should.Throw<BadInfoException>(() => testClass.GetByCourseId(testGuid));
+            Should.Throw<BadInfoException>(() => testClass.GetEvaluationsByCourseId(testGuid));
         }
 
         [Fact]
@@ -91,7 +93,7 @@ namespace GradeTrackerApp.Tests.Evaluations
 
             var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
 
-            var result = testClass.GetByCourseId(testGuid);
+            var result = testClass.GetEvaluationsByCourseId(testGuid);
 
             result.Count.ShouldBe(2);
         }
@@ -110,9 +112,73 @@ namespace GradeTrackerApp.Tests.Evaluations
 
             var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
 
-            var result = testClass.GetByCourseId(testGuid1);
+            var result = testClass.GetEvaluationsByCourseId(testGuid1);
 
             result.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void DeleteEvaluation_ValidGuid_RemovesEvaluation()
+        {
+            var deleteEvalId = Guid.NewGuid();
+            var remainEvalId = Guid.NewGuid();
+            var courseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4");
+            var testList =
+                new List<EvaluationEntity>
+                {
+                    EvaluationFactory.Create_EvaluationEntity_ValidMinimum_CustomId(deleteEvalId),
+                    EvaluationFactory.Create_EvaluationEntity_ValidMinimum_CustomId(remainEvalId)
+
+                };
+
+            var testRepo = new MockRepository<EvaluationEntity>(testList);
+            var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
+
+            testClass.DeleteEvaluation(deleteEvalId);
+
+            var result = testClass.GetEvaluationsByCourseId(courseId);
+
+            result.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void DeleteEvaluation_EmptyGuid_ThrowsObjectNotFound()
+        {
+            var testGuid = Guid.Empty;
+            var testClass = InteractorFactory.Create_EvaluationInteractor();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.DeleteEvaluation(testGuid));
+        }
+
+        [Fact]
+        public void UpdateEvaluation_ValidObject_UpdatesScore()
+        {
+            var evalGuid = Guid.NewGuid();
+            var testList = EvaluationFactory.Create_ListValidEvalEntities();
+            var testRepo = new MockRepository<EvaluationEntity>(testList);
+            var testClass = InteractorFactory.Create_EvaluationInteractor(testRepo);
+            var evaluationToUpdate = testRepo.GetAll().First();
+
+            var updatedEvaluation = new EvaluationEntity { Id = evaluationToUpdate.Id, Weight = .2, DropLowest = true, NumberOfScores = 1};
+
+            testClass.UpdateEvaluation(updatedEvaluation);
+
+            var result = testClass.GetEvaluation(evaluationToUpdate.Id);
+
+            result.LastModified.ShouldNotBeSameAs(evaluationToUpdate.LastModified);
+            result.Weight.ShouldBe(.2);
+            result.DropLowest.ShouldBe(true);
+            result.NumberOfScores.ShouldBe(1);
+        }
+
+        [Fact]
+        public void UpdateEvaluation_NewObject_ThrowsObjectNotFound()
+        {
+            var testClass = InteractorFactory.Create_EvaluationInteractor();
+
+            var testScore = EvaluationFactory.Create_EvaluationEntity_ValidMinimum();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.UpdateEvaluation(testScore));
         }
     }
 }

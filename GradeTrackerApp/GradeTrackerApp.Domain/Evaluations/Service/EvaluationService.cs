@@ -104,14 +104,14 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
             try
             {
-                entityList = EvaluationInteractor.GetByCourseId(courseId);
+                entityList = EvaluationInteractor.GetEvaluationsByCourseId(courseId);
             }
             catch (GradeTrackerException gte)
             {
                 return new List<IDomainModel> { new ErrorDomainModel(gte, false)};
             }
 
-            entityList = EvaluationInteractor.GetByCourseId(courseId);
+            entityList = EvaluationInteractor.GetEvaluationsByCourseId(courseId);
 
             return ConvertToDomainModel(entityList);
         }

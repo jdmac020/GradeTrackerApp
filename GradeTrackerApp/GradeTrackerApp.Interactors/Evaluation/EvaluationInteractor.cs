@@ -45,6 +45,40 @@ namespace GradeTrackerApp.Interactors.Evaluation
 
         }
 
+        public void DeleteEvaluation(Guid evaluationId)
+        {
+            var evaluationToDelete = Repo.GetById(evaluationId);
+
+            if (evaluationToDelete != null)
+            {
+                Repo.Delete(evaluationToDelete);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
+        }
+
+        public void UpdateEvaluation(EvaluationEntity updatedEvaluation)
+        {
+            var existingEvaluation = Repo.GetById(updatedEvaluation.Id);
+
+            if (existingEvaluation != null)
+            {
+                existingEvaluation.Weight = updatedEvaluation.Weight;
+                existingEvaluation.NumberOfScores = updatedEvaluation.NumberOfScores;
+                existingEvaluation.DropLowest = updatedEvaluation.DropLowest;
+                existingEvaluation.Name = updatedEvaluation.Name;
+                existingEvaluation.LastModified = DateTime.Now;
+
+                Repo.Update(existingEvaluation);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
+        }
+
         protected void ValidateNewEvaluation(EvaluationEntity newEvaluationEntity)
         {
             if (string.IsNullOrEmpty(newEvaluationEntity.Name))
@@ -65,7 +99,7 @@ namespace GradeTrackerApp.Interactors.Evaluation
             return Repo.GetById(evaluationId);
         }
 
-        public List<EvaluationEntity> GetByCourseId(Guid courseId)
+        public List<EvaluationEntity> GetEvaluationsByCourseId(Guid courseId)
         {
             if (courseId.Equals(Guid.Empty))
                 throw new BadInfoException("There are no evaluations with an Empty Id");

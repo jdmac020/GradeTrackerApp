@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Evaluations.Models;
@@ -7,6 +8,17 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
 {
     public static class EvaluationFactory
     {
+        
+        public static List<EvaluationEntity> Create_ListValidEvalEntities()
+        {
+            return new List<EvaluationEntity>
+            {
+                Create_EvaluationEntity_ValidMinimum_CustomId(Guid.NewGuid()),
+                Create_EvaluationEntity_ValidMinimum_CustomId(Guid.NewGuid()),
+                Create_EvaluationEntity_ValidMinimum_CustomId(Guid.NewGuid())
+            };
+        }
+
         public static CreateEvaluationDomainModel Create_CreateEvaluationDomainModel_ValidMinimum()
         {
             return new CreateEvaluationDomainModel

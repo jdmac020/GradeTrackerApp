@@ -29,6 +29,16 @@ namespace GradeTrackerApp.Tests.Mocks
             return Guid.NewGuid();
         }
 
+        public void DeleteEvaluation(Guid evaluationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEvaluation(EvaluationEntity updatedEvaluation)
+        {
+            throw new NotImplementedException();
+        }
+
         public EvaluationEntity GetEvaluation(Guid evaluationId)
         {
             if (evaluationId.Equals(Guid.Empty))
@@ -37,7 +47,7 @@ namespace GradeTrackerApp.Tests.Mocks
             return EvaluationFactory.Create_EvaluationEntity_ValidMinimum(evaluationId);
         }
 
-        public List<EvaluationEntity> GetByCourseId(Guid courseId)
+        public List<EvaluationEntity> GetEvaluationsByCourseId(Guid courseId)
         {
             if (courseId.Equals(Guid.Empty))
                 throw new BadInfoException();
