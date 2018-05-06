@@ -8,9 +8,11 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
     {
         public static CourseService Create_MockInteractor()
         {
-            var interactor = new MockCourseInteractor();
+            var service = new CourseService();
+            service.CourseInteractor = new MockCourseInteractor();
+            service.EvaluationService = new MockEvaluationService_Empties();
 
-            return new CourseService(interactor);
+            return service;
         }
     }
 }

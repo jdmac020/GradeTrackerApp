@@ -65,6 +65,7 @@
     <Compile Include="Entities\ScoreEntity.cs" />
     <Compile Include="Entities\SemesterEntity.cs" />
     <Compile Include="Entities\StudentEntity.cs" />
+    <Compile Include="Exceptions\ObjectStateException.cs" />
     <Compile Include="Exceptions\BadInfoException.cs" />
     <Compile Include="Exceptions\GradeTrackerException.cs" />
     <Compile Include="Exceptions\ObjectAlreadyExistsException.cs" />

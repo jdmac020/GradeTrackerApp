@@ -7,7 +7,9 @@ namespace GradeTrackerApp.Interactors.Evaluation
     public interface IEvaluationInteractor
     {
         Guid CreateEvaluation(EvaluationEntity newEvaluationEntity);
+        void DeleteEvaluation(Guid evaluationId);
+        void UpdateEvaluation(EvaluationEntity updatedEvaluation);
         EvaluationEntity GetEvaluation(Guid evaluationId);
-        List<EvaluationEntity> GetByCourseId(Guid courseId);
+        List<EvaluationEntity> GetEvaluationsByCourseId(Guid courseId);
     }
 }

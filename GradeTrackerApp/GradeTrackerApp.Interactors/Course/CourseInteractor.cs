@@ -9,7 +9,7 @@ namespace GradeTrackerApp.Interactors.Course
 {
     public class CourseInteractor : ICourseInteractor
     {
-        private IRepository<CourseEntity, Guid> Repo
+        public IRepository<CourseEntity, Guid> Repo
         {
             get { return _courseRepository ?? (_courseRepository = new Repository<CourseEntity, Guid>()); }
             set { _courseRepository = value; }
@@ -43,6 +43,41 @@ namespace GradeTrackerApp.Interactors.Course
             newCourse.IsActive = true;
 
             return Repo.Create(newCourse);
+        }
+
+        public void DeleteCourse(Guid courseId)
+        {
+            var courseToDelete = Repo.GetById(courseId);
+
+            if (courseToDelete != null)
+            {
+                Repo.Delete(courseToDelete);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
+        }
+
+        public void UpdateCourse(CourseEntity updatedCourse)
+        {
+            var existingCourse = Repo.GetById(updatedCourse.Id);
+
+            if (existingCourse != null)
+            {
+                existingCourse.Number = updatedCourse.Number;
+                existingCourse.Department = updatedCourse.Number;
+                existingCourse.SemesterId = updatedCourse.SemesterId;
+                existingCourse.Year = updatedCourse.Year;
+                existingCourse.Name = updatedCourse.Name;
+                existingCourse.LastModified = DateTime.Now;
+
+                Repo.Update(existingCourse);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Score with that ID.");
+            }
         }
 
         protected CourseEntity GetExistingRecord(CourseEntity newCourse)

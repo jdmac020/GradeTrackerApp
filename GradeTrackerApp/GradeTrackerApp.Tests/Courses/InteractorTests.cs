@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Tests.Mocks;
@@ -98,6 +99,64 @@ namespace GradeTrackerApp.Tests.Courses
             var result = testClass.GetCoursesByStudentId(testStudentId);
 
             result.Count.ShouldBe(1);
+        }
+
+
+        [Fact]
+        public void DeleteCourse_ValidGuid_RemovesCourse()
+        {
+            var studentId = Guid.NewGuid();
+            var testList = CourseFactory.Create_TwoCourseEntities_ValidMinimumAndId_CustomStudentId(studentId);
+            var testRepo = new MockRepository<CourseEntity>(testList);
+            var testClass = InteractorFactory.Create_CourseInteractor();
+            testClass.Repo = testRepo;
+            var testGuid = testRepo.GetAll().First().Id;
+
+            testClass.DeleteCourse(testGuid);
+
+            var result = testClass.GetCoursesByStudentId(studentId);
+
+            result.Count.ShouldBe(1);
+        }
+
+        [Fact]
+        public void DeleteCourse_EmptyGuid_ThrowsObjectNotFound()
+        {
+            var testGuid = Guid.Empty;
+            var testClass = InteractorFactory.Create_CourseInteractor();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.DeleteCourse(testGuid));
+        }
+
+        [Fact]
+        public void UpdateCourse_ValidObject_UpdatesCourse()
+        {
+            var studentId = Guid.NewGuid();
+            var testList = CourseFactory.Create_TwoCourseEntities_ValidMinimumAndId_CustomStudentId(studentId);
+            var testRepo = new MockRepository<CourseEntity>(testList);
+            var testClass = InteractorFactory.Create_CourseInteractor();
+            testClass.Repo = testRepo;
+            var courseToUpdate = testRepo.GetAll().First();
+
+            var updatedCourse = new CourseEntity { Id = courseToUpdate.Id, Name = "Intermediate Physics", Number = "1265" };
+
+            testClass.UpdateCourse(updatedCourse);
+
+            var result = testClass.GetCourse(courseToUpdate.Id);
+
+            result.LastModified.ShouldNotBeSameAs(courseToUpdate.LastModified);
+            result.Name.ShouldBe("Intermediate Physics");
+            result.Number.ShouldBe("1265");
+        }
+
+        [Fact]
+        public void UpdateCourse_NewObject_ThrowsObjectNotFound()
+        {
+            var testClass = InteractorFactory.Create_CourseInteractor();
+
+            var testScore = CourseFactory.Create_CourseEntity_ValidMinimum();
+
+            Should.Throw<ObjectNotFoundException>(() => testClass.UpdateCourse(testScore));
         }
     }
 }

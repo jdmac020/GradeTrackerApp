@@ -85,7 +85,7 @@ namespace GradeTrackerApp.Controllers
 
             var semesterModels = Semesters.GetAllSemesters();
 
-            if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+            if (semesterModels.Count > 0 && semesterModels.First().GetType() == typeof(ErrorDomainModel))
             {
                 return GradeTrackerError(semesterModels.First(), null);
             }
@@ -146,7 +146,7 @@ namespace GradeTrackerApp.Controllers
                 {
                     var semesterModels = Semesters.GetAllSemesters();
 
-                    if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+                    if (semesterModels.Count > 0 && semesterModels.First().GetType() == typeof(ErrorDomainModel))
                     {
                         return GradeTrackerError(semesterModels.First(), null);
                     }
@@ -178,7 +178,7 @@ namespace GradeTrackerApp.Controllers
             {
                 var semesterModels = Semesters.GetAllSemesters();
 
-                if (semesterModels.First().GetType() == typeof(ErrorDomainModel))
+                if (semesterModels.Count > 0 && semesterModels.First().GetType() == typeof(ErrorDomainModel))
                 {
                     return GradeTrackerError(semesterModels.First(), null);
                 }
@@ -208,7 +208,7 @@ namespace GradeTrackerApp.Controllers
 
             var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
 
-            if (evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
+            if (evaluationDomainModels.Count > 0 && evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
             {
                 return GradeTrackerError(evaluationDomainModels.First(), null);
             }

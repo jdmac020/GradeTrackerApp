@@ -7,6 +7,7 @@ using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
 using GradeTrackerApp.Interactors.Evaluation;
+using GradeTrackerApp.Interactors.Score;
 
 namespace GradeTrackerApp.Domain.Evaluations.Service
 {
@@ -21,13 +22,21 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         #region Interactors
 
 
-        private IEvaluationInteractor EvaluationInteractor
+        public IEvaluationInteractor EvaluationInteractor
         {
             get { return _evaluationInteractor ?? (_evaluationInteractor = new EvaluationInteractor()); }
             set { _evaluationInteractor = value; }
         }
 
         private IEvaluationInteractor _evaluationInteractor;
+
+        public IScoreInteractor ScoreInteractor
+        {
+            get { return _scoreInteractor ?? (_scoreInteractor = new ScoreInteractor()); }
+            set { _scoreInteractor = value; }
+        }
+
+        private IScoreInteractor _scoreInteractor;
 
         #endregion
 
@@ -74,6 +83,58 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
         }
 
+        public IDomainModel DeleteEvaluation(Guid evaluationId)
+        {
+            var deletedEvaluationModel = new EvaluationDomainModel();
+
+            try
+            {
+                var evaluation = EvaluationInteractor.GetEvaluation(evaluationId);
+
+                var linkedScores = ScoreInteractor.GetScoresByEvaluationId(evaluationId);
+
+                if (linkedScores.Count > 0)
+                {
+                    foreach (var score in linkedScores)
+                    {
+                        ScoreInteractor.DeleteScore(score.Id);
+                    }
+                }
+
+                EvaluationInteractor.DeleteEvaluation(evaluationId);
+
+                deletedEvaluationModel = new EvaluationDomainModel() { CourseId = evaluation.CourseId };
+
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
+            }
+
+            return deletedEvaluationModel;
+        }
+
+        public IDomainModel UpdateEvaluation(EvaluationDomainModel updatedEvaluationModel)
+        {
+            var returnModel = new EvaluationDomainModel();
+
+            try
+            {
+                var entityToUpdate = ConvertModelToEntity(updatedEvaluationModel);
+                EvaluationInteractor.UpdateEvaluation(entityToUpdate);
+
+                var updatedEntity = EvaluationInteractor.GetEvaluation(entityToUpdate.Id);
+
+                returnModel = new EvaluationDomainModel(updatedEntity);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, true);
+            }
+
+            return returnModel;
+        }
+
         /// <summary>
         /// Gets the course attached to the passed ID, and displays the data currently in the database
         /// </summary>
@@ -104,14 +165,14 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
             try
             {
-                entityList = EvaluationInteractor.GetByCourseId(courseId);
+                entityList = EvaluationInteractor.GetEvaluationsByCourseId(courseId);
             }
             catch (GradeTrackerException gte)
             {
                 return new List<IDomainModel> { new ErrorDomainModel(gte, false)};
             }
 
-            entityList = EvaluationInteractor.GetByCourseId(courseId);
+            entityList = EvaluationInteractor.GetEvaluationsByCourseId(courseId);
 
             return ConvertToDomainModel(entityList);
         }
@@ -137,6 +198,19 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 Weight = createModel.Weight,
                 NumberOfScores = createModel.NumberOfScores,
                 DropLowest = createModel.DropLowest
+            };
+        }
+
+        private static EvaluationEntity ConvertModelToEntity(EvaluationDomainModel domainModel)
+        {
+            return new EvaluationEntity
+            {
+                Id = domainModel.Id,
+                Name = domainModel.Name,
+                CourseId = domainModel.CourseId,
+                Weight = domainModel.Weight,
+                NumberOfScores = domainModel.NumberOfScores,
+                DropLowest = domainModel.DropLowest
             };
         }
     }
