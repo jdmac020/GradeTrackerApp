@@ -9,7 +9,7 @@ namespace GradeTrackerApp.Interactors.Evaluation
 {
     public class EvaluationInteractor : IEvaluationInteractor
     {
-        private IRepository<EvaluationEntity, Guid> Repo
+        public IRepository<EvaluationEntity, Guid> Repo
         {
             get { return _evaluationRepository ?? (_evaluationRepository = new Repository<EvaluationEntity, Guid>()); }
             set { _evaluationRepository = value; }

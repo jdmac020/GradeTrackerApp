@@ -22,6 +22,16 @@ namespace GradeTrackerApp.Tests.Mocks
             return new CourseDomainModel();
         }
 
+        public IDomainModel DeleteCourse(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDomainModel UpdateCourse(CourseDomainModel updatedModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<IDomainModel> GetCourses(Guid userId)
         {
             throw new NotImplementedException();

@@ -31,12 +31,14 @@ namespace GradeTrackerApp.Tests.Mocks
 
         public void DeleteEvaluation(Guid evaluationId)
         {
-            throw new NotImplementedException();
+            if (evaluationId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
         }
 
         public void UpdateEvaluation(EvaluationEntity updatedEvaluation)
         {
-            throw new NotImplementedException();
+            if (updatedEvaluation.Id.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
         }
 
         public EvaluationEntity GetEvaluation(Guid evaluationId)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Evaluations.Models;
+using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
 
@@ -12,14 +14,20 @@ namespace GradeTrackerApp.Domain.Courses.Service
     {
         #region Services
 
+        public IEvaluationService EvaluationService
+        {
+            get { return _evaluationService ?? (_evaluationService = new EvaluationService()); }
+            set { _evaluationService = value; }
+        }
 
+        private IEvaluationService _evaluationService;
 
         #endregion
 
         #region Interactors
 
-        
-        private ICourseInteractor CourseInteractor
+
+        public ICourseInteractor CourseInteractor
         {
             get { return _courseInteractor ?? (_courseInteractor = new CourseInteractor()); }
             set { _courseInteractor = value; }
@@ -95,6 +103,59 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return courseModel;
         }
 
+        public IDomainModel DeleteCourse(Guid courseId)
+        {
+            var deletedCourseModel = new CourseDomainModel();
+
+            try
+            {
+                var course = CourseInteractor.GetCourse(courseId);
+
+                var linkedEvaluations = EvaluationService.GetEvaluationsForCourse(courseId);
+
+                if (linkedEvaluations.Count > 0)
+                {
+                    foreach (var evaluation in linkedEvaluations)
+                    {
+                        var evaluationModel = (EvaluationDomainModel) evaluation;
+                        EvaluationService.DeleteEvaluation(evaluationModel.Id);
+                    }
+                }
+
+                CourseInteractor.DeleteCourse(courseId);
+
+                deletedCourseModel = new CourseDomainModel { StudentId = course.StudentId };
+
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, false);
+            }
+
+            return deletedCourseModel;
+        }
+
+        public IDomainModel UpdateCourse(CourseDomainModel updatedModel)
+        {
+            var returnModel = new CourseDomainModel();
+
+            try
+            {
+                var entityToUpdate = ConvertModelToEntity(updatedModel);
+                CourseInteractor.UpdateCourse(entityToUpdate);
+
+                var updatedEntity = CourseInteractor.GetCourse(entityToUpdate.Id);
+
+                returnModel = new CourseDomainModel(updatedEntity);
+            }
+            catch (GradeTrackerException gte)
+            {
+                return new ErrorDomainModel(gte, true);
+            }
+
+            return returnModel;
+        }
+
         // Will eventually pass in a student identifier and get all the courses associated
         public List<IDomainModel> GetCourses(Guid userId)
         {
@@ -118,9 +179,27 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return domainModels;
         }
 
+        private static CourseEntity ConvertModelToEntity(CourseDomainModel updatedModel)
+        {
+            return new CourseEntity
+            {
+                Id = updatedModel.Id,
+                StudentId = updatedModel.StudentId,
+                Name = updatedModel.Name,
+                Department = updatedModel.Department,
+                Number = updatedModel.Number,
+                //SchoolId = updatedModel.SchoolId,
+                //InstructorId = updatedModel.InstructorId,
+                Year = updatedModel.Year,
+                SemesterId = updatedModel.SemesterId,
+                //StartTime = updatedModel.StartTime,
+                //EndTime = updatedModel.EndTime,
+                //StartDate = updatedModel.StartDate,
+                //EndDate = updatedModel.EndDate
+            };
+        }
 
-
-        private CourseEntity ConvertModelToEntity(CreateCourseDomainModel createModel)
+        private static CourseEntity ConvertModelToEntity(CreateCourseDomainModel createModel)
         {
             return new CourseEntity
             {
@@ -128,14 +207,14 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 Name = createModel.Name,
                 Department = createModel.Department,
                 Number = createModel.Number,
-                //SchoolId = createModel.SchoolId,
-                //InstructorId = createModel.InstructorId,
+                //SchoolId = updatedModel.SchoolId,
+                //InstructorId = updatedModel.InstructorId,
                 Year = createModel.Year,
                 SemesterId = createModel.SemesterId,
-                //StartTime = createModel.StartTime,
-                //EndTime = createModel.EndTime,
-                //StartDate = createModel.StartDate,
-                //EndDate = createModel.EndDate
+                //StartTime = updatedModel.StartTime,
+                //EndTime = updatedModel.EndTime,
+                //StartDate = updatedModel.StartDate,
+                //EndDate = updatedModel.EndDate
             };
         }
     }

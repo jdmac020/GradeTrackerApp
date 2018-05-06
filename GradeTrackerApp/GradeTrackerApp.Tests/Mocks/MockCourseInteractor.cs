@@ -26,12 +26,14 @@ namespace GradeTrackerApp.Tests.Mocks
 
         public void DeleteCourse(Guid courseId)
         {
-            throw new NotImplementedException();
+            if (courseId.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
         }
 
         public void UpdateCourse(CourseEntity updatedCourse)
         {
-            throw new NotImplementedException();
+            if (updatedCourse.Id.Equals(Guid.Empty))
+                throw new ObjectNotFoundException();
         }
 
         public CourseEntity GetCourse(Guid courseId)
