@@ -76,9 +76,9 @@ namespace GradeTrackerApp.Controllers
             {
                 var castedDomainModel = (ScoreDomainModel)deletedScore;
 
-                var evaluationIdModel = new ScoreViewModel {EvaluationId = castedDomainModel.EvaluationId};
+                var evaluationIdOnlyModel = new ScoreViewModel {EvaluationId = castedDomainModel.EvaluationId};
 
-                return View("ScoreDeleted", evaluationIdModel);
+                return View("ScoreDeleted", evaluationIdOnlyModel);
             }
         }
 

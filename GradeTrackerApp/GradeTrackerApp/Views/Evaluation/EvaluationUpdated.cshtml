@@ -1,0 +1,16 @@
+﻿@model GradeTrackerApp.Models.Evaluation.EvaluationViewModel
+
+<h2>Your Evaluation Has Been Updated!</h2>
+
+<div>
+
+    <p>Would You Like to Add A New Evaluation?</p>
+
+    <p>
+        @Html.ActionLink("Yes!", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.CourseId }, htmlAttributes: new { Class = "btn btn-default" })
+
+        @Html.ActionLink("Not Now", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id }, htmlAttributes: new { Class = "btn btn-default" })
+    </p>
+
+</div>
+

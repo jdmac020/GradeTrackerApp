@@ -68,23 +68,29 @@
             @foreach (var evaluation in Model.Evaluations)
             {
 
-                <tr>
-                    <td>
-                        @Html.ActionLink($"{evaluation.Name}", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = evaluation.Id}, htmlAttributes: null)
-                    </td>
-                    <td>
-                        @evaluation.CurrentPointsGrade
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink($"{evaluation.Name}", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                </td>
+                <td>
+                    @evaluation.CurrentPointsGrade
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete this Evaluation", "DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                </td>
+            </tr>
             }
         </table>
         <h4>Current Overall Grade: @Model.CurrentGrade</h4>
         <hr/>
-        @Html.ActionLink("Add Another Evaluation Type", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
+        @Html.ActionLink("Add Another Evaluation Type", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
     }
     else
     {
-        <p>There are no Evaluations associated with this course yet -- @Html.ActionLink("Add One!", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
+        <p>There are no Evaluations associated with this course yet -- @Html.ActionLink("Add One!", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
     }
 
 </div>

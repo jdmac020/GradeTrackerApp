@@ -325,7 +325,7 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\ViewCourse.cshtml" />
-    <Content Include="Views\Evaluation\Add.cshtml" />
+    <Content Include="Views\Evaluation\AddEvaluation.cshtml" />
     <Content Include="Views\Evaluation\EvaluationComplete.cshtml" />
     <Content Include="Views\Evaluation\ViewEvaluation.cshtml" />
     <Content Include="Views\Shared\GradeTrackerError.cshtml" />
@@ -338,6 +338,9 @@
     <Content Include="Views\Score\ScoreDeleted.cshtml" />
     <Content Include="Views\Score\UpdateScore.cshtml" />
     <Content Include="Views\Score\ScoreUpdated.cshtml" />
+    <Content Include="Views\Evaluation\UpdateEvaluation.cshtml" />
+    <Content Include="Views\Evaluation\EvaluationUpdated.cshtml" />
+    <Content Include="Views\Evaluation\EvaluationDeleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

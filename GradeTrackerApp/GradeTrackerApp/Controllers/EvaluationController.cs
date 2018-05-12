@@ -60,6 +60,19 @@ namespace GradeTrackerApp.Controllers
             return View("EvaluationComplete", evaluationViewModel);
         }
 
+        protected EvaluationDomainModel ConvertToDomainModel(EvaluationViewModel viewModel)
+        {
+            return new EvaluationDomainModel
+            {
+                Id = viewModel.Id,
+                CourseId = viewModel.CourseId,
+                Name = viewModel.Name,
+                Weight = viewModel.Weight,
+                NumberOfScores = viewModel.NumberOfScores,
+                DropLowest = viewModel.DropLowest
+            };
+        }
+
         protected CreateEvaluationDomainModel ConvertToDomainModel(CreateEvaluationViewModel viewModel)
         {
             return new CreateEvaluationDomainModel
@@ -72,7 +85,7 @@ namespace GradeTrackerApp.Controllers
             };
         }
 
-        public ActionResult Add(Guid courseId)
+        public ActionResult AddEvaluation(Guid courseId)
         {
             var createModel = new CreateEvaluationViewModel(courseId);
 
@@ -146,10 +159,67 @@ namespace GradeTrackerApp.Controllers
             }
             else
             {
-                return View("Add", viewModel);
+                return View("AddEvaluation", viewModel);
             }
 
 
+        }
+
+        public ActionResult EditEvaluation(Guid evaluationid)
+        {
+            var domainModel = Evaluations.GetEvaluation(evaluationid);
+
+            if (domainModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(domainModel, null);
+            }
+
+            var viewModel = new EvaluationViewModel((EvaluationDomainModel)domainModel);
+
+            return View("UpdateEvaluation", viewModel);
+        }
+
+        public ActionResult UpdateEvaluation(EvaluationViewModel updatedEval)
+        {
+            if (ModelState.IsValid)
+            {
+                var domainModel = ConvertToDomainModel(updatedEval);
+
+                var updatedModel = Evaluations.UpdateEvaluation(domainModel);
+
+                if (ReferenceEquals(updatedModel.GetType(), typeof(ErrorDomainModel)))
+                {
+                    return GradeTrackerError(updatedModel, updatedEval);
+                }
+                else
+                {
+                    var viewModel = new EvaluationViewModel((EvaluationDomainModel)updatedModel);
+
+                    return View("EvaluationUpdated", viewModel);
+                }
+            }
+            else
+            {
+                return View("UpdateEvaluation", updatedEval);
+            }
+        }
+
+        public ActionResult DeleteEvaluation(Guid evaluationId)
+        {
+            var deletedEvalauation = Evaluations.DeleteEvaluation(evaluationId);
+
+            if (ReferenceEquals(deletedEvalauation.GetType(), typeof(ErrorDomainModel)))
+            {
+                return GradeTrackerError(deletedEvalauation, null);
+            }
+            else
+            {
+                var castedDomainModel = (EvaluationDomainModel)deletedEvalauation;
+
+                var courseIdOnlyModel = new EvaluationViewModel { CourseId = castedDomainModel.CourseId };
+
+                return View("EvaluationDeleted", courseIdOnlyModel);
+            }
         }
     }
 }
