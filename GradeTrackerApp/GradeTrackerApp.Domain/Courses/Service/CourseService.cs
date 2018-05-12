@@ -51,7 +51,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         }
 
-        public IDomainModel CreateCourse(CreateCourseDomainModel createModel)
+        public IDomainModel CreateCourse(CreateOrEditCourseDomainModel createModel)
         {
             var newCourseEntity = ConvertModelToEntity(createModel);
 
@@ -135,7 +135,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return deletedCourseModel;
         }
 
-        public IDomainModel UpdateCourse(CourseDomainModel updatedModel)
+        public IDomainModel UpdateCourse(CreateOrEditCourseDomainModel updatedModel)
         {
             var returnModel = new CourseDomainModel();
 
@@ -199,10 +199,11 @@ namespace GradeTrackerApp.Domain.Courses.Service
             };
         }
 
-        private static CourseEntity ConvertModelToEntity(CreateCourseDomainModel createModel)
+        private static CourseEntity ConvertModelToEntity(CreateOrEditCourseDomainModel createModel)
         {
             return new CourseEntity
             {
+                Id = createModel.Id ?? Guid.Empty,
                 StudentId = createModel.StudentId,
                 Name = createModel.Name,
                 Department = createModel.Department,

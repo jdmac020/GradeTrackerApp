@@ -203,7 +203,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course\CourseListViewModel.cs" />
     <Compile Include="Models\Course\CourseViewModel.cs" />
-    <Compile Include="Models\Course\CreateCourseViewModel.cs" />
+    <Compile Include="Models\Course\CreateOrEditCourseViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
     <Compile Include="Models\Evaluation\CreateEvaluationViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
@@ -322,7 +322,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
-    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\AllCourses.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\ViewCourse.cshtml" />
     <Content Include="Views\Evaluation\AddEvaluation.cshtml" />
@@ -341,6 +341,9 @@
     <Content Include="Views\Evaluation\UpdateEvaluation.cshtml" />
     <Content Include="Views\Evaluation\EvaluationUpdated.cshtml" />
     <Content Include="Views\Evaluation\EvaluationDeleted.cshtml" />
+    <Content Include="Views\Course\UpdateCourse.cshtml" />
+    <Content Include="Views\Course\CourseUpdated.cshtml" />
+    <Content Include="Views\Course\CourseDeleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

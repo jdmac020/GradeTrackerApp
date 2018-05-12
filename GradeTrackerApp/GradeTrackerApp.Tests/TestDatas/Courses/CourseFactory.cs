@@ -7,9 +7,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
 {
     public static class CourseFactory
     {
-        public static CreateCourseDomainModel Create_CreateCourseDomainModel_ValidMinimum()
+        public static CreateOrEditCourseDomainModel Create_CreateCourseDomainModel_ValidMinimum()
         {
-            return new CreateCourseDomainModel
+            return new CreateOrEditCourseDomainModel
             {
                 StudentId = Guid.NewGuid(),
                 Name = "Intro to Physics",
@@ -102,9 +102,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Courses
             return returnList;
         }
 
-        public static CreateCourseDomainModel CreateCCreateCourseDomainModel_Empty()
+        public static CreateOrEditCourseDomainModel CreateCCreateCourseDomainModel_Empty()
         {
-            return new CreateCourseDomainModel();
+            return new CreateOrEditCourseDomainModel();
         }
     }
 }

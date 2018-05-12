@@ -1,0 +1,15 @@
+﻿@model GradeTrackerApp.Models.Course.CourseViewModel
+
+<h2>Your Course Has Been Deleted</h2>
+
+<div>
+
+    <p>Would You Like to Add One to Replace It?</p>
+
+    <p>
+        @Html.ActionLink("Yes!", "Create", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+
+        @Html.ActionLink("Not Now", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+    </p>
+
+</div>

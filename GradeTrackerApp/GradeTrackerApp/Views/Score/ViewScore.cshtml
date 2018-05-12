@@ -12,7 +12,8 @@
     }
 </style>
 
-<h2>@Model.Name</h2>
+<h1>@Model.Name</h1>
+
 
 <div id="details">
 
@@ -24,7 +25,7 @@
             <th>@Html.LabelFor(model => model.Date)</th>
         </tr>
         <tr>
-            <td>@Html.DisplayFor(model => model.Date)</td>
+            <td>@Html.DisplayFor(model => model.DisplayDate)</td>
         </tr>
         <tr>
             <th>@Html.LabelFor(model => model.PointsGrade)</th>
@@ -52,28 +53,36 @@
         </tr>
 
         @if (Model.LastModified != null)
-    {
-        <tr>
-            <th>@Html.LabelFor(model => model.LastModified)</th>
-        </tr>
-        <tr>
-            <td>@Html.DisplayFor(model => model.LastModified)</td>
-        </tr>
-}
+        {
+            <tr>
+                <th>@Html.LabelFor(model => model.LastModified)</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.LastModified)</td>
+            </tr>
+        }
+    </table>
+    <hr/>
+</div>
 
+<div id="options">
+    
+    <h3>Options</h3>
+
+    <table>
         <tr>
             <th>
-                @Html.ActionLink("Make Changes To This Score", "StartUpdate", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
+                @Html.ActionLink("Make Changes To This Score", "StartUpdate", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)
             </th>
         </tr>
         <tr>
             <th>
-                @Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
+                @Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)
             </th>
         </tr>
         <tr>
             <th>
-                @Html.ActionLink("Back to Evaluation", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: null)
+                @Html.ActionLink("Back to Evaluation", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = Model.EvaluationId}, htmlAttributes: null)
             </th>
         </tr>
     </table>

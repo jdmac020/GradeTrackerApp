@@ -9,7 +9,7 @@ using GradeTrackerApp.Models.Semester;
 
 namespace GradeTrackerApp.Models.Course
 {
-    public class CourseViewModel
+    public class CourseViewModel : IViewModel
     {
         public Guid? Id { get; set; }
 

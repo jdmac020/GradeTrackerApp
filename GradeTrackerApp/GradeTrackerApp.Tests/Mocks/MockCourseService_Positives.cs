@@ -12,7 +12,7 @@ namespace GradeTrackerApp.Tests.Mocks
 {
     public class MockCourseService_Positives : ICourseService
     {
-        public IDomainModel CreateCourse(CreateCourseDomainModel createModel)
+        public IDomainModel CreateCourse(CreateOrEditCourseDomainModel createModel)
         {
             throw new NotImplementedException();
         }

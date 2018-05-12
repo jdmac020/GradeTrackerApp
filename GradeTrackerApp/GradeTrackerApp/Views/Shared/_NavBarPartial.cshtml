@@ -6,7 +6,7 @@
 
     @if (Request.IsAuthenticated)
     {
-        <li>@Html.ActionLink("Courses", "Index", "Course", routeValues: User.Identity.GetUserId(), htmlAttributes: null)</li>
+        <li>@Html.ActionLink("Courses", "AllCourses", "Course", routeValues: User.Identity.GetUserId(), htmlAttributes: null)</li>
 
 
         @*if (User.IsInRole(AppRoles.Underwriter))

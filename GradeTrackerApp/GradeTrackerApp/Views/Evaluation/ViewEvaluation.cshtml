@@ -3,7 +3,7 @@
 <style>
 
     table td {
-        padding-bottom: 15px; 
+        padding-bottom: 5px;
         padding-left: 10px
     }
 
@@ -11,23 +11,29 @@
         font-size: larger;
     }
 
+        table th#scores {
+            width: 30%;
+            text-align: center
+        }
+
+    table td#grade {
+        text-align: center
+    }
+
+    .detail {
+        padding-left: 10px
+    }
 </style>
 
-<h2>@Model.Name</h2>
+<h1>@Model.Name</h1>
 
 
 <div id="details">
 
     <h3>Details</h3>
-    <hr/>
+    <hr />
 
     <table>
-        <tr>
-            <th>@Html.LabelFor(model => model.Name)</th>
-        </tr>
-        <tr>
-            <td>@Html.DisplayFor(model => model.Name)</td>
-        </tr>
         <tr>
             <th>@Html.LabelFor(model => model.Weight)</th>
         </tr>
@@ -52,7 +58,7 @@
 <div id="grades">
 
     <h3>Grade</h3>
-    <hr/>
+    <hr />
 
     <table>
         <tr>
@@ -76,7 +82,7 @@
     </table>
 </div>
 
-<div id="scores">
+<div id="scoreDiv">
 
     <h3>Scores</h3>
     <hr />
@@ -85,53 +91,96 @@
     {
         <table>
             <tr>
-                <th>Type</th>
-                <th>Current Grade</th>
+                <th id="scores">Type</th>
+                <th id="scores">Current Grade</th>
+                <th id="scores" colspan="3">Options</th>
             </tr>
             @foreach (var score in Model.Scores)
             {
 
                 <tr>
                     <td>
-                        @Html.ActionLink($"{score.Name}", "ViewScore", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
+                        @(score.Name)
+                    </td>
+                    <td id="grade">
+                        @score.PointsGrade
                     </td>
                     <td>
-                        @score.PointsGrade
+                        @Html.ActionLink("View", "ViewScore", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "StartUpdate", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteScore", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
                     </td>
                 </tr>
             }
         </table>
-        <h4>Current Overall Grade: @Model.CurrentPointsGrade</h4>
-        <hr />
         @Html.ActionLink("Add Another Score", "AddScore", "Score", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
+        <h4>Current Overall Grade in @Model.Name: @Model.CurrentPointsGrade</h4>
+        <hr />
+
     }
     else
     {
         <p>There are no Scores associated with this Evaluation yet -- @Html.ActionLink("Add One!", "AddScore", "Score", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)</p>
     }
-
-    @*<table>
-            <tr>
-                <th>@Html.LabelFor(model => model.PointsEarned)</th>
-            </tr>
-            <tr>
-                <td>@Html.DisplayFor(model => model.PointsEarned)</td>
-            </tr>
-            <tr>
-                <th>@Html.LabelFor(model => model.CurrentPointsGrade)</th>
-            </tr>
-            <tr>
-                <td>@Html.DisplayFor(model => model.CurrentPointsGrade)</td>
-            </tr>
-            <tr>
-                <th>@Html.LabelFor(model => model.PointsPossible)</th>
-            </tr>
-            <tr>
-                <td>@Html.DisplayFor(model => model.PointsPossible)</td>
-            </tr>
-        </table>*@
-
+    <hr />
 
 </div>
+
+<div id="miscinfo">
+
+    <h3>Misc Info</h3>
+
+    <table>
+        <tr>
+            <th>
+                @Html.LabelFor(model => model.LastModified)
+            </th>
+        </tr>
+        <tr>
+            <td class="detail">
+
+                @if (Model.LastModified is null)
+                {
+                    @("Nah")
+                }
+                else
+                {
+                    @Model.LastModified.Value.ToShortDateString()
+                    @Model.LastModified.Value.ToShortTimeString()
+                }
+
+                @*@Html.DisplayFor(model => $"{model.LastModified.ToShortDateString()} {model.LastModified.ToShortTimeString()}")*@
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="options">
+
+    <h3>Options</h3>
+
+    <table>
+        <tr>
+            <th>
+                @Html.ActionLink("Make Changes To This Evaluation", "EditEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.ActionLink("Delete This Evaluation", "DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.ActionLink("Back to Course", "ViewCourse", "Course", routeValues: new { courseId = Model.CourseId }, htmlAttributes: null)
+            </th>
+        </tr>
+    </table>
+</div>
+
 
 

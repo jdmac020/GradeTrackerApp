@@ -30,9 +30,9 @@
 
             @Html.Partial(@"~\Views\Score\_addScorePartial.cshtml", model)
         }
-        else if (ReferenceEquals(modelType, typeof(CreateCourseViewModel)))
+        else if (ReferenceEquals(modelType, typeof(CreateOrEditCourseViewModel)))
         {
-            var model = (CreateCourseViewModel)Model.ViewModel;
+            var model = (CreateOrEditCourseViewModel)Model.ViewModel;
 
             @Html.Partial(@"~\Views\Course\_addCoursePartial.cshtml", model)
         }
@@ -46,7 +46,7 @@
     }
     else
     {
-        @Html.ActionLink("Back To Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
+        @Html.ActionLink("Back To Courses", "AllCourses", "Course", routeValues: null, htmlAttributes: null)
     }
 
 </div>

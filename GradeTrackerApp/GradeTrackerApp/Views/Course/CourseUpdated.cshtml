@@ -1,0 +1,16 @@
+﻿@model GradeTrackerApp.Models.Course.CourseViewModel
+
+<h2>Your Course Has Been Updated!</h2>
+
+<div>
+
+    <p>Would You Like to Add A New Course?</p>
+
+    <p>
+        @Html.ActionLink("Yes!", "Create", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+
+        @Html.ActionLink("Not Now", "ViewCourse", "Course", routeValues: new { courseId = Model.Id }, htmlAttributes: new { Class = "btn btn-default" })
+    </p>
+
+</div>
+
