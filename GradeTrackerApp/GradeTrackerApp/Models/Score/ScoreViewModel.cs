@@ -15,9 +15,14 @@ namespace GradeTrackerApp.Models.Score
 
         [DisplayName("Score Name")]
         public string Name { get; set; }
+        
+        public DateTime Date { get; set; }
 
         [DisplayName("Date Completed")]
-        public DateTime Date { get; set; }
+        public string DisplayDate
+        {
+            get { return Date.ToShortDateString(); }
+        }
 
         [DisplayName("Grade Percent")]
         public double PointsGrade { get; set; }

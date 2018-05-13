@@ -8,7 +8,7 @@ using GradeTrackerApp.Models.Score;
 
 namespace GradeTrackerApp.Models.Evaluation
 {
-    public class EvaluationViewModel
+    public class EvaluationViewModel : IViewModel
     {
         public Guid Id { get; set; }
         public Guid CourseId { get; set; }

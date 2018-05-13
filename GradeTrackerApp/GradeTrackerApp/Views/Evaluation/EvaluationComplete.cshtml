@@ -11,7 +11,7 @@
     <p>Would You Like to Add Another?</p>
     
     <p>
-        @Html.ActionLink("Yes!", "Add", "Evaluation", routeValues: new {courseId = Model.CourseId}, htmlAttributes: new {Class = "btn btn-default"})
+        @Html.ActionLink("Yes!", "AddEvaluation", "Evaluation", routeValues: new {courseId = Model.CourseId}, htmlAttributes: new {Class = "btn btn-default"})
 
         @Html.ActionLink("Not Now", "ViewCourse", "Course", routeValues: new {courseId = Model.CourseId}, htmlAttributes: new { Class = "btn btn-default" })
     </p>

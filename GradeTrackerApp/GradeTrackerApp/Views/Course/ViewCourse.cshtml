@@ -11,17 +11,28 @@
     }
 
     #evaluationTable th {
-         font-size: larger; 
-        padding-bottom: 5px
+         font-size: larger;
+        padding-bottom: 5px;
+        width: 30%;
+        text-align: center
     }
 
     #evaluationTable td {
+        padding-bottom: 5px;
         padding-left: 10px
     }
 
     #details td {
-        padding-bottom: 15px; 
+        padding-bottom: 5px; 
         padding-left: 10px
+    }
+
+    .detail {
+        padding-left: 10px
+    }
+
+    #evaluationTable td#grade {
+        text-align: center
     }
 
     #details th {
@@ -43,7 +54,7 @@
             
         </tr>
         <tr>
-            <td>@Html.DisplayFor(model => model.Name)</td>
+            <td>@Html.DisplayFor(model => model.SemesterName)</td>
             
         </tr>
         <tr>
@@ -63,28 +74,40 @@
     {
         <table id="evaluationTable">
             <tr>
-                <th>Type</th> <th> Current Grade</th>
+                <th>Type</th>
+                <th> Current Grade</th>
+                <th colspan="3">Options</th>
             </tr>
             @foreach (var evaluation in Model.Evaluations)
             {
 
                 <tr>
                     <td>
-                        @Html.ActionLink($"{evaluation.Name}", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = evaluation.Id}, htmlAttributes: null)
+                        @(evaluation.Name)
+                    </td>
+                    <td id="grade">
+                        @evaluation.CurrentPointsGrade
                     </td>
                     <td>
-                        @evaluation.CurrentPointsGrade
+                        @Html.ActionLink($"View", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
                     </td>
                 </tr>
             }
         </table>
+        @Html.ActionLink("Add Another Evaluation Type", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
         <h4>Current Overall Grade: @Model.CurrentGrade</h4>
-        <hr/>
-        @Html.ActionLink("Add Another Evaluation Type", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
+        <hr />
+
     }
     else
     {
-        <p>There are no Evaluations associated with this course yet -- @Html.ActionLink("Add One!", "Add", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
+        <p>There are no Evaluations associated with this course yet -- @Html.ActionLink("Add One!", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)</p>
     }
 
 </div>
@@ -95,10 +118,16 @@
 
     <table>
         <tr>
-            <td>
+            <th>
                 @Html.LabelFor(model => model.LastModified)
-                @Model.LastModified.ToShortDateString() @Model.LastModified.ToShortTimeString()
-                @*@Html.DisplayFor(model => $"{model.LastModified.ToShortDateString()} {model.LastModified.ToShortTimeString()}")*@
+            </th>
+        </tr>
+        <tr>
+            <td class="detail">
+
+                    @Model.LastModified.ToShortDateString()
+                    @Model.LastModified.ToShortTimeString()
+
             </td>
         </tr>
     </table>
@@ -106,6 +135,25 @@
 
 
 
-<div>
-    @Html.ActionLink("Back To All Courses", "Index", "Course", routeValues: null, htmlAttributes: null)
+<div id="options">
+    
+    <h3>Options</h3>
+
+    <table>
+        <tr>
+            <th>
+                @Html.ActionLink("Make Changes To This Course", "EditCourse", "Course", routeValues: new {courseId = Model.Id}, htmlAttributes: null)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.ActionLink("Delete This Course", "DeleteCourse", "Course", routeValues: new {courseId = Model.Id}, htmlAttributes: null)
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.ActionLink("Back to Your Courses", "AllCourses", "Course", routeValues: null, htmlAttributes: null)
+            </th>
+        </tr>
+    </table>
 </div>

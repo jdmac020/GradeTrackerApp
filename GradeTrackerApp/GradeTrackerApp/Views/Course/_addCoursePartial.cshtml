@@ -1,4 +1,4 @@
-﻿@model GradeTrackerApp.Models.Course.CreateCourseViewModel
+﻿@model GradeTrackerApp.Models.Course.CreateOrEditCourseViewModel
 
 @using (@Html.BeginForm("Create", "Course", FormMethod.Post))
 {
@@ -60,6 +60,6 @@
 
     <div style="padding-top: 15px">
         <input type="submit" value="Add Course" class="btn btn-default" />
-        @Html.ActionLink("Cancel", "Index", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
+        @Html.ActionLink("Cancel", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
     </div>
 }

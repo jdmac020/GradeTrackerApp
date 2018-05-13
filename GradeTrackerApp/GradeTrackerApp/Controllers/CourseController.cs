@@ -60,7 +60,7 @@ namespace GradeTrackerApp.Controllers
         }
 
         // GET: Course
-        public ActionResult Index()
+        public ActionResult AllCourses()
         {
             var userId = User.Identity.GetUserId();
             
@@ -80,9 +80,8 @@ namespace GradeTrackerApp.Controllers
 
         public ActionResult Add()
         {
-            var createModel = new CreateCourseViewModel();
-
-
+            var createModel = new CreateOrEditCourseViewModel();
+            
             var semesterModels = Semesters.GetAllSemesters();
 
             if (semesterModels.Count > 0 && semesterModels.First().GetType() == typeof(ErrorDomainModel))
@@ -129,7 +128,7 @@ namespace GradeTrackerApp.Controllers
             return new SemesterViewModel((SemesterDomainModel)semesterDomainModel);
         }
 
-        public ActionResult Create(CreateCourseViewModel createViewModel)
+        public ActionResult Create(CreateOrEditCourseViewModel createViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -239,10 +238,26 @@ namespace GradeTrackerApp.Controllers
             return new EvaluationListViewModel(listOfViewModels);
         }
 
-        protected CreateCourseDomainModel ConvertToDomainModel(CreateCourseViewModel viewModel)
+        protected CourseDomainModel ConvertToDomainModel(CourseViewModel viewModel)
         {
-            return new CreateCourseDomainModel
+            return new CourseDomainModel
             {
+                Id = (Guid)viewModel.Id,
+                StudentId = viewModel.StudentId,
+                Name = viewModel.Name,
+                Number = viewModel.Number,
+                Department = viewModel.Department,
+                Year = viewModel.Year,
+                SemesterId = viewModel.SemesterId
+
+            };
+        }
+
+        protected CreateOrEditCourseDomainModel ConvertToDomainModel(CreateOrEditCourseViewModel viewModel)
+        {
+            return new CreateOrEditCourseDomainModel
+            {
+                Id = viewModel.Id,
                 StudentId = viewModel.StudentId,
                 Name = viewModel.Name,
                 Number = viewModel.Number,
@@ -251,6 +266,69 @@ namespace GradeTrackerApp.Controllers
                 SemesterId = viewModel.SemesterId
 
             };
+        }
+
+        public ActionResult EditCourse(Guid courseid)
+        {
+            var domainModel = Courses.GetCourse(courseid);
+
+            if (domainModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(domainModel, null);
+            }
+
+            var viewModel = new CreateOrEditCourseViewModel((CourseDomainModel)domainModel);
+            var semesters = Semesters.GetAllSemesters();
+            viewModel.Semesters = GetSemestersForDropDown(semesters);
+            viewModel.YearOptions = GetYearDropDownOptions();
+
+            return View("UpdateCourse", viewModel);
+        }
+
+        public ActionResult UpdateCourse(CreateOrEditCourseViewModel updatedCourse)
+        {
+            if (ModelState.IsValid)
+            {
+                var domainModel = ConvertToDomainModel(updatedCourse);
+
+                var updatedModel = Courses.UpdateCourse(domainModel);
+
+                if (ReferenceEquals(updatedModel.GetType(), typeof(ErrorDomainModel)))
+                {
+                    return GradeTrackerError(updatedModel, updatedCourse);
+                }
+                else
+                {
+                    var castedDomainModel = (CourseDomainModel)updatedModel;
+                    var viewModel = new CourseViewModel((CourseDomainModel)updatedModel);
+                    var semesterViewModel = Semesters.GetSemester(castedDomainModel.SemesterId);
+                    viewModel.Semester = GetSemesterViewModel(semesterViewModel);
+
+                    return View("CourseUpdated", viewModel);
+                }
+            }
+            else
+            {
+                return View("UpdateCourse", updatedCourse);
+            }
+        }
+
+        public ActionResult DeleteCourse(Guid courseId)
+        {
+            var deletedCourse = Courses.DeleteCourse(courseId);
+
+            if (ReferenceEquals(deletedCourse.GetType(), typeof(ErrorDomainModel)))
+            {
+                return GradeTrackerError(deletedCourse, null);
+            }
+            else
+            {
+                var castedDomainModel = (CourseDomainModel)deletedCourse;
+
+                var courseIdOnlyModel = new CourseViewModel { StudentId = castedDomainModel.StudentId };
+
+                return View("CourseDeleted", courseIdOnlyModel);
+            }
         }
     }
 }

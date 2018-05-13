@@ -20,7 +20,7 @@ namespace GradeTrackerApp.Tests.Courses
         public void CreateCourse_EmptyModel_ReturnsErrorModel()
         {
             var testClass = ServiceFactory.Create_MockInteractor();
-            var testModel = new CreateCourseDomainModel();
+            var testModel = new CreateOrEditCourseDomainModel();
 
             var result = testClass.CreateCourse(testModel);
 
@@ -110,7 +110,7 @@ namespace GradeTrackerApp.Tests.Courses
         [Fact]
         public void UpdateCourse_EmptyGuid_ReturnsErrorModel()
         {
-            var testCourse = new CourseDomainModel { Id = Guid.Empty };
+            var testCourse = new CreateOrEditCourseDomainModel { Id = Guid.Empty };
             var testClass = ServiceFactory.Create_MockInteractor();
 
             var result = testClass.UpdateCourse(testCourse);
@@ -123,7 +123,7 @@ namespace GradeTrackerApp.Tests.Courses
         {
             var testCourseId = Guid.NewGuid();
             var testCourseEntity = CourseFactory.Create_CourseEntity_ValidMinimum(testCourseId);
-            var testCourseModel = new CourseDomainModel(testCourseEntity);
+            var testCourseModel = new CreateOrEditCourseDomainModel(testCourseEntity);
             var testClass = ServiceFactory.Create_MockInteractor();
 
             var result = testClass.UpdateCourse(testCourseModel);

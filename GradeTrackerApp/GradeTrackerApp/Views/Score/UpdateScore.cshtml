@@ -56,5 +56,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: null)
 </div>

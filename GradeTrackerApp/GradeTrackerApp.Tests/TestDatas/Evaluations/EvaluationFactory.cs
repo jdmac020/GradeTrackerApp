@@ -69,9 +69,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             };
         }
 
-        public static CreateCourseDomainModel Create_CreateEvaluationDomainModel_Empty()
+        public static CreateOrEditCourseDomainModel Create_CreateEvaluationDomainModel_Empty()
         {
-            return new CreateCourseDomainModel();
+            return new CreateOrEditCourseDomainModel();
         }
     }
 }

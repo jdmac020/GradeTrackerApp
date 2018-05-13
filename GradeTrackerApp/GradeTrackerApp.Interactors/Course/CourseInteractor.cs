@@ -66,7 +66,7 @@ namespace GradeTrackerApp.Interactors.Course
             if (existingCourse != null)
             {
                 existingCourse.Number = updatedCourse.Number;
-                existingCourse.Department = updatedCourse.Number;
+                existingCourse.Department = updatedCourse.Department;
                 existingCourse.SemesterId = updatedCourse.SemesterId;
                 existingCourse.Year = updatedCourse.Year;
                 existingCourse.Name = updatedCourse.Name;
@@ -76,7 +76,7 @@ namespace GradeTrackerApp.Interactors.Course
             }
             else
             {
-                throw new ObjectNotFoundException("There is no Score with that ID.");
+                throw new ObjectNotFoundException("There is no Course with that ID.");
             }
         }
 

@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Models.Semester;
 
 namespace GradeTrackerApp.Models.Course
 {
-    public class CreateCourseViewModel : IViewModel
+    public class CreateOrEditCourseViewModel : IViewModel
     {
+        public CreateOrEditCourseViewModel() { }
+
+        public CreateOrEditCourseViewModel(CourseDomainModel domainModel)
+        {
+            Id = domainModel.Id;
+            StudentId = domainModel.StudentId;
+            Name = domainModel.Name;
+            Department = domainModel.Department;
+            Number = domainModel.Number;
+            Year = domainModel.Year.ToString();
+            SemesterId = domainModel.SemesterId;
+
+        }
+
+        public Guid? Id { get; set; }
         public Guid StudentId { get; set; }
 
         [DisplayName("Name")]
@@ -30,6 +46,9 @@ namespace GradeTrackerApp.Models.Course
 
         [DisplayName("Semester")]
         public Guid SemesterId { get; set; }
+
+        [DisplayName("Active")]
+        public bool IsActive { get; set; }
 
         public List<SelectListItem> YearOptions { get; set; }
 
