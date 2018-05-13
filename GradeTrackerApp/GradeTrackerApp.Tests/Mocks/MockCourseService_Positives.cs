@@ -27,7 +27,7 @@ namespace GradeTrackerApp.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public IDomainModel UpdateCourse(CourseDomainModel updatedModel)
+        public IDomainModel UpdateCourse(CreateOrEditCourseDomainModel updatedModel)
         {
             throw new NotImplementedException();
         }
