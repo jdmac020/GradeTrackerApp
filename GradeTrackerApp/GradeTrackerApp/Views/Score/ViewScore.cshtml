@@ -62,28 +62,121 @@
             </tr>
         }
     </table>
-    <hr/>
+    <hr />
 </div>
 
 <div id="options">
-    
+
     <h3>Options</h3>
 
     <table>
         <tr>
             <th>
-                @Html.ActionLink("Make Changes To This Score", "StartUpdate", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)
+                @Html.ActionLink("Make Changes To This Score", "StartUpdate", "Score", routeValues: new { scoreId = Model.Id }, htmlAttributes: null)
             </th>
         </tr>
         <tr>
             <th>
-                @Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)
+                <a class="delete-link" href='@Url.Action("DeleteScore", routeValues: new {scoreId = Model.Id})'>Delete This Score</a>
+                <div class="btn btn-primary delete-confirm" style="display:none" data-delete-id="@Model.Id">You Sure, Sis?</div>
+                @*@Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)*@
             </th>
         </tr>
         <tr>
             <th>
-                @Html.ActionLink("Back to Evaluation", "ViewEvaluation", "Evaluation", routeValues: new {evaluationId = Model.EvaluationId}, htmlAttributes: null)
+                @Html.ActionLink("Back to Evaluation", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = Model.EvaluationId }, htmlAttributes: null)
             </th>
         </tr>
     </table>
 </div>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(function () {
+            
+            $("a.delete-score-link").click(function () {
+
+                var buttonChange = false;
+                var mouseOnCount = 0;
+                var mouseOffCount = 0;
+
+                var deleteLink = $(this);
+                deleteLink.hide();
+                var confirmButton = deleteLink.siblings(".delete-score-confirm");
+                confirmButton.show();
+
+                var cancelDelete = function() {
+                    removeEvents();
+                    showDeleteLink();
+                    buttonChange = false;
+                    mouseOnCount = 0;
+                    mouseOffCount = 0;
+                };
+
+                var deleteItem = function() {
+
+                    window.location.href = '@Url.Action("DeleteScore", "Score", routeValues: new { courseId = Model.Id})';
+
+                };
+
+                var removeEvents = function() {
+                    confirmButton.off("click", deleteItem);
+                    $(document).on("click", cancelDelete);
+                    $(document).off("keypress", onKeyPress);
+                };
+
+                var showDeleteLink = function() {
+                    confirmButton.hide();
+                    deleteLink.show();
+                };
+
+                var onKeyPress = function(e) {
+                    //Cancel if escape key pressed
+                    if (e.which === 27) {
+                        cancelDelete();
+                    }
+                };
+
+                var mouseOn = function() {
+
+                    if (mouseOffCount === 0) {
+                        
+
+                    } else if (buttonChange === false) {
+
+                        confirmButton.text('Yes! Kill It With Fire');
+                        buttonChange = true;
+
+                    }
+
+                };
+
+                var mouseOff = function() {
+
+                    if (mouseOffCount === 0) {
+
+                        mouseOffCount++;
+
+                    } else if (buttonChange === true) {
+
+                        confirmButton.text('You Sure, Sis?');
+                        buttonChange = false;
+
+                    }
+                };
+
+                confirmButton.on("mouseover", mouseOn);
+                confirmButton.on("mouseout", mouseOff);
+                confirmButton.on("click", deleteItem);
+                $(document).on("click", cancelDelete);
+                $(document).on("keypress", onKeyPress);
+
+                return false;
+            });
+        });
+
+    </script>
+}
+

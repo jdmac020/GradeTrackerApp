@@ -183,6 +183,7 @@ namespace GradeTrackerApp.Controllers
                 }
 
                 createViewModel.Semesters = GetSemestersForDropDown(semesterModels);
+                createViewModel.YearOptions = GetYearDropDownOptions();
 
                 return View("Add", createViewModel);
             }

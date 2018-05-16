@@ -111,9 +111,11 @@
                     <td>
                         @Html.ActionLink("Edit", "StartUpdate", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
                     </td>
-                    <td>
-                        @Html.ActionLink("Delete", "DeleteScore", "Score", routeValues: new { scoreId = score.Id }, htmlAttributes: null)
-                    </td>
+                    @*<td>
+                        <a class="delete-score-link" href='@Url.Action("DeleteScore", "Score", routeValues: new {scoreId = score.Id})'>Delete</a>
+                        <div class="btn btn-primary delete-score-confirm" style="display:none" data-delete-id="@score.Id">Confirm Delete</div>
+                        @Html.ActionLink("Delete", "DeleteScore", "Score", routeValues: new {scoreId = score.Id}, htmlAttributes: null)
+                    </td>*@
                 </tr>
             }
         </table>
@@ -171,7 +173,9 @@
         </tr>
         <tr>
             <th>
-                @Html.ActionLink("Delete This Evaluation", "DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
+                <a class="delete-eval-link" href='@Url.Action("DeleteEvaluation", "Evaluation", routeValues: new {evaluationId = Model.Id})'>Delete This Evaluation</a>
+                <div class="btn btn-primary delete-eval-confirm" style="display:none" data-delete-id="@Model.Id">You Sure, Sis?</div>
+                @*@Html.ActionLink("Delete This Evaluation", "DeleteEvaluation", "Evaluation", routeValues: new {evaluationId = Model.Id}, htmlAttributes: null)*@
             </th>
         </tr>
         <tr>
@@ -182,5 +186,93 @@
     </table>
 </div>
 
+@section scripts{
 
+<script type="text/javascript">
+
+        $(function () {
+            
+            $("a.delete-eval-link").click(function () {
+
+                var buttonChange = false;
+                var mouseOnCount = 0;
+                var mouseOffCount = 0;
+
+                var deleteLink = $(this);
+                deleteLink.hide();
+                var confirmButton = deleteLink.siblings(".delete-eval-confirm");
+                confirmButton.show();
+
+                var cancelDelete = function() {
+                    removeEvents();
+                    showDeleteLink();
+                    buttonChange = false;
+                    mouseOnCount = 0;
+                    mouseOffCount = 0;
+                };
+
+                var deleteItem = function() {
+
+                    window.location.href = '@Url.Action("DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id})';
+
+                };
+
+                var removeEvents = function() {
+                    confirmButton.off("click", deleteItem);
+                    $(document).on("click", cancelDelete);
+                    $(document).off("keypress", onKeyPress);
+                };
+
+                var showDeleteLink = function() {
+                    confirmButton.hide();
+                    deleteLink.show();
+                };
+
+                var onKeyPress = function(e) {
+                    //Cancel if escape key pressed
+                    if (e.which === 27) {
+                        cancelDelete();
+                    }
+                };
+
+                var mouseOn = function() {
+
+                    if (mouseOffCount === 0) {
+                        
+
+                    } else if (buttonChange === false) {
+
+                        confirmButton.text('Yes! Kill It With Fire');
+                        buttonChange = true;
+
+                    }
+
+                };
+
+                var mouseOff = function() {
+
+                    if (mouseOffCount === 0) {
+
+                        mouseOffCount++;
+
+                    } else if (buttonChange === true) {
+
+                        confirmButton.text('You Sure, Sis?');
+                        buttonChange = false;
+
+                    }
+                };
+
+                confirmButton.on("mouseover", mouseOn);
+                confirmButton.on("mouseout", mouseOff);
+                confirmButton.on("click", deleteItem);
+                $(document).on("click", cancelDelete);
+                $(document).on("keypress", onKeyPress);
+
+                return false;
+            });
+        });
+
+</script>
+}
 
