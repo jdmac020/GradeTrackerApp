@@ -1,6 +1,6 @@
 ﻿function triggerConfirmButton(passedScoreId) {
     
-    var deleteLink = document.getElementsByClassName('a.delete-link');
+    var deleteLink = this;
     deleteLink.hide();
     var confirmButton = deleteLink.siblings(".delete-confirm");
     confirmButton.show();
