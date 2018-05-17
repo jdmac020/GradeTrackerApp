@@ -12,5 +12,6 @@ namespace GradeTrackerApp.Interactors.Course
         CourseEntity GetCourse(Guid courseId);
         List<CourseEntity> GetAllCourses();
         List<CourseEntity> GetCoursesByStudentId(Guid userId);
+        void UpdateLastModified(Guid courseId);
     }
 }

@@ -56,5 +56,10 @@ namespace GradeTrackerApp.Tests.Mocks
 
             return CourseFactory.Create_TwoCourseEntities_ValidMinimum_CustomStudentId(userId);
         }
+
+        public void UpdateLastModified(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

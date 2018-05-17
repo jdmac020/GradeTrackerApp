@@ -41,6 +41,11 @@ namespace GradeTrackerApp.Tests.Mocks
                 throw new ObjectNotFoundException();
         }
 
+        public void UpdateEvaluationLastModified(Guid updatedEvaluation)
+        {
+            throw new NotImplementedException();
+        }
+
         public EvaluationEntity GetEvaluation(Guid evaluationId)
         {
             if (evaluationId.Equals(Guid.Empty))

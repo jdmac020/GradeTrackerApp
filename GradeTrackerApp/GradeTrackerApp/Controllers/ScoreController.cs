@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Scores.Service;
 using GradeTrackerApp.Domain.Shared;
@@ -22,6 +23,14 @@ namespace GradeTrackerApp.Controllers
         }
 
         private IScoreService _scoreService;
+
+        public IEvaluationService Evaluations
+        {
+            get { return _evaluationService ?? (_evaluationService = new EvaluationService()); }
+            set { _evaluationService = value; }
+        }
+
+        private IEvaluationService _evaluationService;
 
         #endregion
 
@@ -55,6 +64,8 @@ namespace GradeTrackerApp.Controllers
                 {
                     var viewModel = new ScoreViewModel((ScoreDomainModel)updatedModel);
 
+                    Evaluations.UpdateLastModifiedDate(viewModel.EvaluationId);
+
                     return View("ScoreUpdated", viewModel);
                 }
             }
@@ -77,6 +88,8 @@ namespace GradeTrackerApp.Controllers
                 var castedDomainModel = (ScoreDomainModel)deletedScore;
 
                 var evaluationIdOnlyModel = new ScoreViewModel {EvaluationId = castedDomainModel.EvaluationId};
+
+                Evaluations.UpdateLastModifiedDate(evaluationIdOnlyModel.EvaluationId);
 
                 return View("ScoreDeleted", evaluationIdOnlyModel);
             }
@@ -132,6 +145,8 @@ namespace GradeTrackerApp.Controllers
                 }
                 else
                 {
+                    Evaluations.UpdateLastModifiedDate(createDomainModel.EvaluationId);
+
                     return Complete((ScoreDomainModel) newScore);
                 }
             }

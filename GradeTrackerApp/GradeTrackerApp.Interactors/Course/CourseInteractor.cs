@@ -120,5 +120,21 @@ namespace GradeTrackerApp.Interactors.Course
 
             return Repo.GetAll().Where(c => c.StudentId.Equals(userId) && c.IsActive.Equals(true)).ToList();
         }
+
+        public void UpdateLastModified(Guid courseId)
+        {
+            var existingCourse = Repo.GetById(courseId);
+
+            if (existingCourse != null)
+            {
+                existingCourse.LastModified = DateTime.Now;
+
+                Repo.Update(existingCourse);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Course with that ID.");
+            }
+        }
     }
 }

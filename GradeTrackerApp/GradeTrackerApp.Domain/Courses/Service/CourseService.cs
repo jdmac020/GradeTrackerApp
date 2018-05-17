@@ -179,6 +179,11 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return domainModels;
         }
 
+        public void UpdateCourseLastModified(Guid courseId)
+        {
+            CourseInteractor.UpdateLastModified(courseId);
+        }
+
         private static CourseEntity ConvertModelToEntity(CourseDomainModel updatedModel)
         {
             return new CourseEntity

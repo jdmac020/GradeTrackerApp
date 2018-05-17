@@ -148,6 +148,8 @@ namespace GradeTrackerApp.Controllers
 
                 if (newDomainModel.GetType() == typeof(EvaluationDomainModel))
                 {
+                    Courses.UpdateCourseLastModified(viewModel.CourseId);
+
                     return Complete((EvaluationDomainModel)newDomainModel);
                 }
                 else
@@ -195,6 +197,8 @@ namespace GradeTrackerApp.Controllers
                 {
                     var viewModel = new EvaluationViewModel((EvaluationDomainModel)updatedModel);
 
+                    Courses.UpdateCourseLastModified(viewModel.CourseId);
+
                     return View("EvaluationUpdated", viewModel);
                 }
             }
@@ -217,6 +221,7 @@ namespace GradeTrackerApp.Controllers
                 var castedDomainModel = (EvaluationDomainModel)deletedEvalauation;
 
                 var courseIdOnlyModel = new EvaluationViewModel { CourseId = castedDomainModel.CourseId };
+                Courses.UpdateCourseLastModified(courseIdOnlyModel.CourseId);
 
                 return View("EvaluationDeleted", courseIdOnlyModel);
             }
