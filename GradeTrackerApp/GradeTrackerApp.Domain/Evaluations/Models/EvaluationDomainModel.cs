@@ -16,6 +16,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
         public double FinalPointsGrade { get; set; } // Calculated
         public bool DropLowest { get; set; }
         public DateTime? LastModified { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public EvaluationDomainModel() { }
 
@@ -28,6 +29,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
             NumberOfScores = evaluationEntity.NumberOfScores;
             DropLowest = evaluationEntity.DropLowest;
             LastModified = evaluationEntity.LastModified;
+            CreatedOn = evaluationEntity.CreatedOn;
         }
     }
 }

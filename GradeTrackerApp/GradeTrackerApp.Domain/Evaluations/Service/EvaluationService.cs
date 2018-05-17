@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Courses.Service;
 using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Course;
@@ -15,7 +16,13 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
     {
         #region Services
 
+        public ICourseService Courses
+        {
+            get { return _courseService ?? (_courseService = new CourseService()); }
+            set { _courseService = value; }
+        }
 
+        private ICourseService _courseService;
 
         #endregion
 
@@ -175,6 +182,13 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
             entityList = EvaluationInteractor.GetEvaluationsByCourseId(courseId);
 
             return ConvertToDomainModel(entityList);
+        }
+
+        public void UpdateLastModifiedDate(Guid evalId)
+        {
+            var eval = EvaluationInteractor.GetEvaluation(evalId);
+            EvaluationInteractor.UpdateEvaluationLastModified(evalId);
+            Courses.UpdateCourseLastModified(eval.CourseId);
         }
 
         protected List<IDomainModel> ConvertToDomainModel(List<EvaluationEntity> entities)
