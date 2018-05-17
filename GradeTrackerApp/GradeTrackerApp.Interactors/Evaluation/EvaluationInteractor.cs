@@ -55,7 +55,7 @@ namespace GradeTrackerApp.Interactors.Evaluation
             }
             else
             {
-                throw new ObjectNotFoundException("There is no Score with that ID.");
+                throw new ObjectNotFoundException("There is no Evaluation with that ID.");
             }
         }
 
@@ -75,7 +75,23 @@ namespace GradeTrackerApp.Interactors.Evaluation
             }
             else
             {
-                throw new ObjectNotFoundException("There is no Score with that ID.");
+                throw new ObjectNotFoundException("There is no Evaluation with that ID.");
+            }
+        }
+
+        public void UpdateEvaluationLastModified(Guid evalId)
+        {
+            var existingEvaluation = Repo.GetById(evalId);
+
+            if (existingEvaluation != null)
+            {
+                existingEvaluation.LastModified = DateTime.Now;
+
+                Repo.Update(existingEvaluation);
+            }
+            else
+            {
+                throw new ObjectNotFoundException("There is no Evaluation with that ID.");
             }
         }
 

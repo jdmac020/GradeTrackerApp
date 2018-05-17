@@ -36,8 +36,9 @@ namespace GradeTrackerApp.Models.Evaluation
         public bool DropLowest { get; set; }
 
         public ScoreListViewModel Scores { get; set; }
-
+        
         public DateTime? LastModified { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public EvaluationListViewModel Evaluations { get; set; }
 
@@ -56,6 +57,7 @@ namespace GradeTrackerApp.Models.Evaluation
             FinalPointsGrade = domainModel.FinalPointsGrade;
             DropLowest = domainModel.DropLowest;
             LastModified = domainModel.LastModified;
+            CreatedOn = domainModel.CreatedOn;
         }
     }
 }
