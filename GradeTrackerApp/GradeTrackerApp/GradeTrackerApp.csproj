@@ -215,6 +215,7 @@
     <Compile Include="Models\Score\ScoreViewModel.cs" />
     <Compile Include="Models\Score\ScoreListViewModel.cs" />
     <Compile Include="Models\Semester\SemesterViewModel.cs" />
+    <Compile Include="Models\Validators\PastDate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
