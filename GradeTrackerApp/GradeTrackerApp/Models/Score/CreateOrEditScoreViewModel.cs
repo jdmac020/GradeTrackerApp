@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using GradeTrackerApp.Domain.Scores.Models;
+using GradeTrackerApp.Models.Validators;
 
 namespace GradeTrackerApp.Models.Score
 {
@@ -14,6 +15,7 @@ namespace GradeTrackerApp.Models.Score
         public string Name { get; set; }
 
         [Required(ErrorMessage = "*Date Is Required*")]
+        [PastDate(ErrorMessage = "*Date Can't Be In the Future*")]
         [DisplayName("Date Completed")]
         [DataType(DataType.Date)]
         public DateTime? Date { get; set; }

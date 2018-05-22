@@ -89,7 +89,7 @@
                         @evaluation.CurrentPointsGrade
                     </td>
                     <td>
-                        @Html.ActionLink($"View", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                        @Html.ActionLink("View", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "EditEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
@@ -126,7 +126,6 @@
             <td class="detail">
 
                     @Model.LastModified.ToShortDateString()
-                    @Model.LastModified.ToShortTimeString()
 
             </td>
         </tr>

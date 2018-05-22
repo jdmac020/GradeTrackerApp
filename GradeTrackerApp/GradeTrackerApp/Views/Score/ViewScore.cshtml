@@ -58,7 +58,7 @@
                 <th>@Html.LabelFor(model => model.LastModified)</th>
             </tr>
             <tr>
-                <td>@Html.DisplayFor(model => model.LastModified)</td>
+                <td>@Html.DisplayFor(model => model.LastModified.Value.ToShortDateString())</td>
             </tr>
         }
     </table>
@@ -77,8 +77,8 @@
         </tr>
         <tr>
             <th>
-                <a class="delete-link" href='@Url.Action("DeleteScore", routeValues: new {scoreId = Model.Id})'>Delete This Score</a>
-                <div class="btn btn-primary delete-confirm" style="display:none" data-delete-id="@Model.Id">You Sure, Sis?</div>
+                <a class="delete-score-link" href='@Url.Action("DeleteScore", routeValues: new {scoreId = Model.Id})'>Delete This Score</a>
+                <div class="btn btn-primary delete-score-confirm" style="display:none" data-delete-id="@Model.Id">You Sure, Sis?</div>
                 @*@Html.ActionLink("Delete This Score", "DeleteScore", "Score", routeValues: new {scoreId = Model.Id}, htmlAttributes: null)*@
             </th>
         </tr>

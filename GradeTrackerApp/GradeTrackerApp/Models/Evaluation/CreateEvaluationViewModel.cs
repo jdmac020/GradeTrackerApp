@@ -16,7 +16,7 @@ namespace GradeTrackerApp.Models.Evaluation
         public string Name { get; set; }
 
         [Required(ErrorMessage = "*Weight is required*")]
-        [RegularExpression(@"^[1-9]$|^[1-9][1-9]$|^(100)$", ErrorMessage = "*Must Be a Whole Number Between 1 and 100*")]
+        [RegularExpression(@"^[1-9]$|^[1-9][0-9]$|^(100)$", ErrorMessage = "*Must Be a Whole Number Between 1 and 100*")]
         public double Weight { get; set; }
 
         [DisplayName("Number of Scores")]
