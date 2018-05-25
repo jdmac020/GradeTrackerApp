@@ -45,20 +45,14 @@
         <tr>
             <td>@Html.DisplayFor(model => model.PointsPossible)</td>
         </tr>
-        <tr>
-            <th>@Html.LabelFor(model => model.CreatedOn)</th>
-        </tr>
-        <tr>
-            <td>@Html.DisplayFor(model => model.CreatedOn)</td>
-        </tr>
 
-        @if (Model.LastModified != null)
+        @if (!string.IsNullOrEmpty(Model.LastModified))
         {
             <tr>
                 <th>@Html.LabelFor(model => model.LastModified)</th>
             </tr>
             <tr>
-                <td>@Html.DisplayFor(model => model.LastModified.Value.ToShortDateString())</td>
+                <td>@Html.DisplayFor(model => model.LastModified)</td>
             </tr>
         }
     </table>
@@ -117,7 +111,7 @@
 
                 var deleteItem = function() {
 
-                    window.location.href = '@Url.Action("DeleteScore", "Score", routeValues: new { courseId = Model.Id})';
+                    window.location.href = '@Url.Action("DeleteScore", "Score", routeValues: new { scoreId = Model.Id})';
 
                 };
 
