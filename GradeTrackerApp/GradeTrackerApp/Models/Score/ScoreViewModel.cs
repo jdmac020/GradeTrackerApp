@@ -15,7 +15,7 @@ namespace GradeTrackerApp.Models.Score
 
         [DisplayName("Score Name")]
         public string Name { get; set; }
-        
+
         public DateTime Date { get; set; }
 
         [DisplayName("Date Completed")]
@@ -34,7 +34,20 @@ namespace GradeTrackerApp.Models.Score
         public double PointsEarned { get; set; }
 
         [DisplayName("Last Updated")]
-        public DateTime? LastModified { get; set; }
+        public string LastModified
+        {
+            get
+            {
+                if (_lastModified.HasValue)
+                {
+                    return _lastModified.Value.ToShortDateString();
+                }
+
+                return string.Empty;
+            }
+        }
+
+        private DateTime? _lastModified;
 
         [DisplayName("Created")]
         public DateTime CreatedOn { get; set; }
@@ -50,7 +63,7 @@ namespace GradeTrackerApp.Models.Score
             PointsPossible = domainModel.PointsPossible;
             PointsEarned = domainModel.PointsEarned;
             PointsGrade = domainModel.PointsGrade;
-            LastModified = domainModel.LastModified;
+            _lastModified = domainModel.LastModified;
             CreatedOn = domainModel.CreatedOn;
         }
     }
