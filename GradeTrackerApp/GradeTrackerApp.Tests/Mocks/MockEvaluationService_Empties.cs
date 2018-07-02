@@ -43,7 +43,7 @@ namespace GradeTrackerApp.Tests.Mocks
             return new List<IDomainModel>();
         }
 
-        public void UpdateLastModifiedDate(Guid evaluationId)
+        public void ScoresUpdated(Guid evaluationId)
         {
             throw new NotImplementedException();
         }

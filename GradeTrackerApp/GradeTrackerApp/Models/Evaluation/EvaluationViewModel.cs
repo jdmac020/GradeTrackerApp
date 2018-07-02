@@ -20,8 +20,11 @@ namespace GradeTrackerApp.Models.Evaluation
         [DisplayName("Number of Scores")]
         public int NumberOfScores { get; set; }
 
-        [DisplayName("Points Possible")]
-        public double PointsPossible { get; set; }
+        [DisplayName("Total Points Possible")]
+        public double TotalPointsPossible { get; set; }
+
+        [DisplayName("Current Points Possible")]
+        public double CurrentPointsPossible { get; set; }
 
         [DisplayName("Points Earned")]
         public double PointsEarned { get; set; }
@@ -34,6 +37,9 @@ namespace GradeTrackerApp.Models.Evaluation
 
         [DisplayName("Drop Lowest Score?")]
         public bool DropLowest { get; set; }
+
+        [DisplayName("Number of Scores Dropped")]
+        public int DropLowestCount { get; set; }
 
         public ScoreListViewModel Scores { get; set; }
         
@@ -51,7 +57,8 @@ namespace GradeTrackerApp.Models.Evaluation
             CourseId = domainModel.CourseId;
             Weight = domainModel.Weight;
             NumberOfScores = domainModel.NumberOfScores;
-            PointsPossible = domainModel.PointsPossible;
+            TotalPointsPossible = domainModel.TotalPointsPossible;
+            CurrentPointsPossible = domainModel.CurrentPointsPossible;
             PointsEarned = domainModel.PointsEarned;
             CurrentPointsGrade = domainModel.CurrentPointsGrade;
             FinalPointsGrade = domainModel.FinalPointsGrade;

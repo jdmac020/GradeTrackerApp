@@ -64,7 +64,9 @@ namespace GradeTrackerApp.Controllers
                 {
                     var viewModel = new ScoreViewModel((ScoreDomainModel)updatedModel);
 
-                    Evaluations.UpdateLastModifiedDate(viewModel.EvaluationId);
+                    UpdateEvaluation(viewModel.EvaluationId);
+
+                    
 
                     return View("ScoreUpdated", viewModel);
                 }
@@ -73,6 +75,12 @@ namespace GradeTrackerApp.Controllers
             {
                 return View("UpdateScore", updatedScore);
             }
+        }
+
+        private void UpdateEvaluation(Guid evaluationId)
+        {
+            // update grade
+            Evaluations.ScoresUpdated(evaluationId);
         }
 
         public ActionResult DeleteScore(Guid scoreId)
@@ -89,7 +97,7 @@ namespace GradeTrackerApp.Controllers
 
                 var evaluationIdOnlyModel = new ScoreViewModel {EvaluationId = castedDomainModel.EvaluationId};
 
-                Evaluations.UpdateLastModifiedDate(evaluationIdOnlyModel.EvaluationId);
+                Evaluations.ScoresUpdated(evaluationIdOnlyModel.EvaluationId);
 
                 return View("ScoreDeleted", evaluationIdOnlyModel);
             }
@@ -145,7 +153,7 @@ namespace GradeTrackerApp.Controllers
                 }
                 else
                 {
-                    Evaluations.UpdateLastModifiedDate(createDomainModel.EvaluationId);
+                    Evaluations.ScoresUpdated(createDomainModel.EvaluationId);
 
                     return Complete((ScoreDomainModel) newScore);
                 }

@@ -13,6 +13,6 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         IDomainModel UpdateEvaluation(EvaluationDomainModel updatedEvaluationModel);
         IDomainModel GetEvaluation(Guid evaluationId);
         List<IDomainModel> GetEvaluationsForCourse(Guid courseId);
-        void UpdateLastModifiedDate(Guid evaluationId);
+        void ScoresUpdated(Guid evaluationId);
     }
 }

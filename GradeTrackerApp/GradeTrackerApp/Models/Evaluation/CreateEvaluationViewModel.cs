@@ -15,16 +15,22 @@ namespace GradeTrackerApp.Models.Evaluation
         [Required(ErrorMessage = "*Name is required*")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "*Weight is required*")]
-        [RegularExpression(@"^[1-9]$|^[1-9][0-9]$|^(100)$", ErrorMessage = "*Must Be a Whole Number Between 1 and 100*")]
+        //[Required(ErrorMessage = "*Weight is required*")]
+        [RegularExpression(@"^[0-9]$|^[0-9][0-9]$|^(100)$", ErrorMessage = "*Must Be a Whole Number Between 0 and 100*")]
         public double Weight { get; set; }
 
         [DisplayName("Number of Scores")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "*Must Be a Whole Number*")]
         public int NumberOfScores { get; set; } = 1;
 
+        [DisplayName("Point Value Per Score")]
+        public double PointValuePerScore { get; set; }
+
         [DisplayName("Lowest Score Get Dropped?")]
         public bool DropLowest { get; set; }
+
+        [DisplayName("How Many Scores to Drop?")]
+        public int ScoresToDrop { get; set; }
 
         public CreateEvaluationViewModel() { }
 

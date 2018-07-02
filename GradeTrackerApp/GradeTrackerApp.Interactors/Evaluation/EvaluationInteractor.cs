@@ -102,7 +102,7 @@ namespace GradeTrackerApp.Interactors.Evaluation
             if (newEvaluationEntity.CourseId.Equals(Guid.Empty))
                 throw new MissingInfoException("Evaluation Must be Linked to a Course.");
             if (newEvaluationEntity.Weight.Equals(0))
-                throw new MissingInfoException("Evaluation Must Have a Weight Value.");
+                newEvaluationEntity.Weight = 1;
             if (newEvaluationEntity.NumberOfScores < 0)
                 throw new MissingInfoException("The Number of Scores for this Evaluation Cannot be Less than 0.");
         }

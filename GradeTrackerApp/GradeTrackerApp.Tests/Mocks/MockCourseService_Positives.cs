@@ -37,7 +37,7 @@ namespace GradeTrackerApp.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public void UpdateCourseLastModified(Guid courseId)
+        public void EvaluationModified(Guid courseId)
         {
             throw new NotImplementedException();
         }

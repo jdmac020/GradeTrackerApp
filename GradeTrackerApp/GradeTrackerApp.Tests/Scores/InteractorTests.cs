@@ -66,6 +66,9 @@ namespace GradeTrackerApp.Tests.Scores
 
             result.Name.ShouldNotBe(string.Empty);
             result.Id.ShouldBe(testGuid);
+            result.PointsGrade.ShouldBe(.8);
+            result.PointsEarned.ShouldBe(8);
+            result.PointsPossible.ShouldBe(10);
         }
 
         [Fact]
@@ -78,7 +81,10 @@ namespace GradeTrackerApp.Tests.Scores
 
             var result = testClass.GetScoresByEvaluationId(testGuid);
 
+            var allGradeResults = result.All(s => s.PointsGrade == .8);
+
             result.Count.ShouldBe(3);
+            allGradeResults.ShouldBe(true);
 
         }
 
@@ -143,7 +149,7 @@ namespace GradeTrackerApp.Tests.Scores
             var testClass = InteractorFactory.Create_ScoreInteractor(testRepo);
             var scoreToUpdate = testRepo.GetAll().First();
 
-            var updatedScore = new ScoreEntity {Id = scoreToUpdate.Id, PointsPossible = 5, PointsEarned = 4};
+            var updatedScore = new ScoreEntity {Id = scoreToUpdate.Id, PointsPossible = 5, PointsEarned = 4, PointsGrade = .8};
 
             testClass.UpdateScore(updatedScore);
 
@@ -152,6 +158,7 @@ namespace GradeTrackerApp.Tests.Scores
             result.LastModified.ShouldNotBeSameAs(scoreToUpdate.LastModified);
             result.PointsEarned.ShouldBe(4);
             result.PointsPossible.ShouldBe(5);
+            result.PointsGrade.ShouldBe(.8);
         }
 
         [Fact]
