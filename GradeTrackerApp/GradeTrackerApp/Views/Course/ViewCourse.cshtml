@@ -31,12 +31,16 @@
         padding-left: 10px
     }
 
-    #evaluationTable td#grade {
+    #evaluationTable td.grade {
         text-align: center
     }
 
     #details th {
          font-size: larger;
+    }
+
+    .option {
+        padding-right: 5px
     }
 
 </style>
@@ -76,6 +80,7 @@
             <tr>
                 <th>Type</th>
                 <th> Current Grade</th>
+                <th> Final Grade</th>
                 <th colspan="3">Options</th>
             </tr>
             @foreach (var evaluation in Model.Evaluations)
@@ -85,14 +90,20 @@
                     <td>
                         @(evaluation.Name)
                     </td>
-                    <td id="grade">
-                        @evaluation.CurrentPointsGrade
+                    <td class="grade">
+                        @evaluation.CurrentGrade
                     </td>
-                    <td>
+                    <td class="grade">
+                        @evaluation.FinalGrade
+                    </td>
+                    <td class="option">
                         @Html.ActionLink("View", "ViewEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
                     </td>
-                    <td>
+                    <td class="option">
                         @Html.ActionLink("Edit", "EditEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
+                    </td>
+                    <td class="option">
+                        @Html.ActionLink("Add Score", "AddScore", "Score", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
                     </td>
                     @*<td>
                         @Html.ActionLink("Delete", "DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = evaluation.Id }, htmlAttributes: null)
@@ -101,7 +112,7 @@
             }
         </table>
         @Html.ActionLink("Add Another Evaluation Type", "AddEvaluation", "Evaluation", routeValues: new { courseId = Model.Id }, htmlAttributes: null)
-        <h4>Current Overall Grade: @Model.CurrentGrade</h4>
+        <h4>Current Overall Grade: @Model.CurrentGrade   Final Overall Grade: @Model.FinalGrade</h4>
         <hr />
 
     }

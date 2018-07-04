@@ -70,6 +70,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
             try
             {
+                CalculateGrade(newEvaluationEntity);
                 evaluationId = EvaluationInteractor.CreateEvaluation(newEvaluationEntity);
             }
             catch (GradeTrackerException gte)
@@ -107,22 +108,37 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
 
             var scoreSpells = new List<ScoreResult>();
 
-            foreach (var scoreEntity in scores)
+            if (scores.Count > 0)
             {
-                scoreSpells.Add(scoreWizard.GetSingleScoreResult(scoreEntity.PointsEarned, scoreEntity.PointsPossible));
+                foreach (var scoreEntity in scores)
+                {
+                    scoreSpells.Add(scoreWizard.GetSingleScoreResult(scoreEntity.PointsEarned, scoreEntity.PointsPossible));
+                }
+
+                evalSpell.Scores = scoreSpells;
+
+                wizard.Evaluation = evalSpell;
+
+                wizard.UpdateAllGrades();
+
+                evaluationToGrade.PointsEarned = wizard.Evaluation.PointsEarned;
+                evaluationToGrade.CurrentPointsPossible = wizard.Evaluation.PointsPossibleToDate;
+                evaluationToGrade.TotalPointsPossible = wizard.Evaluation.PointsPossibleOverall;
+                evaluationToGrade.CurrentPointsGrade = wizard.Evaluation.GradeToDateRaw;
+                evaluationToGrade.FinalPointsGrade = wizard.Evaluation.GradeOverallRaw;
             }
+            else
+            {
+                var pointsTotal = (evaluationToGrade.NumberOfScores -
+                                   evaluationToGrade.NumberToDrop) * evaluationToGrade.PointsPerScore;
 
-            evalSpell.Scores = scoreSpells;
-
-            wizard.Evaluation = evalSpell;
-
-            wizard.UpdateAllGrades();
-
-            evaluationToGrade.PointsEarned = wizard.Evaluation.PointsEarned;
-            evaluationToGrade.CurrentPointsPossible = wizard.Evaluation.PointsPossibleToDate;
-            evaluationToGrade.TotalPointsPossible = wizard.Evaluation.PointsPossibleOverall;
-            evaluationToGrade.CurrentPointsGrade = wizard.Evaluation.GradeToDateRaw;
-            evaluationToGrade.FinalPointsGrade = wizard.Evaluation.GradeOverallRaw;
+                evaluationToGrade.CurrentPointsGrade = 1;
+                evaluationToGrade.FinalPointsGrade = 0;
+                evaluationToGrade.PointsEarned = 0;
+                evaluationToGrade.CurrentPointsPossible = pointsTotal;
+                evaluationToGrade.TotalPointsPossible = pointsTotal;
+            }
+            
         }
 
         public IDomainModel DeleteEvaluation(Guid evaluationId)
@@ -253,6 +269,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 CourseId = createModel.CourseId,
                 Weight = createModel.Weight,
                 NumberOfScores = createModel.NumberOfScores,
+                PointsPerScore = createModel.PointsPerScore,
                 DropLowest = createModel.DropLowest
             };
         }
@@ -266,6 +283,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 CourseId = domainModel.CourseId,
                 Weight = domainModel.Weight,
                 NumberOfScores = domainModel.NumberOfScores,
+                PointsPerScore = domainModel.PointsPerScore,
                 DropLowest = domainModel.DropLowest
             };
         }

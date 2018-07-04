@@ -8,6 +8,7 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
         public Guid CourseId { get; set; }
         public double Weight { get; set; }
         public int NumberOfScores { get; set; }
+        public double PointsPerScore { get; set; }
         public bool DropLowest { get; set; }
     }
 }

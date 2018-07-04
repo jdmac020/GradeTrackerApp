@@ -28,8 +28,7 @@
         <tr id="weightValueBool" onclick="showWeightBox()">
             <td>
                 @Html.Label("Check If Weighted: ")
-            <p style="font-size: smaller">As in, </p>
-            <p style="font-size: smaller">"Homework is worth 10% of your grade and Exams are worth 40%"</p>
+            <p class="help-text">As in, "Homework is worth 10% of your grade and Exams are worth 40%"</p>
             </td>
             <td>
                 @Html.CheckBox("WeightValue")
@@ -38,7 +37,7 @@
         <tr id="weightValueBox">
             <td>
                 @Html.LabelFor(model => model.Weight)
-                <p style="font-size: smaller">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
+                <p class="help-text">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
             </td>
             <td>
                 @Html.TextBoxFor(model => model.Weight)
@@ -56,6 +55,15 @@
             </td>
             <td>
                 @Html.ValidationMessageFor(model => model.NumberOfScores, string.Empty, new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.PointValuePerScore)
+                <p class="help-text">If Weighted, Value Should Be 100</p>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.PointValuePerScore)
             </td>
         </tr>
         <tr id="dropScoreBool" onclick="showCountBox()">
@@ -83,6 +91,18 @@
     </div>
 }
 
+<style>
+
+    .help-text {
+        font-size: smaller;
+        color: dimgray;
+        width: 240px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+</style> 
+
 @section scripts {
 
     <script type="text/javascript">
@@ -97,8 +117,10 @@
             var dropScoreCount = $("#dropScoreCount");
 
             var showBox = $('#dropScoreBool').find("input:checked").attr("value");
+            var textBox = $(dropScoreCount).find('input:text');
             
             if (showBox === "true") {
+                textBox.val("1");
                 dropScoreCount.show();
             } else {
                 dropScoreCount.hide();

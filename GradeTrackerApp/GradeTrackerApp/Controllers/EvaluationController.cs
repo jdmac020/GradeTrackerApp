@@ -67,8 +67,9 @@ namespace GradeTrackerApp.Controllers
                 Id = viewModel.Id,
                 CourseId = viewModel.CourseId,
                 Name = viewModel.Name,
-                Weight = viewModel.Weight,
+                Weight = viewModel.Weight / 100,
                 NumberOfScores = viewModel.NumberOfScores,
+                PointsPerScore =  viewModel.PointValuePerScore,
                 DropLowest = viewModel.DropLowest
             };
         }
@@ -79,8 +80,9 @@ namespace GradeTrackerApp.Controllers
             {
                 CourseId = viewModel.CourseId,
                 Name = viewModel.Name,
-                Weight = viewModel.Weight,
+                Weight = viewModel.Weight / 100,
                 NumberOfScores = viewModel.NumberOfScores,
+                PointsPerScore = viewModel.PointValuePerScore,
                 DropLowest = viewModel.DropLowest
             };
         }

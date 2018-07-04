@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ConjureGrade.Apprentice;
 using ConjureGrade.Spells;
 using ConjureGrade.Wizards;
 using GradeTrackerApp.Core.Entities;
@@ -206,6 +207,8 @@ namespace GradeTrackerApp.Domain.Courses.Service
                     Weighted = weighted,
                     WeightAmount = castedEval.Weight,
                     PointsEarned = castedEval.PointsEarned,
+                    GradeToDateRaw = castedEval.CurrentPointsGrade,
+                    GradeOverallRaw = castedEval.FinalPointsGrade,
                     PointsPossibleOverall = castedEval.TotalPointsPossible,
                     PointsPossibleToDate = castedEval.CurrentPointsPossible
                 });
@@ -215,6 +218,15 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
             if (evalSpells.Any(es => es.Weighted))
             {
+
+                //foreach (var eval in evalSpells)
+                //{
+                //    eval.GradeOverallRaw =
+                //        MathApprentice.CalculateRawPercentage(eval.PointsEarned, eval.PointsPossibleOverall);
+                //    eval.GradeToDateRaw =
+                //        MathApprentice.CalculateRawPercentage(eval.PointsEarned, eval.PointsPossibleToDate);
+                //}
+
                 courseSpell = new WeightedCourseResult
                 {
                     Evaluations = evalSpells,

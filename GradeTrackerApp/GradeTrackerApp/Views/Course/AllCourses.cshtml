@@ -8,14 +8,14 @@
         padding-left: 10px;
     }
 
-    table td#grade {
+    table td.grade {
         text-align: center
     }
 
     table th {
         font-size: larger;
         text-align: center;
-        width: 30%
+        width: 20%
     }
 </style>
 
@@ -37,9 +37,12 @@
                 Name
             </th>
             <th>
-                Grade
+                Current Grade
             </th>
-            <th colspan="3">
+            <th>
+                Final Grade
+            </th>
+            <th colspan="2">
                 Options
             </th>
         </tr>
@@ -50,8 +53,11 @@
             <td>
                 @(course.Name)
             </td>
-            <td id="grade">
+            <td class="grade">
                 @(course.CurrentGrade)
+            </td>
+            <td class="grade">
+                @(course.FinalGrade)
             </td>
             <td>
                 @Html.ActionLink("View", "ViewCourse", "Course", routeValues: new { courseId = course.Id }, htmlAttributes: null)

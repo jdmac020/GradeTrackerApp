@@ -67,7 +67,14 @@ namespace GradeTrackerApp.Interactors.Evaluation
             {
                 existingEvaluation.Weight = updatedEvaluation.Weight;
                 existingEvaluation.NumberOfScores = updatedEvaluation.NumberOfScores;
+                existingEvaluation.PointsPerScore = updatedEvaluation.PointsPerScore;
                 existingEvaluation.DropLowest = updatedEvaluation.DropLowest;
+                existingEvaluation.NumberToDrop = updatedEvaluation.NumberToDrop;
+                existingEvaluation.CurrentPointsGrade = updatedEvaluation.CurrentPointsGrade;
+                existingEvaluation.CurrentPointsPossible = updatedEvaluation.CurrentPointsPossible;
+                existingEvaluation.FinalPointsGrade = updatedEvaluation.FinalPointsGrade;
+                existingEvaluation.TotalPointsPossible = updatedEvaluation.TotalPointsPossible;
+                existingEvaluation.PointsEarned = updatedEvaluation.PointsEarned;
                 existingEvaluation.Name = updatedEvaluation.Name;
                 existingEvaluation.LastModified = DateTime.Now;
 
