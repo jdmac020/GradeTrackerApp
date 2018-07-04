@@ -9,9 +9,16 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
 
         public static EvaluationService Create_EvaluationService()
         {
-            var interactor = new MockEvaluationInteractor();
+            var evalInteractor = new MockEvaluationInteractor();
 
-            return new EvaluationService(interactor);
+            var scoreInteractor = new MockScoreInteractor();
+
+            var service = new EvaluationService();
+
+            service.EvaluationInteractor = evalInteractor;
+            service.ScoreInteractor = scoreInteractor;
+
+            return service;
         }
     }
 }
