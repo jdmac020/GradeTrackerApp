@@ -24,6 +24,18 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
             };
         }
 
+        public static CreateScoreDomainModel Create_CreateScoreDomainModel_80Percent()
+        {
+            return new CreateScoreDomainModel
+            {
+                Name = "Quiz",
+                EvaluationId = Guid.Empty,
+                Date = DateTime.Parse("1/23/2018"),
+                PointsPossible = 10,
+                PointsEarned = 8
+            };
+        }
+
         public static ScoreEntity Create_ScoreEntity_Empty()
         {
             return new ScoreEntity();
@@ -36,9 +48,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
                 Name = "Quiz",
                 EvaluationId = Guid.Empty,
                 Date = DateTime.Parse("1/23/2018"),
-                PointsPossible = 0,
-                PointsEarned = 0,
-                PointsGrade = 0
+                PointsPossible = 10,
+                PointsEarned = 8,
+                PointsGrade = .8
 
             };
         }
@@ -51,9 +63,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
                 Name = "Quiz",
                 EvaluationId = Guid.Empty,
                 Date = DateTime.Parse("1/23/2018"),
-                PointsPossible = 0,
-                PointsEarned = 0,
-                PointsGrade = 0
+                PointsPossible = 10,
+                PointsEarned = 8,
+                PointsGrade = .8
 
             };
         }
@@ -66,9 +78,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Scores
                 Name = scoreName,
                 EvaluationId = evalId,
                 Date = DateTime.Parse("1/23/2018"),
-                PointsPossible = 0,
-                PointsEarned = 0,
-                PointsGrade = 0
+                PointsPossible = 10,
+                PointsEarned = 8,
+                PointsGrade = .8
 
             };
         }

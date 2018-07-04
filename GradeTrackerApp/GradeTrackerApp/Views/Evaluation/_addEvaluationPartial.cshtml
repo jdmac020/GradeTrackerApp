@@ -17,14 +17,23 @@
                 @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
             </td>
         </tr>
-        <tr>
+        <tr id="weightValueBool" onclick="showWeightBox()">
+            <td>
+                @Html.Label("Check If Weighted: ")
+                <p style="font-size: smaller">As in, </p>
+                <p style="font-size: smaller">"Homework is worth 10% of your grade and Exams are worth 40%"</p>
+            </td>
+            <td>
+                @Html.CheckBox("WeightValue")
+            </td>
+        </tr>
+        <tr id="weightValueBox">
             <td>
                 @Html.LabelFor(model => model.Weight)
                 <p style="font-size: smaller">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
-                <p style="font-size: smaller">If your grade is based on total of all points, enter 100</p>
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Weight)
+                @Html.TextBoxFor(model => model.Weight, "100")
             </td>
             <td>
                 @Html.ValidationMessageFor(model => model.Weight, string.Empty, new { @class = "text-danger" })
@@ -41,12 +50,20 @@
                 @Html.ValidationMessageFor(model => model.NumberOfScores, string.Empty, new { @class = "text-danger" })
             </td>
         </tr>
-        <tr>
+        <tr id="dropScoreBool" onclick="showCountBox()">
             <td>
                 @Html.LabelFor(model => model.DropLowest)
             </td>
             <td>
-                @Html.CheckBoxFor(m => m.DropLowest, Model.DropLowest)
+                @Html.CheckBoxFor(m => m.DropLowest)
+            </td>
+        </tr>
+        <tr id="dropScoreCount">
+            <td>
+                @Html.LabelFor(model => model.ScoresToDrop)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.ScoresToDrop, Model.ScoresToDrop)
             </td>
         </tr>
 
@@ -56,4 +73,45 @@
         <input type="submit" value="Add Evaluation" class="btn btn-default" />
         @Html.ActionLink("Cancel", "ViewCourse", "Course", routeValues: new { courseId = Model.CourseId }, htmlAttributes: new { Class = "btn btn-default" })
     </div>
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#dropScoreCount").hide();
+            $("#weightValueBox").hide();
+        });
+
+        function showCountBox() {
+
+            var dropScoreCount = $("#dropScoreCount");
+
+            var showBox = $('#dropScoreBool').find("input:checked").attr("value");
+
+            if (showBox === "true") {
+                dropScoreCount.show();
+            } else {
+                dropScoreCount.hide();
+            }
+
+        };
+
+        function showWeightBox() {
+
+            var weightValueBox = $("#weightValueBox");
+
+            var showBox = $('#weightValueBool').find("input:checked").attr("value");
+
+            if (showBox === "true") {
+                weightValueBox.show();
+            } else {
+                weightValueBox.hide();
+            }
+
+        };
+
+    </script>
+
 }

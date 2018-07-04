@@ -12,6 +12,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
         IDomainModel DeleteCourse(Guid courseId);
         IDomainModel UpdateCourse(CreateOrEditCourseDomainModel updatedModel);
         List<IDomainModel> GetCourses(Guid userId);
-        void UpdateCourseLastModified(Guid courseId);
+        void EvaluationModified(Guid courseId);
     }
 }

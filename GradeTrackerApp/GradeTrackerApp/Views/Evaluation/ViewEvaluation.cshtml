@@ -47,10 +47,10 @@
             <td>@Html.DisplayFor(model => model.NumberOfScores)</td>
         </tr>
         <tr>
-            <th>@Html.LabelFor(model => model.PointsPossible)</th>
+            <th>@Html.LabelFor(model => model.TotalPointsPossible)</th>
         </tr>
         <tr>
-            <td>@Html.DisplayFor(model => model.PointsPossible)</td>
+            <td>@Html.DisplayFor(model => model.TotalPointsPossible)</td>
         </tr>
     </table>
 </div>
@@ -62,10 +62,10 @@
 
     <table>
         <tr>
-            <th>@Html.LabelFor(model => model.PointsPossible)</th>
+            <th>@Html.LabelFor(model => model.CurrentPointsPossible)</th>
         </tr>
         <tr>
-            <td>@Html.DisplayFor(model => model.PointsPossible)</td>
+            <td>@Html.DisplayFor(model => model.CurrentPointsPossible)</td>
         </tr>
         <tr>
             <th>@Html.LabelFor(model => model.PointsEarned)</th>
@@ -74,10 +74,16 @@
             <td>@Html.DisplayFor(model => model.PointsEarned)</td>
         </tr>
         <tr>
-            <th>@Html.LabelFor(model => model.CurrentPointsGrade)</th>
+            <th>@Html.LabelFor(model => model.CurrentGrade)</th>
         </tr>
         <tr>
-            <td>@Html.DisplayFor(model => model.CurrentPointsGrade)</td>
+            <td>@Html.DisplayFor(model => model.CurrentGrade)</td>
+        </tr>
+        <tr>
+            <th>@Html.LabelFor(model => model.FinalGrade)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.FinalGrade)</td>
         </tr>
     </table>
 </div>
@@ -120,7 +126,7 @@
             }
         </table>
         @Html.ActionLink("Add Another Score", "AddScore", "Score", routeValues: new { evaluationId = Model.Id }, htmlAttributes: null)
-        <h4>Current Overall Grade in @Model.Name: @Model.CurrentPointsGrade</h4>
+        <h4>Current Overall Grade in @Model.Name: @Model.CurrentGrade</h4>
         <hr />
 
     }
