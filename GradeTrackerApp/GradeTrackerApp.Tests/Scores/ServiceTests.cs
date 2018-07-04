@@ -25,7 +25,7 @@ namespace GradeTrackerApp.Tests.Scores
         }
 
         [Fact]
-        public void CreateNewScore_ValidMin_ReturnsGoodGuid()
+        public void CreateNewScore_ValidMin_ReturnsGoodName()
         {
             var testClass = ServiceFactory.Create_ScoreService();
             var testModel = ScoreFactory.Create_CreateScoreDomainModel_ValidMinimum();
@@ -33,6 +33,19 @@ namespace GradeTrackerApp.Tests.Scores
             var result = testClass.CreateNewScore(testModel);
 
             result.Name.ShouldNotBe(string.Empty);
+        }
+
+        [Fact]
+        public void CreateNewScore_ValidMin_Returns80Percent()
+        {
+            var testClass = ServiceFactory.Create_ScoreService();
+            var testModel = ScoreFactory.Create_CreateScoreDomainModel_80Percent();
+
+            var result = testClass.CreateNewScore(testModel);
+
+            var castedResult = (ScoreDomainModel) result;
+
+            castedResult.PointsGrade.ShouldBe(.8);
         }
 
         [Fact]

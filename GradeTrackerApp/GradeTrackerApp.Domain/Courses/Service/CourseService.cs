@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using ConjureGrade.Apprentice;
+using ConjureGrade.Spells;
+using ConjureGrade.Wizards;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
@@ -179,9 +183,87 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return domainModels;
         }
 
-        public void UpdateCourseLastModified(Guid courseId)
+        public void EvaluationModified(Guid courseId)
         {
-            CourseInteractor.UpdateLastModified(courseId);
+            var course = CourseInteractor.GetCourse(courseId);
+            CalculateGrade(course);
+            CourseInteractor.UpdateCourse(course);
+        }
+
+        private void CalculateGrade(CourseEntity course)
+        {
+            var courseWizard = new CourseWizard();
+            var evalSpells = new List<EvaluationResult>();
+
+            var evals = EvaluationService.GetEvaluationsForCourse(course.Id);
+
+            foreach (var eval in evals)
+            {
+                var castedEval = (EvaluationDomainModel) eval;
+                var weighted = castedEval.Weight != 1;
+
+                evalSpells.Add(new EvaluationResult
+                {
+                    Weighted = weighted,
+                    WeightAmount = castedEval.Weight,
+                    PointsEarned = castedEval.PointsEarned,
+                    GradeToDateRaw = castedEval.CurrentPointsGrade,
+                    GradeOverallRaw = castedEval.FinalPointsGrade,
+                    PointsPossibleOverall = castedEval.TotalPointsPossible,
+                    PointsPossibleToDate = castedEval.CurrentPointsPossible
+                });
+            }
+
+            ICourseResult courseSpell = null;
+
+            if (evalSpells.Any(es => es.Weighted))
+            {
+
+                //foreach (var eval in evalSpells)
+                //{
+                //    eval.GradeOverallRaw =
+                //        MathApprentice.CalculateRawPercentage(eval.PointsEarned, eval.PointsPossibleOverall);
+                //    eval.GradeToDateRaw =
+                //        MathApprentice.CalculateRawPercentage(eval.PointsEarned, eval.PointsPossibleToDate);
+                //}
+
+                courseSpell = new WeightedCourseResult
+                {
+                    Evaluations = evalSpells,
+                    
+                };
+
+                courseWizard.Course = courseSpell;
+
+                courseWizard.UpdateAllGrades();
+
+                var courseResult = (WeightedCourseResult)courseWizard.Course;
+
+                course.CurrentPointsGrade = courseResult.GradeToDateRaw;
+                course.FinalPointsGrade = courseResult.GradeOverallRaw;
+
+            }
+            else
+            {
+                courseSpell = new CourseResult
+                {
+                    Evaluations = evalSpells
+                };
+
+                courseWizard.Course = courseSpell;
+
+                courseWizard.UpdateAllGrades();
+
+                var courseResult = (CourseResult)courseWizard.Course;
+
+                course.PointsEarned = courseResult.PointsEarned;
+                course.TotalPointsPossible = courseResult.PointsPossibleOverall;
+                course.CurrentPointsPossible = courseResult.PointsPossibleToDate;
+                course.CurrentPointsGrade = courseResult.GradeToDateRaw;
+                course.FinalPointsGrade = courseResult.GradeOverallRaw;
+            }
+
+            
         }
 
         private static CourseEntity ConvertModelToEntity(CourseDomainModel updatedModel)

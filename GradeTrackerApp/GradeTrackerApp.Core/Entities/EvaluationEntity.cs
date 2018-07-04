@@ -11,11 +11,14 @@ namespace GradeTrackerApp.Core.Entities
         public Guid CourseId { get; set; }
         public double Weight { get; set; }
         public int NumberOfScores { get; set; }
-        public double PointsPossible { get; set; } // Calculated
+        public double PointsPerScore { get; set; }
+        public double TotalPointsPossible { get; set; } // Calculated
+        public double CurrentPointsPossible { get; set; } // Calculated
         public double PointsEarned { get; set; } // Calculated
         public double CurrentPointsGrade { get; set; } // Calculated
         public double FinalPointsGrade { get; set; } // Calculated
         public bool DropLowest { get; set; }
+        public int NumberToDrop { get; set; }
 
         //public virtual List<ScoreEntity> Scores { get; set; }
     }

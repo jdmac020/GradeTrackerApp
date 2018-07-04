@@ -5,6 +5,7 @@ using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Interactors.Score;
+using ConjureGrade.Wizards;
 
 namespace GradeTrackerApp.Domain.Scores.Service
 {
@@ -57,6 +58,9 @@ namespace GradeTrackerApp.Domain.Scores.Service
             try
             {
                 var entityToUpdate = ConvertModelToEntity(updatedScoreModel);
+
+                CalculateGrade(entityToUpdate);
+
                 Interactor.UpdateScore(entityToUpdate);
 
                 var updatedEntity = Interactor.GetScore(entityToUpdate.Id);
@@ -78,6 +82,8 @@ namespace GradeTrackerApp.Domain.Scores.Service
 
             try
             {
+                CalculateGrade(newScoreEntity);
+
                 var scoreId = Interactor.CreateScore(newScoreEntity);
 
                 scoreModel = (ScoreDomainModel)GetScore(scoreId);
@@ -133,6 +139,15 @@ namespace GradeTrackerApp.Domain.Scores.Service
             }
 
             return models;
+        }
+
+        private void CalculateGrade(ScoreEntity scoreToCalculate)
+        {
+            var wizard = new ScoreWizard();
+
+            var result = wizard.GetSingleScoreResult(scoreToCalculate.PointsEarned, scoreToCalculate.PointsPossible);
+
+            scoreToCalculate.PointsGrade = result.GradeRaw;
         }
 
         private static ScoreEntity ConvertModelToEntity(CreateScoreDomainModel createModel)

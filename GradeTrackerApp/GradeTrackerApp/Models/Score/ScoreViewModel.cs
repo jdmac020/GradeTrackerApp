@@ -62,7 +62,7 @@ namespace GradeTrackerApp.Models.Score
             EvaluationId = domainModel.EvaluationId;
             PointsPossible = domainModel.PointsPossible;
             PointsEarned = domainModel.PointsEarned;
-            PointsGrade = domainModel.PointsGrade;
+            PointsGrade = domainModel.PointsGrade * 100;
             _lastModified = domainModel.LastModified;
             CreatedOn = domainModel.CreatedOn;
         }

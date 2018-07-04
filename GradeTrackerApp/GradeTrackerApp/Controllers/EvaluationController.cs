@@ -67,8 +67,9 @@ namespace GradeTrackerApp.Controllers
                 Id = viewModel.Id,
                 CourseId = viewModel.CourseId,
                 Name = viewModel.Name,
-                Weight = viewModel.Weight,
+                Weight = viewModel.Weight / 100,
                 NumberOfScores = viewModel.NumberOfScores,
+                PointsPerScore =  viewModel.PointValuePerScore,
                 DropLowest = viewModel.DropLowest
             };
         }
@@ -79,8 +80,9 @@ namespace GradeTrackerApp.Controllers
             {
                 CourseId = viewModel.CourseId,
                 Name = viewModel.Name,
-                Weight = viewModel.Weight,
+                Weight = viewModel.Weight / 100,
                 NumberOfScores = viewModel.NumberOfScores,
+                PointsPerScore = viewModel.PointValuePerScore,
                 DropLowest = viewModel.DropLowest
             };
         }
@@ -148,7 +150,7 @@ namespace GradeTrackerApp.Controllers
 
                 if (newDomainModel.GetType() == typeof(EvaluationDomainModel))
                 {
-                    Courses.UpdateCourseLastModified(viewModel.CourseId);
+                    Courses.EvaluationModified(viewModel.CourseId);
 
                     return Complete((EvaluationDomainModel)newDomainModel);
                 }
@@ -197,7 +199,7 @@ namespace GradeTrackerApp.Controllers
                 {
                     var viewModel = new EvaluationViewModel((EvaluationDomainModel)updatedModel);
 
-                    Courses.UpdateCourseLastModified(viewModel.CourseId);
+                    Courses.EvaluationModified(viewModel.CourseId);
 
                     return View("EvaluationUpdated", viewModel);
                 }
@@ -221,7 +223,7 @@ namespace GradeTrackerApp.Controllers
                 var castedDomainModel = (EvaluationDomainModel)deletedEvalauation;
 
                 var courseIdOnlyModel = new EvaluationViewModel { CourseId = castedDomainModel.CourseId };
-                Courses.UpdateCourseLastModified(courseIdOnlyModel.CourseId);
+                Courses.EvaluationModified(courseIdOnlyModel.CourseId);
 
                 return View("EvaluationDeleted", courseIdOnlyModel);
             }
