@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConjureGrade.Apprentice;
 using ConjureGrade.Spells;
 using ConjureGrade.Wizards;
 using GradeTrackerApp.Core.Entities;

@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConjureGrade">
-      <HintPath>..\packages\ConjureGrade\ConjureGrade.dll</HintPath>
+    <Reference Include="ConjureGrade, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ConjureGrade.0.9.0\lib\net461\ConjureGrade.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,6 +78,9 @@
       <Project>{6816CAA2-BA2B-4831-8B5B-945DD09B6A4F}</Project>
       <Name>GradeTrackerApp.Interactors</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
