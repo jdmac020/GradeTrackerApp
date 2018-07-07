@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201803250027218_changedWeightInEvaluatinToDouble.Designer.cs">
       <DependentUpon>201803250027218_changedWeightInEvaluatinToDouble.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807070108306_evaluationUpdates.cs" />
+    <Compile Include="Migrations\201807070108306_evaluationUpdates.Designer.cs">
+      <DependentUpon>201807070108306_evaluationUpdates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EfRepository\EfRepository.cs" />
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803250027218_changedWeightInEvaluatinToDouble.resx">
       <DependentUpon>201803250027218_changedWeightInEvaluatinToDouble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807070108306_evaluationUpdates.resx">
+      <DependentUpon>201807070108306_evaluationUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
