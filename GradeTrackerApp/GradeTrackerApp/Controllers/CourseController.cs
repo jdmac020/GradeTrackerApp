@@ -8,6 +8,7 @@ using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Courses.Service;
 using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Evaluations.Service;
+using GradeTrackerApp.Domain.Scores.Service;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Semesters.Service;
 using GradeTrackerApp.Domain.Shared;
@@ -47,6 +48,14 @@ namespace GradeTrackerApp.Controllers
         }
 
         private IEvaluationService _evaluationService;
+
+        public IScoreService Scores
+        {
+            get { return _scoreService ?? (_scoreService = new ScoreService()); }
+            set { _scoreService = value; }
+        }
+
+        private IScoreService _scoreService;
 
         #endregion
 
@@ -330,6 +339,57 @@ namespace GradeTrackerApp.Controllers
 
                 return View("CourseDeleted", courseIdOnlyModel);
             }
+        }
+
+        [HttpPost]
+        public ActionResult GetWhatIfGrade(CourseViewModel model)
+        {
+            return View();
+        }
+
+        public ActionResult StartWhatIfGrade(Guid courseId)
+        {
+            var courseDomainModel = new CourseDomainModel();
+            var iModel = Courses.GetCourse(courseId);
+
+            if (iModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(iModel, null);
+            }
+            else
+            {
+                courseDomainModel = (CourseDomainModel)iModel;
+            }
+
+            var courseViewModel = new CourseViewModel(courseDomainModel);
+
+            var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
+
+            if (evaluationDomainModels.Count > 0 && evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(evaluationDomainModels.First(), null);
+            }
+
+            var semesterModel = Semesters.GetSemester(courseDomainModel.SemesterId);
+
+            if (semesterModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(semesterModel, null);
+            }
+
+            courseViewModel.Semester = GetSemesterViewModel(semesterModel);
+            courseViewModel.Evaluations = ConvertToListViewModel(evaluationDomainModels);
+
+            foreach (var eval in courseViewModel.Evaluations)
+            {
+                var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
+
+                eval.Scores = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+            }
+
+            courseViewModel.SetLastModified();
+
+            return View("WhatIfEntryView", courseViewModel);
         }
     }
 }

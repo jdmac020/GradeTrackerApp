@@ -1,0 +1,32 @@
+﻿@model GradeTrackerApp.Models.Score.ScoreViewModel
+
+<style>
+
+    .scoreWhatIf table {
+        margin:inherit;
+    }
+
+    .scoreWhatIf tr {
+
+        padding-left: 25px
+
+    }
+
+    .scoreWhatIf th {
+
+        font-weight: 500;
+    }
+
+</style>
+
+<table>
+
+
+    <tr>
+
+        <th>@Model.Name</th>
+
+        <td>@Html.EditorFor(m => m.PointsEarned)</td>
+    </tr>
+
+</table>

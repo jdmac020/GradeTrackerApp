@@ -127,7 +127,7 @@ namespace GradeTrackerApp.Controllers
             }
         }
 
-        private ScoreListViewModel GetListViewModelFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
+        public static ScoreListViewModel GetListViewModelFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
         {
             var listOfViewModels = new List<ScoreViewModel>();
 
