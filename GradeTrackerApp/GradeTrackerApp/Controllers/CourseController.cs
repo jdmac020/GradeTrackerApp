@@ -15,6 +15,7 @@ using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
 using GradeTrackerApp.Models.Evaluation;
+using GradeTrackerApp.Models.Score;
 using GradeTrackerApp.Models.Semester;
 using Microsoft.AspNet.Identity;
 
@@ -236,6 +237,18 @@ namespace GradeTrackerApp.Controllers
             return View(courseViewModel);
         }
 
+        protected List<EvaluationViewModel> ConvertToListOfViewModels(List<IDomainModel> domainModels)
+        {
+            var listOfViewModels = new List<EvaluationViewModel>();
+
+            foreach (var eval in domainModels)
+            {
+                listOfViewModels.Add(new EvaluationViewModel((EvaluationDomainModel)eval));
+            }
+
+            return listOfViewModels;
+        }
+
         protected EvaluationListViewModel ConvertToListViewModel(List<IDomainModel> domainModels)
         {
             var listOfViewModels = new List<EvaluationViewModel>();
@@ -341,8 +354,8 @@ namespace GradeTrackerApp.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult GetWhatIfGrade(CourseViewModel model)
+        
+        public ActionResult GetWhatIfGrade(CourseWhatIfViewModel whatIfModel)
         {
             return View();
         }
@@ -361,7 +374,7 @@ namespace GradeTrackerApp.Controllers
                 courseDomainModel = (CourseDomainModel)iModel;
             }
 
-            var courseViewModel = new CourseViewModel(courseDomainModel);
+            var courseWhatIfViewModel = new CourseWhatIfViewModel { Id = courseDomainModel.Id, Name = courseDomainModel.Name };
 
             var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
 
@@ -369,27 +382,28 @@ namespace GradeTrackerApp.Controllers
             {
                 return GradeTrackerError(evaluationDomainModels.First(), null);
             }
+            
+            courseWhatIfViewModel.EvaluationList = ConvertToListOfViewModels(evaluationDomainModels);
 
-            var semesterModel = Semesters.GetSemester(courseDomainModel.SemesterId);
+            var scoresList = new List<ScoreViewModel>();
 
-            if (semesterModel.GetType() == typeof(ErrorDomainModel))
-            {
-                return GradeTrackerError(semesterModel, null);
-            }
-
-            courseViewModel.Semester = GetSemesterViewModel(semesterModel);
-            courseViewModel.Evaluations = ConvertToListViewModel(evaluationDomainModels);
-
-            foreach (var eval in courseViewModel.Evaluations)
+            foreach (var eval in courseWhatIfViewModel.EvaluationList)
             {
                 var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
 
-                eval.Scores = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+                if (courseWhatIfViewModel.ScoreList is null)
+                {
+                    courseWhatIfViewModel.ScoreList = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+                }
+                else
+                {
+                    courseWhatIfViewModel.ScoreList.AddRange(EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel));
+                }
+
+                
             }
 
-            courseViewModel.SetLastModified();
-
-            return View("WhatIfEntryView", courseViewModel);
+            return View("WhatIfEntryView", courseWhatIfViewModel);
         }
     }
 }

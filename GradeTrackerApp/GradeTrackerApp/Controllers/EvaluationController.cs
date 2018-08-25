@@ -139,6 +139,18 @@ namespace GradeTrackerApp.Controllers
             return new ScoreListViewModel(listOfViewModels);
         }
 
+        public static List<ScoreViewModel> GetListOfViewModelsFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
+        {
+            var listOfViewModels = new List<ScoreViewModel>();
+
+            foreach (var domainModel in listOfDomainModels)
+            {
+                listOfViewModels.Add(new ScoreViewModel((ScoreDomainModel)domainModel));
+            }
+
+            return listOfViewModels;
+        }
+
         public ActionResult Create(CreateEvaluationViewModel viewModel)
         {
 

@@ -1,4 +1,4 @@
-﻿@model GradeTrackerApp.Models.Course.CourseViewModel
+﻿@model GradeTrackerApp.Models.Course.CourseWhatIfViewModel
 
 @{
     ViewBag.Title = "WhatIfEntryView";
@@ -46,16 +46,30 @@
 
 <h2>WhatIfEntryView</h2>
 
-@using (Html.BeginForm("GetWhatIfGrade", "Course", FormMethod.Post))
+@using (Html.BeginForm("GetWhatIfGrade", "Course", Model.EvaluationList))
 {
+    //Html.HiddenFor(m => m.Evaluations);
 
-    foreach (var eval in Model.Evaluations)
+
+    @*for (var i = 0; i < Model.Evaluations.Count; i++)
     {
-        @Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
-    }
+
+        var eval = Model.Evaluations[i];
+
+        <p>@eval.Name</p>
+
+        for (var x = 0; x < eval.Scores.Count; x++)
+        {
+            var score = eval.Scores[x];
+
+            <p>@score.Name: @Html.TextBoxFor(m => m.Evaluations.Where(e => e.Id == eval.Id).First().Scores.Where(s => s == score).First().PointsEarned)</p>
+        }
+
+        //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
+    }*@
 
     <div style="padding-top: 15px">
-        <input type="submit" value="Add Course" class="btn btn-default" />
+        <input type="submit" value="Get What If" class="btn btn-default" />
         @Html.ActionLink("Cancel", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
     </div>
 }
