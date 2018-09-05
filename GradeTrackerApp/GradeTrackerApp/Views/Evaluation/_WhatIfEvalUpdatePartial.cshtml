@@ -1,0 +1,32 @@
+﻿@model GradeTrackerApp.Models.Evaluation.EvaluationViewModel
+
+<style>
+
+    .evalWhatIf th {
+
+        font-weight: 700;
+
+    }
+
+    .evalWhatIf tr {
+        margin-left:100px;
+    }
+
+</style>
+
+<table class="evalWhatIf">
+
+    <tr>
+        <th>@Model.Name</th>
+    </tr>
+
+    @foreach (var score in Model.Scores)
+    {
+        <tr>@Html.Partial("~/Views/Score/_WhatIfScoreUpdate.cshtml", score)</tr>
+    }
+
+</table>
+
+
+
+

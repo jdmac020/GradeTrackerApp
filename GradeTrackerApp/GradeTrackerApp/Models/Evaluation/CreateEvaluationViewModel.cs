@@ -12,6 +12,10 @@ namespace GradeTrackerApp.Models.Evaluation
     {
         public Guid CourseId { get; set; }
 
+        public bool StraightPointsOnly { get; set; }
+
+        public bool WeightedOnly { get; set; }
+
         [Required(ErrorMessage = "*Name is required*")]
         public string Name { get; set; }
 

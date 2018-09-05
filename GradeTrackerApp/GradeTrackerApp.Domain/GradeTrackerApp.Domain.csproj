@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Courses\Models\CourseDomainModel.cs" />
+    <Compile Include="Courses\Models\CourseWeightModel.cs" />
     <Compile Include="Courses\Models\CreateOrEditCourseDomainModel.cs" />
     <Compile Include="Courses\Service\CourseService.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />

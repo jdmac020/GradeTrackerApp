@@ -304,5 +304,26 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 //EndDate = updatedModel.EndDate
             };
         }
+
+        public CourseWeightDomainModel GetCourseWeightType(Guid courseId)
+        {
+            var returnModel = new CourseWeightDomainModel();
+            var evals = EvaluationService.GetEvaluationsForCourse(courseId);
+
+            if (evals.Count > 0)
+            {
+                var evalModels = new List<EvaluationDomainModel>();
+
+                foreach(var eval in evals)
+                {
+                    evalModels.Add((EvaluationDomainModel)eval);
+                }
+
+                returnModel.IsWeighted = evalModels.Any(e => e.Weight != 1);
+                returnModel.IsStraightPoints = evalModels.Any(e => e.Weight == 1); 
+            }
+
+            return returnModel;
+        }
     }
 }

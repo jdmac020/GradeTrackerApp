@@ -91,7 +91,25 @@ namespace GradeTrackerApp.Controllers
         {
             var createModel = new CreateEvaluationViewModel(courseId);
 
+            GetWeightedOptions(createModel);
+
             return View(createModel);
+        }
+
+        private void GetWeightedOptions(CreateEvaluationViewModel createModel)
+        {
+            var weightedModel = Courses.GetCourseWeightType(createModel.CourseId);
+
+            if (weightedModel.IsWeighted)
+            {
+                createModel.WeightedOnly = true;
+            }
+
+            if (weightedModel.IsStraightPoints)
+            {
+                createModel.StraightPointsOnly = true;
+            }
+            
         }
 
         public ActionResult ViewEvaluation(Guid evaluationId)
@@ -127,7 +145,7 @@ namespace GradeTrackerApp.Controllers
             }
         }
 
-        private ScoreListViewModel GetListViewModelFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
+        public static ScoreListViewModel GetListViewModelFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
         {
             var listOfViewModels = new List<ScoreViewModel>();
 
@@ -137,6 +155,18 @@ namespace GradeTrackerApp.Controllers
             }
 
             return new ScoreListViewModel(listOfViewModels);
+        }
+
+        public static List<ScoreViewModel> GetListOfViewModelsFromDomainModels(IEnumerable<IDomainModel> listOfDomainModels)
+        {
+            var listOfViewModels = new List<ScoreViewModel>();
+
+            foreach (var domainModel in listOfDomainModels)
+            {
+                listOfViewModels.Add(new ScoreViewModel((ScoreDomainModel)domainModel));
+            }
+
+            return listOfViewModels;
         }
 
         public ActionResult Create(CreateEvaluationViewModel viewModel)
