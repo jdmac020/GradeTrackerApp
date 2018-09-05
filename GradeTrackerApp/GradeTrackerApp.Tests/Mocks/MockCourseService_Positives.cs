@@ -41,5 +41,10 @@ namespace GradeTrackerApp.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public CourseWeightDomainModel GetCourseWeightType(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
