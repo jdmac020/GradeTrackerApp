@@ -203,6 +203,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course\CourseListViewModel.cs" />
     <Compile Include="Models\Course\CourseViewModel.cs" />
+    <Compile Include="Models\Course\CourseWhatIfViewModel.cs" />
     <Compile Include="Models\Course\CreateOrEditCourseViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
     <Compile Include="Models\Evaluation\CreateEvaluationViewModel.cs" />
@@ -347,6 +348,9 @@
     <Content Include="Views\Course\UpdateCourse.cshtml" />
     <Content Include="Views\Course\CourseUpdated.cshtml" />
     <Content Include="Views\Course\CourseDeleted.cshtml" />
+    <Content Include="Views\Course\WhatIfEntryView.cshtml" />
+    <Content Include="Views\Score\_WhatIfScoreUpdate.cshtml" />
+    <Content Include="Views\Evaluation\_WhatIfEvalUpdatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

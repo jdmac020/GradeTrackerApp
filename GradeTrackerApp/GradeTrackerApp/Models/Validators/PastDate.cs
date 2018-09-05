@@ -10,9 +10,25 @@ namespace GradeTrackerApp.Models.Validators
     {
         public override bool IsValid(object dateInput)
         {
-            var testDate = (DateTime)dateInput;
+            if (dateInput is null)
+                return false;
 
-            return testDate <= DateTime.Now;
+            try
+            {
+                var testDate = (DateTime)dateInput;
+
+                return testDate <= DateTime.Now;
+            }
+            catch(FormatException)
+            {
+                return false;
+            }
+            catch(ArgumentException)
+            {
+                return false;
+            }
+
+            
         }
     }
 }

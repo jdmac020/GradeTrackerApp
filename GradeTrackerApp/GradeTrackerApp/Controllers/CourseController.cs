@@ -8,12 +8,14 @@ using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Courses.Service;
 using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Evaluations.Service;
+using GradeTrackerApp.Domain.Scores.Service;
 using GradeTrackerApp.Domain.Semesters.Models;
 using GradeTrackerApp.Domain.Semesters.Service;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Models;
 using GradeTrackerApp.Models.Course;
 using GradeTrackerApp.Models.Evaluation;
+using GradeTrackerApp.Models.Score;
 using GradeTrackerApp.Models.Semester;
 using Microsoft.AspNet.Identity;
 
@@ -47,6 +49,14 @@ namespace GradeTrackerApp.Controllers
         }
 
         private IEvaluationService _evaluationService;
+
+        public IScoreService Scores
+        {
+            get { return _scoreService ?? (_scoreService = new ScoreService()); }
+            set { _scoreService = value; }
+        }
+
+        private IScoreService _scoreService;
 
         #endregion
 
@@ -227,6 +237,18 @@ namespace GradeTrackerApp.Controllers
             return View(courseViewModel);
         }
 
+        protected List<EvaluationViewModel> ConvertToListOfViewModels(List<IDomainModel> domainModels)
+        {
+            var listOfViewModels = new List<EvaluationViewModel>();
+
+            foreach (var eval in domainModels)
+            {
+                listOfViewModels.Add(new EvaluationViewModel((EvaluationDomainModel)eval));
+            }
+
+            return listOfViewModels;
+        }
+
         protected EvaluationListViewModel ConvertToListViewModel(List<IDomainModel> domainModels)
         {
             var listOfViewModels = new List<EvaluationViewModel>();
@@ -331,5 +353,57 @@ namespace GradeTrackerApp.Controllers
                 return View("CourseDeleted", courseIdOnlyModel);
             }
         }
+
+        
+        //public ActionResult GetWhatIfGrade(CourseWhatIfViewModel whatIfModel)
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult StartWhatIfGrade(Guid courseId)
+        //{
+        //    var courseDomainModel = new CourseDomainModel();
+        //    var iModel = Courses.GetCourse(courseId);
+
+        //    if (iModel.GetType() == typeof(ErrorDomainModel))
+        //    {
+        //        return GradeTrackerError(iModel, null);
+        //    }
+        //    else
+        //    {
+        //        courseDomainModel = (CourseDomainModel)iModel;
+        //    }
+
+        //    var courseWhatIfViewModel = new CourseWhatIfViewModel { Id = courseDomainModel.Id, Name = courseDomainModel.Name };
+
+        //    var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
+
+        //    if (evaluationDomainModels.Count > 0 && evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
+        //    {
+        //        return GradeTrackerError(evaluationDomainModels.First(), null);
+        //    }
+            
+        //    courseWhatIfViewModel.EvaluationList = ConvertToListOfViewModels(evaluationDomainModels);
+
+        //    var scoresList = new List<ScoreViewModel>();
+
+        //    foreach (var eval in courseWhatIfViewModel.EvaluationList)
+        //    {
+        //        var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
+
+        //        if (courseWhatIfViewModel.ScoreList is null)
+        //        {
+        //            courseWhatIfViewModel.ScoreList = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+        //        }
+        //        else
+        //        {
+        //            courseWhatIfViewModel.ScoreList.AddRange(EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel));
+        //        }
+
+                
+        //    }
+
+        //    return View("WhatIfEntryView", courseWhatIfViewModel);
+        //}
     }
 }

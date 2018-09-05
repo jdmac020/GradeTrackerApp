@@ -13,5 +13,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
         IDomainModel UpdateCourse(CreateOrEditCourseDomainModel updatedModel);
         List<IDomainModel> GetCourses(Guid userId);
         void EvaluationModified(Guid courseId);
+        CourseWeightDomainModel GetCourseWeightType(Guid courseId);
     }
 }
