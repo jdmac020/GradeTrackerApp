@@ -13,22 +13,46 @@
 
     @Html.HiddenFor(model => model.CourseId, Model.CourseId)
 
-    <table>
+<table>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.Name)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Name)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
+        </td>
+    </tr>
+    @if (Model.WeightedOnly)
+    {
         <tr>
             <td>
-                @Html.LabelFor(model => model.Name)
+                @Html.LabelFor(model => model.Weight)
+                <p style="font-size: smaller">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Name)
+                @Html.TextBoxFor(model => model.Weight, "100")
             </td>
             <td>
-                @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Weight, string.Empty, new { @class = "text-danger" })
             </td>
         </tr>
+    }
+
+    else if (Model.StraightPointsOnly)
+    {
+        Model.Weight = 100;
+    }
+
+    else
+    {
         <tr id="weightValueBool" onclick="showWeightBox()">
             <td>
                 @Html.Label("Check If Weighted: ")
-            <p class="help-text">As in, "Homework is worth 10% of your grade and Exams are worth 40%"</p>
+                <p style="font-size: smaller">As in, </p>
+                <p style="font-size: smaller">"Homework is worth 10% of your grade and Exams are worth 40%"</p>
             </td>
             <td>
                 @Html.CheckBox("WeightValue")
@@ -37,53 +61,54 @@
         <tr id="weightValueBox">
             <td>
                 @Html.LabelFor(model => model.Weight)
-                <p class="help-text">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
+                <p style="font-size: smaller">Eg: If "Tests" are 30% of your total grade, enter 30.</p>
             </td>
             <td>
-                @Html.TextBoxFor(model => model.Weight)
+                @Html.TextBoxFor(model => model.Weight, "100")
             </td>
             <td>
                 @Html.ValidationMessageFor(model => model.Weight, string.Empty, new { @class = "text-danger" })
             </td>
         </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.NumberOfScores)
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.NumberOfScores)
-            </td>
-            <td>
-                @Html.ValidationMessageFor(model => model.NumberOfScores, string.Empty, new { @class = "text-danger" })
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @Html.LabelFor(model => model.PointValuePerScore)
-                <p class="help-text">If Weighted, Value Should Be 100</p>
-            </td>
-            <td>
-                @Html.TextBoxFor(model => model.PointValuePerScore)
-            </td>
-        </tr>
-        <tr id="dropScoreBool" onclick="showCountBox()">
-            <td>
-                @Html.LabelFor(model => model.DropLowest)
-            </td>
-            <td>
-                @Html.CheckBoxFor(m => m.DropLowest)
-            </td>
-        </tr>
-        <tr id="dropScoreCount">
-            <td>
-                @Html.LabelFor(model => model.ScoresToDrop)
-            </td>
-            <td>
-                @Html.TextBoxFor(m => m.ScoresToDrop, Model.ScoresToDrop)
-            </td>
-        </tr>
+    }
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.NumberOfScores)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.NumberOfScores)
+        </td>
+        <td>
+            @Html.ValidationMessageFor(model => model.NumberOfScores, string.Empty, new { @class = "text-danger" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.PointValuePerScore)
+            <p class="help-text">If Weighted, Value Should Be 100</p>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.PointValuePerScore)
+        </td>
+    </tr>
+    <tr id="dropScoreBool" onclick="showCountBox()">
+        <td>
+            @Html.LabelFor(model => model.DropLowest)
+        </td>
+        <td>
+            @Html.CheckBoxFor(m => m.DropLowest)
+        </td>
+    </tr>
+    <tr id="dropScoreCount">
+        <td>
+            @Html.LabelFor(model => model.ScoresToDrop)
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.ScoresToDrop, Model.ScoresToDrop)
+        </td>
+    </tr>
 
-    </table>
+</table>
 
     <div style="padding-top: 15px">
         <input type="submit" value="Add Evaluation" class="btn btn-default" />
