@@ -91,7 +91,25 @@ namespace GradeTrackerApp.Controllers
         {
             var createModel = new CreateEvaluationViewModel(courseId);
 
+            GetWeightedOptions(createModel);
+
             return View(createModel);
+        }
+
+        private void GetWeightedOptions(CreateEvaluationViewModel createModel)
+        {
+            var weightedModel = Courses.GetCourseWeightType(createModel.CourseId);
+
+            if (weightedModel.IsWeighted)
+            {
+                createModel.WeightedOnly = true;
+            }
+
+            if (weightedModel.IsStraightPoints)
+            {
+                createModel.StraightPointsOnly = true;
+            }
+            
         }
 
         public ActionResult ViewEvaluation(Guid evaluationId)
