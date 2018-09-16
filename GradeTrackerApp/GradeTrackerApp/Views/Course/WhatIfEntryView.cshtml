@@ -42,35 +42,187 @@
     .option {
         padding-right: 5px
     }
+
+    #evalHeader {
+        font-weight: bold;
+        padding-left: 25px;
+    }
 </style>
 
 <h2>WhatIfEntryView</h2>
 
-@using (Html.BeginForm("GetWhatIfGrade", "Course", Model))
+@for (var i = 0; i < Model.EvaluationList.Count; i++)
 {
-    //Html.HiddenFor(m => m.Evaluations);
+
+    var eval = Model.EvaluationList[i];
+
+    var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
+
+    <input class=".evalId" hidden="hidden" value=@eval.Id>
+
+    <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
+
+    for (var x = 0; x < scores.Count; x++)
+    {
+        var score = scores[x];
+
+        @Html.HiddenFor(m => m.ScoreList[x].Id, score.Id);
+
+        <p>#@(x + 1): <input id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
+
+    }
+
+    //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
+}
 
 
-    @*for (var i = 0; i < Model.Evaluations.Count; i++)
+<input id="clickClack" type="button" value="Click This One" />
+
+
+@*@using (Html.BeginForm("GetWhatIfGrade", "Course", Model))
+{
+
+    for (var i = 0; i < Model.EvaluationList.Count; i++)
     {
 
-        var eval = Model.Evaluations[i];
+        var eval = Model.EvaluationList[i];
 
-        <p>@eval.Name</p>
+        var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
 
-        for (var x = 0; x < eval.Scores.Count; x++)
+        <input class=".evalId" hidden="hidden" value=@eval.Id>
+
+        <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
+
+        for (var x = 0; x < scores.Count; x++)
         {
-            var score = eval.Scores[x];
+            var score = scores[x];
 
-            <p>@score.Name: @Html.TextBoxFor(m => m.Evaluations.Where(e => e.Id == eval.Id).First().Scores.Where(s => s == score).First().PointsEarned)</p>
+            @Html.HiddenFor(m => m.ScoreList[x].Id, score.Id);
+
+            <p>#@(x + 1): <input id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
+
         }
 
         //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
-    }*@
+    }
+
+    <input id="clickClack" type="button" value="Click This One" />
 
     <div style="padding-top: 15px">
         <input type="submit" value="Get What If" class="btn btn-default" />
         @Html.ActionLink("Cancel", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
     </div>
-}
+}*@
 
+@section scripts{
+
+    <script type="text/javascript">
+
+        //function calcGrade() {
+
+        //    window.alert("HELLO");
+        //};
+
+
+        $(function () {
+
+
+
+            $("#clickClack").click(function () {
+
+                alert("HELLO");
+
+                //var evalIdElements = $(".evalId");
+
+                //alert(evalIdElements);
+
+            });
+
+
+        }
+
+        @*$(function () {
+
+            $("a.delete-eval-link").click(function () {
+
+                var buttonChange = false;
+                var mouseOnCount = 0;
+                var mouseOffCount = 0;
+
+                var deleteLink = $(this);
+                deleteLink.hide();
+                var confirmButton = deleteLink.siblings(".delete-eval-confirm");
+                confirmButton.show();
+
+                var cancelDelete = function() {
+                    removeEvents();
+                    showDeleteLink();
+                    buttonChange = false;
+                    mouseOnCount = 0;
+                    mouseOffCount = 0;
+                };
+
+                var deleteItem = function() {
+
+                    window.location.href = '@Url.Action("DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id})';
+
+                };
+
+                var removeEvents = function() {
+                    confirmButton.off("click", deleteItem);
+                    $(document).on("click", cancelDelete);
+                    $(document).off("keypress", onKeyPress);
+                };
+
+                var showDeleteLink = function() {
+                    confirmButton.hide();
+                    deleteLink.show();
+                };
+
+                var onKeyPress = function(e) {
+                    //Cancel if escape key pressed
+                    if (e.which === 27) {
+                        cancelDelete();
+                    }
+                };
+
+                var mouseOn = function() {
+
+                    if (mouseOffCount === 0) {
+
+
+                    } else if (buttonChange === false) {
+
+                        confirmButton.text('Yes! Kill It With Fire');
+                        buttonChange = true;
+
+                    }
+
+                };
+
+                var mouseOff = function() {
+
+                    if (mouseOffCount === 0) {
+
+                        mouseOffCount++;
+
+                    } else if (buttonChange === true) {
+
+                        confirmButton.text('You Sure, Sis?');
+                        buttonChange = false;
+
+                    }
+                };
+
+                confirmButton.on("mouseover", mouseOn);
+                confirmButton.on("mouseout", mouseOff);
+                confirmButton.on("click", deleteItem);
+                $(document).on("click", cancelDelete);
+                $(document).on("keypress", onKeyPress);
+
+                return false;
+            });
+        });*@
+
+    </script>
+}

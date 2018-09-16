@@ -1,0 +1,5 @@
+﻿@model GradeTrackerApp.Models.Score.ScoreViewModel
+
+<!-- Pass the image id as hidden field -->
+@Html.HiddenFor(x => x.Id)
+@Html.TextBoxFor(x => x.PointsEarned)

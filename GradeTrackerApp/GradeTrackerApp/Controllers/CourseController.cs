@@ -391,15 +391,30 @@ namespace GradeTrackerApp.Controllers
             {
                 var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
 
+                var scoresPulled = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+
                 if (courseWhatIfViewModel.ScoreList is null)
                 {
-                    courseWhatIfViewModel.ScoreList = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+                    courseWhatIfViewModel.ScoreList = scoresPulled;
                 }
                 else
                 {
-                    courseWhatIfViewModel.ScoreList.AddRange(EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel));
+                    courseWhatIfViewModel.ScoreList.AddRange(scoresPulled);
                 }
 
+                var countOfScoresPulled = scoresPulled.Count;
+                var countOfScoresNeeded = eval.NumberOfScores;
+
+                if (countOfScoresPulled != countOfScoresNeeded)
+                {
+                    var scoresToFill = countOfScoresNeeded - countOfScoresPulled;
+
+                    while (scoresToFill > 0)
+                    {
+                        courseWhatIfViewModel.ScoreList.Add(new ScoreViewModel { EvaluationId = eval.Id, PointsPossible = eval.PointValuePerScore });
+                        scoresToFill--;
+                    }
+                }
                 
             }
 
