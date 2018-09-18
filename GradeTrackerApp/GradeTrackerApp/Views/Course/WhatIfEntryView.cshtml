@@ -58,7 +58,9 @@
 
     var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
 
-    <input class=".evalId" hidden="hidden" value=@eval.Id>
+    <input class="evalId" hidden="hidden" value=@eval.Id>
+
+    <input class="evalTotal" id=@eval.Id hidden="hidden" value="" />
 
     <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
 
@@ -68,7 +70,7 @@
 
         @Html.HiddenFor(m => m.ScoreList[x].Id, score.Id);
 
-        <p>#@(x + 1): <input id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
+        <p>#@(x + 1): <input class="scoreInput" id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
 
     }
 
@@ -124,22 +126,44 @@
         //};
 
 
-        $(function () {
+        $(document).ready(function () {
 
-
+            //alert("Hello things");
 
             $("#clickClack").click(function () {
 
-                alert("HELLO");
+                //alert("HELLO");
 
-                //var evalIdElements = $(".evalId");
 
-                //alert(evalIdElements);
+
+                var evalIdElements = $(document).find(".evalId");
+
+                evalIdElements.each(function (index, element) {
+
+                    var id = $(element).val();
+
+                    var totalField = $(document).find("#" + id + ".evalTotal");
+
+                    var totalEarned = 0;
+
+                    var scoreInputs = $(document).find("[id*=" + id + "].scoreInput");
+
+                    scoreInputs.each(function (index, element) {
+
+                        var points = parseFloat($(element).val());
+
+                        totalEarned = totalEarned + points;
+
+                        totalField.val(totalEarned);
+                    });
+
+                    alert(id + " has " + scoreInputs.length + " scores worth " + totalEarned + " points and can pass " + $(document).find("#" + id + ".evalTotal").val() + " to the controller!");
+                });
 
             });
 
 
-        }
+        });
 
         @*$(function () {
 
