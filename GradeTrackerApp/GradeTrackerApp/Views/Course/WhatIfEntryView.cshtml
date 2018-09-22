@@ -1,6 +1,8 @@
 ﻿@model GradeTrackerApp.Models.Course.CourseWhatIfViewModel
 
 @{
+    /**/
+
     ViewBag.Title = "WhatIfEntryView";
 }
 
@@ -51,16 +53,14 @@
 
 <h2>WhatIfEntryView</h2>
 
+<input id="courseId" type="hidden" value=@Model.Id>
+
 @for (var i = 0; i < Model.EvaluationList.Count; i++)
 {
 
     var eval = Model.EvaluationList[i];
 
     var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
-
-    <input class="evalId" hidden="hidden" value=@eval.Id>
-
-    <input class="evalTotal" id=@eval.Id hidden="hidden" value="" />
 
     <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
 
@@ -73,76 +73,46 @@
         <p>#@(x + 1): <input class="scoreInput" id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
 
     }
-
-    //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
 }
-
 
 <input id="clickClack" type="button" value="Click This One" />
 
-
-@*@using (Html.BeginForm("GetWhatIfGrade", "Course", Model))
+@for (var i = 0; i < Model.WhatIfs.Count; i++)
 {
+    var evalId = Guid.Parse(Model.WhatIfs[i].EvaluationId);
 
-    for (var i = 0; i < Model.EvaluationList.Count; i++)
-    {
+    <input type="hidden" name="Model.WhatIfs.Index" value="@i" />
 
-        var eval = Model.EvaluationList[i];
+    <input class="evalId" hidden="hidden" value=@evalId>
 
-        var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
+    <input class="evalTotalEarned" id=@evalId hidden="hidden" value="" />
 
-        <input class=".evalId" hidden="hidden" value=@eval.Id>
+    <input class="evalTotalPossible" id=@evalId hidden="hidden" value=@Model.ScoreList.Where(s => s.EvaluationId == evalId).Sum(s => s.PointsPossible) />
 
-        <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
+}
 
-        for (var x = 0; x < scores.Count; x++)
-        {
-            var score = scores[x];
-
-            @Html.HiddenFor(m => m.ScoreList[x].Id, score.Id);
-
-            <p>#@(x + 1): <input id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
-
-        }
-
-        //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
-    }
-
-    <input id="clickClack" type="button" value="Click This One" />
-
-    <div style="padding-top: 15px">
-        <input type="submit" value="Get What If" class="btn btn-default" />
-        @Html.ActionLink("Cancel", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
-    </div>
-}*@
 
 @section scripts{
 
     <script type="text/javascript">
 
-        //function calcGrade() {
-
-        //    window.alert("HELLO");
-        //};
-
-
         $(document).ready(function () {
-
-            //alert("Hello things");
 
             $("#clickClack").click(function () {
 
-                //alert("HELLO");
-
-
+                var thisCourse = $(document).find('#courseId').val();
 
                 var evalIdElements = $(document).find(".evalId");
+
+                var listOfEvals = [];
 
                 evalIdElements.each(function (index, element) {
 
                     var id = $(element).val();
 
-                    var totalField = $(document).find("#" + id + ".evalTotal");
+                    var totalField = $(document).find("#" + id + ".evalTotalEarned");
+
+                    var totalPossible = parseFloat($(document).find("#" + id + ".evalTotalPossible").val());
 
                     var totalEarned = 0;
 
@@ -157,96 +127,27 @@
                         totalField.val(totalEarned);
                     });
 
-                    alert(id + " has " + scoreInputs.length + " scores worth " + totalEarned + " points and can pass " + $(document).find("#" + id + ".evalTotal").val() + " to the controller!");
+                    var eval = {
+                        evaluationId: id,
+                        pointsEarned: totalEarned,
+                        pointsPossible: totalPossible
+                    };
+
+                    var indexLength = listOfEvals.push(eval);
+
                 });
+
+                var whatIfCourse = {
+                    courseId: thisCourse,
+                    evaluations: listOfEvals
+                };
+
+                $.post('@Url.Action("GetWhatIfGrade", "Course")', { whatIfModel: whatIfCourse });
 
             });
 
 
         });
-
-        @*$(function () {
-
-            $("a.delete-eval-link").click(function () {
-
-                var buttonChange = false;
-                var mouseOnCount = 0;
-                var mouseOffCount = 0;
-
-                var deleteLink = $(this);
-                deleteLink.hide();
-                var confirmButton = deleteLink.siblings(".delete-eval-confirm");
-                confirmButton.show();
-
-                var cancelDelete = function() {
-                    removeEvents();
-                    showDeleteLink();
-                    buttonChange = false;
-                    mouseOnCount = 0;
-                    mouseOffCount = 0;
-                };
-
-                var deleteItem = function() {
-
-                    window.location.href = '@Url.Action("DeleteEvaluation", "Evaluation", routeValues: new { evaluationId = Model.Id})';
-
-                };
-
-                var removeEvents = function() {
-                    confirmButton.off("click", deleteItem);
-                    $(document).on("click", cancelDelete);
-                    $(document).off("keypress", onKeyPress);
-                };
-
-                var showDeleteLink = function() {
-                    confirmButton.hide();
-                    deleteLink.show();
-                };
-
-                var onKeyPress = function(e) {
-                    //Cancel if escape key pressed
-                    if (e.which === 27) {
-                        cancelDelete();
-                    }
-                };
-
-                var mouseOn = function() {
-
-                    if (mouseOffCount === 0) {
-
-
-                    } else if (buttonChange === false) {
-
-                        confirmButton.text('Yes! Kill It With Fire');
-                        buttonChange = true;
-
-                    }
-
-                };
-
-                var mouseOff = function() {
-
-                    if (mouseOffCount === 0) {
-
-                        mouseOffCount++;
-
-                    } else if (buttonChange === true) {
-
-                        confirmButton.text('You Sure, Sis?');
-                        buttonChange = false;
-
-                    }
-                };
-
-                confirmButton.on("mouseover", mouseOn);
-                confirmButton.on("mouseout", mouseOff);
-                confirmButton.on("click", deleteItem);
-                $(document).on("click", cancelDelete);
-                $(document).on("keypress", onKeyPress);
-
-                return false;
-            });
-        });*@
 
     </script>
 }

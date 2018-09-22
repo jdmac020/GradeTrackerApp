@@ -7,7 +7,8 @@ namespace GradeTrackerApp.Models.Evaluation
 {
     public class EvaluationWhatIfViewModel
     {
-        public Guid EvaluationId { get; set; }
+        public string EvaluationId { get; set; }
         public double PointsEarned { get; set; }
+        public double PointsPossible { get; set; }
     }
 }

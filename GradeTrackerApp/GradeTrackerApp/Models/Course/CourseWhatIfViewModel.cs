@@ -13,8 +13,10 @@ namespace GradeTrackerApp.Models.Course
 
         public string Name { get; set; }
 
-        public List<EvaluationViewModel> EvaluationList { get; set; }
+        public List<EvaluationViewModel> EvaluationList { get; set; } = new List<EvaluationViewModel>();
 
-        public List<ScoreViewModel> ScoreList { get; set; }
+        public List<ScoreViewModel> ScoreList { get; set; } = new List<ScoreViewModel>();
+
+        public List<EvaluationWhatIfViewModel> WhatIfs { get; set; } = new List<EvaluationWhatIfViewModel>();
     }
 }
