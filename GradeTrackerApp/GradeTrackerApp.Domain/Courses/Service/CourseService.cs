@@ -325,5 +325,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
             return returnModel;
         }
+
+        public static double CalcWhatIfGrade(IEnumerable<EvaluationWhatIfViewModel> )
     }
 }

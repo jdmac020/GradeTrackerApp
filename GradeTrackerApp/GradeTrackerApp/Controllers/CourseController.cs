@@ -357,6 +357,30 @@ namespace GradeTrackerApp.Controllers
         [HttpPost]
         public ActionResult GetWhatIfGrade(CourseWhatIfInputViewModel whatIfModel)
         {
+            var evalsFromCourse = (IEnumerable<EvaluationDomainModel>)Evaluations.GetEvaluationsForCourse(Guid.Parse(whatIfModel.CourseId));
+
+            var whatIfDomainModels = new List<EvaluationDomainModel>();
+
+            foreach (var eval in whatIfModel.Evaluations)
+            {
+                whatIfDomainModels.Add(new EvaluationDomainModel
+                {
+                    Id = Guid.Parse(eval.EvaluationId),
+                    PointsEarned = eval.PointsEarned,
+                    TotalPointsPossible = eval.PointsPossible
+                });
+            }
+
+            var query = from storedEval in evalsFromCourse
+                        join whatIfEval in whatIfDomainModels
+                        on storedEval.Id equals whatIfEval.Id
+                        select new EvaluationDomainModel { Id = storedEval.Id, PointsEarned = whatIfEval.PointsEarned, TotalPointsPossible = whatIfEval.TotalPointsPossible, Weight = storedEval.Weight };
+
+            // send the results of the query TO the Courses.CalcWhatIfGrade()
+            // spin up a new WhatIfCourseResultModel (need to write)
+            // return it to the new view (I guess, and also need to do that)
+
+
             return View();
         }
 
