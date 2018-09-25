@@ -48,7 +48,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
         {
             _courseInteractor = courseInteractor;
         }
-        
+
         public CourseService()
         {
 
@@ -78,7 +78,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             {
                 return new ErrorDomainModel(gte, false);
             }
-            
+
             return courseModel;
 
         }
@@ -120,7 +120,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 {
                     foreach (var evaluation in linkedEvaluations)
                     {
-                        var evaluationModel = (EvaluationDomainModel) evaluation;
+                        var evaluationModel = (EvaluationDomainModel)evaluation;
                         EvaluationService.DeleteEvaluation(evaluationModel.Id);
                     }
                 }
@@ -171,7 +171,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             }
             catch (GradeTrackerException gte)
             {
-                return new List<IDomainModel> {new ErrorDomainModel(gte, false)};
+                return new List<IDomainModel> { new ErrorDomainModel(gte, false) };
             }
 
             foreach (var entity in courseEntities)
@@ -198,7 +198,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
             foreach (var eval in evals)
             {
-                var castedEval = (EvaluationDomainModel) eval;
+                var castedEval = (EvaluationDomainModel)eval;
                 var weighted = castedEval.Weight != 1;
 
                 evalSpells.Add(new EvaluationResult
@@ -229,7 +229,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 courseSpell = new WeightedCourseResult
                 {
                     Evaluations = evalSpells,
-                    
+
                 };
 
                 courseWizard.Course = courseSpell;
@@ -262,7 +262,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 course.FinalPointsGrade = courseResult.GradeOverallRaw;
             }
 
-            
+
         }
 
         private static CourseEntity ConvertModelToEntity(CourseDomainModel updatedModel)
@@ -314,18 +314,62 @@ namespace GradeTrackerApp.Domain.Courses.Service
             {
                 var evalModels = new List<EvaluationDomainModel>();
 
-                foreach(var eval in evals)
+                foreach (var eval in evals)
                 {
                     evalModels.Add((EvaluationDomainModel)eval);
                 }
 
                 returnModel.IsWeighted = evalModels.Any(e => e.Weight != 1);
-                returnModel.IsStraightPoints = evalModels.Any(e => e.Weight == 1); 
+                returnModel.IsStraightPoints = evalModels.Any(e => e.Weight == 1);
             }
 
             return returnModel;
         }
 
-        public static double CalcWhatIfGrade(IEnumerable<EvaluationWhatIfViewModel> )
+        public static double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
+        {
+            var evalSpells = whatIfModels.Select(w => new EvaluationResult { PointsEarned = w.PointsEarned, PointsPossibleOverall = w.TotalPointsPossible, WeightAmount = w.Weight });
+
+            if (evalSpells.Any(e => e.WeightAmount != 1))
+            {
+
+            }
+
+            var courseWizard = new CourseWizard();
+
+            ICourseResult courseSpell = null;
+
+            if (evalSpells.Any(es => es.WeightAmount != 1))
+            {
+
+                evalSpells = evalSpells.Select(e => new EvaluationResult { WeightAmount = e.WeightAmount, Weighted = true, PointsEarned = e.PointsEarned, PointsPossibleOverall = e.PointsPossibleOverall });
+
+                courseSpell = new WeightedCourseResult
+                {
+                    Evaluations = evalSpells.ToList()
+                };
+
+                courseWizard.Course = courseSpell;
+
+                courseWizard.UpdateGradeOverall();
+                courseWizard.UpdateAllGrades();
+
+                return courseWizard.Course.GradeOverallFriendly;
+
+            }
+            else
+            {
+                courseSpell = new CourseResult
+                {
+                    Evaluations = evalSpells.ToList()
+                };
+                
+                courseWizard.Course = courseSpell;
+
+                courseWizard.UpdateGradeOverall();
+
+                return courseWizard.Course.GradeOverallFriendly;
+            }
+        }
     }
 }

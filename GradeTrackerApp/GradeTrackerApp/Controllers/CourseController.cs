@@ -374,7 +374,15 @@ namespace GradeTrackerApp.Controllers
             var query = from storedEval in evalsFromCourse
                         join whatIfEval in whatIfDomainModels
                         on storedEval.Id equals whatIfEval.Id
-                        select new EvaluationDomainModel { Id = storedEval.Id, PointsEarned = whatIfEval.PointsEarned, TotalPointsPossible = whatIfEval.TotalPointsPossible, Weight = storedEval.Weight };
+                        select new EvaluationDomainModel
+                        {
+                            Id = storedEval.Id,
+                            PointsEarned = whatIfEval.PointsEarned,
+                            TotalPointsPossible = whatIfEval.TotalPointsPossible,
+                            Weight = storedEval.Weight
+                        };
+
+
 
             // send the results of the query TO the Courses.CalcWhatIfGrade()
             // spin up a new WhatIfCourseResultModel (need to write)
