@@ -177,16 +177,16 @@ namespace GradeTrackerApp.Tests.Courses
 
             evals[0].TotalPointsPossible = 25;
             evals[0].PointsEarned = 25;
-            evals[0].Weight = 50;
+            evals[0].Weight = .5;
             evals[1].TotalPointsPossible = 25;
             evals[1].PointsEarned = 25;
-            evals[1].Weight = 15;
+            evals[1].Weight = .15;
             evals[2].TotalPointsPossible = 25;
             evals[2].PointsEarned = 25;
-            evals[2].Weight = 15;
+            evals[2].Weight = .15;
             evals[3].TotalPointsPossible = 25;
             evals[3].PointsEarned = 25;
-            evals[3].Weight = 20;
+            evals[3].Weight = .20;
 
             var result = CourseService.CalcWhatIfGrade(evals);
 
