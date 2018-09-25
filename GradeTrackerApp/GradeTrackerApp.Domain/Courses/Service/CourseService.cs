@@ -328,7 +328,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
         public static double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
         {
-            var evalSpells = whatIfModels.Select(w => new EvaluationResult { PointsEarned = w.PointsEarned, PointsPossibleOverall = w.TotalPointsPossible, WeightAmount = w.Weight });
+            var evalSpells = whatIfModels.Select(w => new EvaluationResult { PointsEarned = w.PointsEarned, PointsPossibleOverall = w.TotalPointsPossible, WeightAmount = w.Weight }).ToList();
 
             if (evalSpells.Any(e => e.WeightAmount != 1))
             {
@@ -342,7 +342,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             if (evalSpells.Any(es => es.WeightAmount != 1))
             {
 
-                evalSpells = evalSpells.Select(e => new EvaluationResult { WeightAmount = e.WeightAmount, Weighted = true, PointsEarned = e.PointsEarned, PointsPossibleOverall = e.PointsPossibleOverall });
+                evalSpells = evalSpells.Select(e => new EvaluationResult { WeightAmount = e.WeightAmount, Weighted = true, PointsEarned = e.PointsEarned, PointsPossibleOverall = e.PointsPossibleOverall }).ToList();
 
                 courseSpell = new WeightedCourseResult
                 {
