@@ -31,6 +31,7 @@ namespace GradeTrackerApp.Models.Score
         public double PointsPossible { get; set; }
 
         [DisplayName("Points Earned")]
+        [RegularExpression(@"^([0-9])$", ErrorMessage = "Must Be a Number and Greater Than Zero")]
         public double PointsEarned { get; set; }
 
         [DisplayName("Last Updated")]

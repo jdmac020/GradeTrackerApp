@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
 
 namespace GradeTrackerApp.Domain.Courses.Service
@@ -14,5 +15,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
         List<IDomainModel> GetCourses(Guid userId);
         void EvaluationModified(Guid courseId);
         CourseWeightDomainModel GetCourseWeightType(Guid courseId);
+        CourseWhatIfDomainModel CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels);
     }
 }

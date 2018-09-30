@@ -4,6 +4,8 @@ using System.Linq;
 using GradeTrackerApp.Core.Entities;
 using GradeTrackerApp.Core.Exceptions;
 using GradeTrackerApp.Domain.Courses.Models;
+using GradeTrackerApp.Domain.Courses.Service;
+using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.Mocks;
 using GradeTrackerApp.Tests.TestDatas.Courses;
@@ -154,6 +156,43 @@ namespace GradeTrackerApp.Tests.Courses
 
             result.GetType().ShouldNotBe(typeof(ErrorDomainModel));
             resultScores.Count.ShouldBe(0);
+        }
+
+        [Fact]
+        public void CalcWhatIfGrade_InputsOf100_Return100()
+        {
+            var testClass = ServiceFactory.Create_MockInteractor();
+            var evals = EvaluationFactory.Create_ListOfDomainModels();
+
+            evals = evals.Select(e => new EvaluationDomainModel { Id = e.Id, CourseId = e.CourseId, Weight = 1, PointsEarned = 100, TotalPointsPossible = 100 });
+
+            var result = testClass.CalcWhatIfGrade(evals);
+
+            result.WhatIfGrade.ShouldBe(100);
+        }
+
+        [Fact]
+        public void CalcWhatIfGrade_WeightedInputsOf100_Return100()
+        {
+            var testClass = ServiceFactory.Create_MockInteractor();
+            var evals = EvaluationFactory.Create_ListOfDomainModels().ToList();
+
+            evals[0].TotalPointsPossible = 25;
+            evals[0].PointsEarned = 25;
+            evals[0].Weight = .5;
+            evals[1].TotalPointsPossible = 25;
+            evals[1].PointsEarned = 25;
+            evals[1].Weight = .15;
+            evals[2].TotalPointsPossible = 25;
+            evals[2].PointsEarned = 25;
+            evals[2].Weight = .15;
+            evals[3].TotalPointsPossible = 25;
+            evals[3].PointsEarned = 25;
+            evals[3].Weight = .20;
+
+            var result = testClass.CalcWhatIfGrade(evals);
+
+            result.WhatIfGrade.ShouldBe(100);
         }
     }
 }

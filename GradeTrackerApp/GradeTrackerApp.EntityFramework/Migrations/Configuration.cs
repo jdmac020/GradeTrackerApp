@@ -12,7 +12,7 @@ namespace GradeTrackerApp.EntityFramework.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationDataLossAllowed = true;
 
         }
 

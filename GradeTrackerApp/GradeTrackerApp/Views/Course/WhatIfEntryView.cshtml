@@ -1,6 +1,8 @@
 ﻿@model GradeTrackerApp.Models.Course.CourseWhatIfViewModel
 
 @{
+    /**/
+
     ViewBag.Title = "WhatIfEntryView";
 }
 
@@ -42,35 +44,140 @@
     .option {
         padding-right: 5px
     }
+
+    #evalHeader {
+        font-weight: bold;
+        padding-left: 25px;
+    }
+
+    #results {
+        margin-top: 25px;
+    }
+
+    #exitLinks {
+        margin-top: 25px;
+    }
+
 </style>
 
-<h2>WhatIfEntryView</h2>
+<h2>@Model.Name</h2>
+<h4>Enter the Points You Expect to Earn for each Score</h4>
+<p style="margin-right: 50%">Scores you've already recorded are pre-filled, but you can edit those. The default value of each assignment is listed, but if you expect extra credit you can enter a higher number.</p>
 
-@using (Html.BeginForm("GetWhatIfGrade", "Course", Model))
+<input id="courseId" type="hidden" value=@Model.Id>
+
+@for (var i = 0; i < Model.EvaluationList.Count; i++)
 {
-    //Html.HiddenFor(m => m.Evaluations);
 
+    var eval = Model.EvaluationList[i];
 
-    @*for (var i = 0; i < Model.Evaluations.Count; i++)
+    var scores = Model.ScoreList.Where(s => s.EvaluationId == eval.Id).ToList();
+
+    <p id="evalHeader">@Html.DisplayFor(m => m.EvaluationList[i].Name)</p>
+
+    for (var x = 0; x < scores.Count; x++)
     {
+        var score = scores[x];
 
-        var eval = Model.Evaluations[i];
+        @Html.HiddenFor(m => m.ScoreList[x].Id, score.Id);
 
-        <p>@eval.Name</p>
+        <p>#@(x + 1): <input class="scoreInput" id=@($"Eval_{eval.Id}_{x}") type="text" size="1" value=@(score.PointsEarned)> / @score.PointsPossible</p>
 
-        for (var x = 0; x < eval.Scores.Count; x++)
-        {
-            var score = eval.Scores[x];
-
-            <p>@score.Name: @Html.TextBoxFor(m => m.Evaluations.Where(e => e.Id == eval.Id).First().Scores.Where(s => s == score).First().PointsEarned)</p>
-        }
-
-        //Html.Partial("~/Views/Evaluation/_WhatIfEvalUpdatePartial.cshtml", eval)
-    }*@
-
-    <div style="padding-top: 15px">
-        <input type="submit" value="Get What If" class="btn btn-default" />
-        @Html.ActionLink("Cancel", "AllCourses", "Course", routeValues: null, htmlAttributes: new { Class = "btn btn-default" })
-    </div>
+    }
 }
 
+<input id="clickClack" type="button" value="Click This One" />
+
+@for (var i = 0; i < Model.WhatIfs.Count; i++)
+{
+    var evalId = Guid.Parse(Model.WhatIfs[i].EvaluationId);
+
+    <input type="hidden" name="Model.WhatIfs.Index" value="@i" />
+
+    <input class="evalId" hidden="hidden" value=@evalId>
+
+    <input class="evalTotalEarned" id=@evalId hidden="hidden" value="" />
+
+    <input class="evalTotalPossible" id=@evalId hidden="hidden" value=@Model.ScoreList.Where(s => s.EvaluationId == evalId).Sum(s => s.PointsPossible) />
+
+}
+
+<div id="results">
+
+
+</div>
+
+<div id="exitLinks">
+    @Html.ActionLink("Back to Your Courses", "AllCourses", "Course", routeValues: null, htmlAttributes: null)
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#clickClack").click(function () {
+
+                var thisCourse = $(document).find('#courseId').val();
+
+                var evalIdElements = $(document).find(".evalId");
+
+                var listOfEvals = [];
+
+                evalIdElements.each(function (index, element) {
+
+                    var id = $(element).val();
+
+                    var totalField = $(document).find("#" + id + ".evalTotalEarned");
+
+                    var totalPossible = parseFloat($(document).find("#" + id + ".evalTotalPossible").val());
+
+                    var totalEarned = 0;
+
+                    var scoreInputs = $(document).find("[id*=" + id + "].scoreInput");
+
+                    scoreInputs.each(function (index, element) {
+
+                        var elementValue = $(element).val();
+
+                        //if (isNaN(elementValue)) {
+                        //    alert("Whoops " + $(element).val() + " is No Number");
+                        //    return;
+                        //}
+
+                        var points = parseFloat($(element).val());
+
+                        
+                        
+                        totalEarned = totalEarned + points;
+
+                        totalField.val(totalEarned);
+                    });
+
+                    var eval = {
+                        evaluationId: id,
+                        pointsEarned: totalEarned,
+                        pointsPossible: totalPossible
+                    };
+
+                    var indexLength = listOfEvals.push(eval);
+
+                });
+
+                var whatIfCourse = {
+                    courseId: thisCourse,
+                    evaluations: listOfEvals
+                };
+                
+                $.post('@Url.Action("GetWhatIfGrade", "Course")', { whatIfModel: whatIfCourse }, function (results) {
+
+                    $('#results').html(results);
+                });
+            });
+
+
+        });
+
+    </script>
+}

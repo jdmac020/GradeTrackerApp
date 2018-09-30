@@ -8,7 +8,9 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
 {
     public static class EvaluationFactory
     {
-        
+
+        private static Guid _courseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4");
+
         public static List<EvaluationEntity> Create_ListValidEvalEntities()
         {
             return new List<EvaluationEntity>
@@ -24,7 +26,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             return new CreateEvaluationDomainModel
             {
                 Name = "Tests",
-                CourseId =  Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
+                CourseId = _courseId,
                 Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
@@ -36,7 +38,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             return new EvaluationEntity
             {
                 Name = "Tests",
-                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
+                CourseId = _courseId,
                 Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
@@ -49,7 +51,7 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
             {
                 Id = evalId,
                 Name = "Tests",
-                CourseId = Guid.Parse("b59009e4-3f12-4eaf-a82c-bfaa6371b1a4"),
+                CourseId = _courseId,
                 Weight = 1,
                 NumberOfScores = 3,
                 DropLowest = false
@@ -72,6 +74,22 @@ namespace GradeTrackerApp.Tests.TestDatas.Evaluations
         public static CreateOrEditCourseDomainModel Create_CreateEvaluationDomainModel_Empty()
         {
             return new CreateOrEditCourseDomainModel();
+        }
+
+
+        /// <summary>
+        /// Returns 4 Id-only models
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<EvaluationDomainModel> Create_ListOfDomainModels()
+        {
+            return new List<EvaluationDomainModel>
+            {
+                new EvaluationDomainModel { CourseId = _courseId, Id = Guid.NewGuid() },
+                new EvaluationDomainModel { CourseId = _courseId, Id = Guid.NewGuid() },
+                new EvaluationDomainModel { CourseId = _courseId, Id = Guid.NewGuid() },
+                new EvaluationDomainModel { CourseId = _courseId, Id = Guid.NewGuid() }
+            };
         }
     }
 }

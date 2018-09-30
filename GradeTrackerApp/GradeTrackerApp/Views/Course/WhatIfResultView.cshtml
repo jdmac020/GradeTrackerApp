@@ -1,0 +1,24 @@
+﻿@model GradeTrackerApp.Models.Course.CourseWhatIfResultViewModel
+
+<style>
+
+    #courseGrade {
+        margin-left: 75px;
+    }
+
+</style>
+
+<div>
+    <h4>Based On Those Scores You Will Earn a Final Grade of... </h4>
+    <h2 id="courseGrade">@Model.WhatIfGrade%</h2>
+    <hr />
+    @*<dl class="dl-horizontal">*@
+    <h4>Breakdown by Evaluation Type...</h4>
+
+    @foreach (var eval in Model.Evaluations)
+    {
+        <ul>
+            <li>@eval.EvaluationName: @eval.WhatIfGrade%</li>
+        </ul>
+    }
+</div>

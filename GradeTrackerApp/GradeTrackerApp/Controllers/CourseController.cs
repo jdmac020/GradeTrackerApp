@@ -73,7 +73,7 @@ namespace GradeTrackerApp.Controllers
         public ActionResult AllCourses()
         {
             var userId = User.Identity.GetUserId();
-            
+
             var courses = Courses.GetCourses(Guid.Parse(userId));
 
             var courseViewModels = new List<CourseViewModel>();
@@ -91,7 +91,7 @@ namespace GradeTrackerApp.Controllers
         public ActionResult Add()
         {
             var createModel = new CreateOrEditCourseViewModel();
-            
+
             var semesterModels = Semesters.GetAllSemesters();
 
             if (semesterModels.Count > 0 && semesterModels.First().GetType() == typeof(ErrorDomainModel))
@@ -113,21 +113,21 @@ namespace GradeTrackerApp.Controllers
             var thisYear = today.Year.ToString();
             var nextYear = today.AddYears(1).Year.ToString();
 
-            dropDownList.Add(new SelectListItem {Text = thisYear, Value = thisYear});
-            dropDownList.Add(new SelectListItem {Text = nextYear, Value = nextYear});
+            dropDownList.Add(new SelectListItem { Text = thisYear, Value = thisYear });
+            dropDownList.Add(new SelectListItem { Text = nextYear, Value = nextYear });
 
             return dropDownList;
         }
 
         protected List<SelectListItem> GetSemestersForDropDown(List<IDomainModel> semesterModels)
-        {  
+        {
             var modelList = new List<SelectListItem>();
 
             foreach (var semester in semesterModels)
             {
                 var semesterModel = (SemesterDomainModel)semester;
 
-                modelList.Add(new SelectListItem {Value = semesterModel.Id.ToString(), Text = semesterModel.Name});
+                modelList.Add(new SelectListItem { Value = semesterModel.Id.ToString(), Text = semesterModel.Name });
             }
 
             return modelList;
@@ -169,7 +169,7 @@ namespace GradeTrackerApp.Controllers
                 {
                     domainModel = (CourseDomainModel)domainIModel;
                 }
-                
+
                 var newCourseViewModel = new CourseViewModel(domainModel);
 
                 var semesterModel = Semesters.GetSemester(domainModel.SemesterId);
@@ -181,7 +181,7 @@ namespace GradeTrackerApp.Controllers
 
                 newCourseViewModel.Semester = GetSemesterViewModel(semesterModel);
 
-                return View("ViewCourse",newCourseViewModel);
+                return View("ViewCourse", newCourseViewModel);
             }
             else
             {
@@ -197,7 +197,7 @@ namespace GradeTrackerApp.Controllers
 
                 return View("Add", createViewModel);
             }
-            
+
         }
 
         public ActionResult ViewCourse(Guid courseId)
@@ -211,7 +211,7 @@ namespace GradeTrackerApp.Controllers
             }
             else
             {
-                courseDomainModel = (CourseDomainModel) iModel;
+                courseDomainModel = (CourseDomainModel)iModel;
             }
 
             var courseViewModel = new CourseViewModel(courseDomainModel);
@@ -354,56 +354,120 @@ namespace GradeTrackerApp.Controllers
             }
         }
 
-        
-        //public ActionResult GetWhatIfGrade(CourseWhatIfViewModel whatIfModel)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public ActionResult GetWhatIfGrade(CourseWhatIfInputViewModel whatIfModel)
+        {
+            var course = (CourseDomainModel)Courses.GetCourse(Guid.Parse(whatIfModel.CourseId));
+            var evalsFromCourse = Evaluations.GetEvaluationsForCourse(Guid.Parse(whatIfModel.CourseId));
+            var castedModels = new List<EvaluationDomainModel>();
 
-        //public ActionResult StartWhatIfGrade(Guid courseId)
-        //{
-        //    var courseDomainModel = new CourseDomainModel();
-        //    var iModel = Courses.GetCourse(courseId);
+            foreach (var eval in evalsFromCourse)
+            {
+                if (eval.GetType() == typeof(EvaluationDomainModel))
+                {
+                    castedModels.Add((EvaluationDomainModel)eval);
+                }
+            }
 
-        //    if (iModel.GetType() == typeof(ErrorDomainModel))
-        //    {
-        //        return GradeTrackerError(iModel, null);
-        //    }
-        //    else
-        //    {
-        //        courseDomainModel = (CourseDomainModel)iModel;
-        //    }
+            var whatIfDomainModels = new List<EvaluationDomainModel>();
 
-        //    var courseWhatIfViewModel = new CourseWhatIfViewModel { Id = courseDomainModel.Id, Name = courseDomainModel.Name };
+            foreach (var eval in whatIfModel.Evaluations)
+            {
+                whatIfDomainModels.Add(new EvaluationDomainModel
+                {
+                    Id = Guid.Parse(eval.EvaluationId),
+                    PointsEarned = eval.PointsEarned,
+                    TotalPointsPossible = eval.PointsPossible
+                });
+            }
 
-        //    var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
+            var domainModelsWithWhatIfScores = from storedEval in castedModels
+                        join whatIfEval in whatIfDomainModels
+                        on storedEval.Id equals whatIfEval.Id
+                        select new EvaluationDomainModel
+                        {
+                            Id = storedEval.Id,
+                            Name = storedEval.Name,
+                            PointsEarned = whatIfEval.PointsEarned,
+                            TotalPointsPossible = whatIfEval.TotalPointsPossible,
+                            Weight = storedEval.Weight
+                        };
 
-        //    if (evaluationDomainModels.Count > 0 && evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
-        //    {
-        //        return GradeTrackerError(evaluationDomainModels.First(), null);
-        //    }
+            // send the results of the query TO the Courses.CalcWhatIfGrade()
+            var whatIfGradeDomainModel = Courses.CalcWhatIfGrade(domainModelsWithWhatIfScores);
+
+            var whatIfGradeViewModel = new CourseWhatIfResultViewModel
+            {
+                CourseId = course.Id,
+                CourseName = course.Name,
+                WhatIfGrade = whatIfGradeDomainModel.WhatIfGrade,
+                Evaluations = whatIfGradeDomainModel.WhatIfEvaluations.Select(eval => new EvaluationWhatIfResultViewModel
+                {
+                    EvaluationId = eval.EvaluationId,
+                    EvaluationName = eval.EvaluationName,
+                    WhatIfGrade = eval.WhatIfGrade
+
+                }).ToList() };
             
-        //    courseWhatIfViewModel.EvaluationList = ConvertToListOfViewModels(evaluationDomainModels);
+            // return it to the new view (I guess, and also need to do that)
+            
+            return PartialView("_whatIfResultPartial", whatIfGradeViewModel);
+        }
 
-        //    var scoresList = new List<ScoreViewModel>();
+        public ActionResult StartWhatIfGrade(Guid courseId)
+        {
+            var courseDomainModel = new CourseDomainModel();
+            var iModel = Courses.GetCourse(courseId);
 
-        //    foreach (var eval in courseWhatIfViewModel.EvaluationList)
-        //    {
-        //        var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
+            if (iModel.GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(iModel, null);
+            }
+            else
+            {
+                courseDomainModel = (CourseDomainModel)iModel;
+            }
 
-        //        if (courseWhatIfViewModel.ScoreList is null)
-        //        {
-        //            courseWhatIfViewModel.ScoreList = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
-        //        }
-        //        else
-        //        {
-        //            courseWhatIfViewModel.ScoreList.AddRange(EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel));
-        //        }
+            var courseWhatIfViewModel = new CourseWhatIfViewModel { Id = courseDomainModel.Id, Name = courseDomainModel.Name };
 
-                
-        //    }
+            var evaluationDomainModels = Evaluations.GetEvaluationsForCourse(courseId);
 
-        //    return View("WhatIfEntryView", courseWhatIfViewModel);
-        //}
+            if (evaluationDomainModels.Count > 0 && evaluationDomainModels.First().GetType() == typeof(ErrorDomainModel))
+            {
+                return GradeTrackerError(evaluationDomainModels.First(), null);
+            }
+
+            courseWhatIfViewModel.EvaluationList = ConvertToListOfViewModels(evaluationDomainModels);
+
+            var scoresList = new List<ScoreViewModel>();
+
+            foreach (var eval in courseWhatIfViewModel.EvaluationList)
+            {
+                courseWhatIfViewModel.WhatIfs.Add(new EvaluationWhatIfViewModel { EvaluationId = eval.Id.ToString() });
+
+                var scoresDomainModel = Scores.GetScoresForEvaluation(eval.Id);
+
+                var scoresPulled = EvaluationController.GetListViewModelFromDomainModels(scoresDomainModel);
+
+                courseWhatIfViewModel.ScoreList.AddRange(scoresPulled);
+
+                var countOfScoresPulled = scoresPulled.Count;
+                var countOfScoresNeeded = eval.NumberOfScores;
+
+                if (countOfScoresPulled != countOfScoresNeeded)
+                {
+                    var scoresToFill = countOfScoresNeeded - countOfScoresPulled;
+
+                    while (scoresToFill > 0)
+                    {
+                        courseWhatIfViewModel.ScoreList.Add(new ScoreViewModel { EvaluationId = eval.Id, PointsPossible = eval.PointValuePerScore });
+                        scoresToFill--;
+                    }
+
+                }
+            }
+
+            return View("WhatIfEntryView", courseWhatIfViewModel);
+        }
     }
 }
