@@ -168,7 +168,7 @@ namespace GradeTrackerApp.Tests.Courses
 
             var result = testClass.CalcWhatIfGrade(evals);
 
-            result.ShouldBe(100);
+            result.WhatIfGrade.ShouldBe(100);
         }
 
         [Fact]
@@ -192,7 +192,7 @@ namespace GradeTrackerApp.Tests.Courses
 
             var result = testClass.CalcWhatIfGrade(evals);
 
-            result.ShouldBe(100);
+            result.WhatIfGrade.ShouldBe(100);
         }
     }
 }

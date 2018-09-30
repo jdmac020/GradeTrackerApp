@@ -326,7 +326,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return returnModel;
         }
 
-        public double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
+        public CourseWhatIfDomainModel CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
         {
             var evalSpells = whatIfModels.Select(w => new EvaluationConjureGradeResultModel
             {
@@ -373,7 +373,15 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 courseWizard.UpdateGradeOverall();
                 courseWizard.UpdateAllGrades();
 
-                return new CourseWhatIfDomainModel { WhatIfGrade = courseWizard.OverallGradeFriendly, WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel { EvaluationId = e. }};
+                return new CourseWhatIfDomainModel
+                {
+                    WhatIfGrade = courseWizard.OverallGradeFriendly,
+                    WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel
+                    {
+                        EvaluationId = (Guid)e.EvaluationId,
+                        WhatIfGrade = e.GradeOverallFriendly
+                    }).ToList()
+                };
 
             }
             else
@@ -387,7 +395,15 @@ namespace GradeTrackerApp.Domain.Courses.Service
 
                 courseWizard.UpdateGradeOverall();
 
-                return courseWizard.Course.GradeOverallFriendly;
+                return new CourseWhatIfDomainModel
+                {
+                    WhatIfGrade = courseWizard.OverallGradeFriendly,
+                    WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel
+                    {
+                        EvaluationId = (Guid)e.EvaluationId,
+                        WhatIfGrade = e.GradeOverallFriendly
+                    }).ToList()
+                };
             }
         }
     }

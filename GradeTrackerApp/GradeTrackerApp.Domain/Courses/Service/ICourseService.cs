@@ -15,6 +15,6 @@ namespace GradeTrackerApp.Domain.Courses.Service
         List<IDomainModel> GetCourses(Guid userId);
         void EvaluationModified(Guid courseId);
         CourseWeightDomainModel GetCourseWeightType(Guid courseId);
-        double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels);
+        CourseWhatIfDomainModel CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels);
     }
 }
