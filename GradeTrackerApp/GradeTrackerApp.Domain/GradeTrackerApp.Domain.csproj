@@ -45,9 +45,13 @@
   <ItemGroup>
     <Compile Include="Courses\Models\CourseDomainModel.cs" />
     <Compile Include="Courses\Models\CourseWeightModel.cs" />
+    <Compile Include="Courses\Models\CourseWhatIfDomainModel.cs" />
     <Compile Include="Courses\Models\CreateOrEditCourseDomainModel.cs" />
     <Compile Include="Courses\Service\CourseService.cs" />
     <Compile Include="Courses\Service\ICourseService.cs" />
+    <Compile Include="Courses\Models\CourseConjureGradeResultModel.cs" />
+    <Compile Include="Evaluations\Models\EvaluationConjureGradeResultModel.cs" />
+    <Compile Include="Evaluations\Models\EvaluationWhatIfDomainModel.cs" />
     <Compile Include="Shared\DomainModel.cs" />
     <Compile Include="Shared\IDomainModel.cs" />
     <Compile Include="Scores\Models\CreateScoreDomainModel.cs" />

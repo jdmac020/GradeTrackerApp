@@ -161,11 +161,12 @@ namespace GradeTrackerApp.Tests.Courses
         [Fact]
         public void CalcWhatIfGrade_InputsOf100_Return100()
         {
+            var testClass = ServiceFactory.Create_MockInteractor();
             var evals = EvaluationFactory.Create_ListOfDomainModels();
 
             evals = evals.Select(e => new EvaluationDomainModel { Id = e.Id, CourseId = e.CourseId, Weight = 1, PointsEarned = 100, TotalPointsPossible = 100 });
 
-            var result = CourseService.CalcWhatIfGrade(evals);
+            var result = testClass.CalcWhatIfGrade(evals);
 
             result.ShouldBe(100);
         }
@@ -173,6 +174,7 @@ namespace GradeTrackerApp.Tests.Courses
         [Fact]
         public void CalcWhatIfGrade_WeightedInputsOf100_Return100()
         {
+            var testClass = ServiceFactory.Create_MockInteractor();
             var evals = EvaluationFactory.Create_ListOfDomainModels().ToList();
 
             evals[0].TotalPointsPossible = 25;
@@ -188,7 +190,7 @@ namespace GradeTrackerApp.Tests.Courses
             evals[3].PointsEarned = 25;
             evals[3].Weight = .20;
 
-            var result = CourseService.CalcWhatIfGrade(evals);
+            var result = testClass.CalcWhatIfGrade(evals);
 
             result.ShouldBe(100);
         }

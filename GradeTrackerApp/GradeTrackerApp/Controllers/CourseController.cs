@@ -371,7 +371,7 @@ namespace GradeTrackerApp.Controllers
                 });
             }
 
-            var query = from storedEval in evalsFromCourse
+            var domainModelsWithWhatIfScores = from storedEval in evalsFromCourse
                         join whatIfEval in whatIfDomainModels
                         on storedEval.Id equals whatIfEval.Id
                         select new EvaluationDomainModel
@@ -382,9 +382,9 @@ namespace GradeTrackerApp.Controllers
                             Weight = storedEval.Weight
                         };
 
-
-
             // send the results of the query TO the Courses.CalcWhatIfGrade()
+            var whatIfGradePercentage = Courses.CalcWhatIfGrade(domainModelsWithWhatIfScores);
+
             // spin up a new WhatIfCourseResultModel (need to write)
             // return it to the new view (I guess, and also need to do that)
 

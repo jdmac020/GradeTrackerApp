@@ -326,13 +326,24 @@ namespace GradeTrackerApp.Domain.Courses.Service
             return returnModel;
         }
 
-        public static double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
+        public double CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
         {
-            var evalSpells = whatIfModels.Select(w => new EvaluationResult { PointsEarned = w.PointsEarned, PointsPossibleOverall = w.TotalPointsPossible, WeightAmount = w.Weight }).ToList();
-
-            if (evalSpells.Any(e => e.WeightAmount != 1))
+            var evalSpells = whatIfModels.Select(w => new EvaluationConjureGradeResultModel
             {
+                EvaluationId = w.Id,
+                PointsEarned = w.PointsEarned,
+                PointsPossibleOverall = w.TotalPointsPossible,
+                WeightAmount = w.Weight
 
+            }).ToList();
+
+            var evalWizard = new EvaluationWizard();
+
+            foreach (var spell in evalSpells)
+            {
+                evalWizard.Evaluation = spell;
+                evalWizard.UpdateGradeOverAll();
+                spell.GradeOverallFriendly = evalWizard.Evaluation.GradeOverallFriendly;
             }
 
             var courseWizard = new CourseWizard();
@@ -342,7 +353,15 @@ namespace GradeTrackerApp.Domain.Courses.Service
             if (evalSpells.Any(es => es.WeightAmount != 1))
             {
 
-                evalSpells = evalSpells.Select(e => new EvaluationResult { WeightAmount = e.WeightAmount, Weighted = true, PointsEarned = e.PointsEarned, PointsPossibleOverall = e.PointsPossibleOverall }).ToList();
+                evalSpells = evalSpells.Select(e => new EvaluationConjureGradeResultModel
+                {
+                    WeightAmount = e.WeightAmount,
+                    Weighted = true, PointsEarned = e.PointsEarned,
+                    PointsPossibleOverall = e.PointsPossibleOverall,
+                    EvaluationId = e.EvaluationId,
+                    GradeOverallFriendly = e.GradeOverallFriendly
+
+                }).ToList();
 
                 courseSpell = new WeightedCourseResult
                 {
@@ -354,7 +373,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 courseWizard.UpdateGradeOverall();
                 courseWizard.UpdateAllGrades();
 
-                return courseWizard.Course.GradeOverallFriendly;
+                return new CourseWhatIfDomainModel { WhatIfGrade = courseWizard.OverallGradeFriendly, WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel { EvaluationId = e. }};
 
             }
             else
@@ -363,7 +382,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                 {
                     Evaluations = evalSpells.ToList()
                 };
-                
+
                 courseWizard.Course = courseSpell;
 
                 courseWizard.UpdateGradeOverall();
