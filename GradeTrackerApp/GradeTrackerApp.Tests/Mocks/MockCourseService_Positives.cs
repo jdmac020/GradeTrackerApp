@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GradeTrackerApp.Domain.Courses.Models;
 using GradeTrackerApp.Domain.Courses.Service;
+using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Shared;
 using GradeTrackerApp.Tests.TestDatas.Courses;
 
@@ -43,6 +44,11 @@ namespace GradeTrackerApp.Tests.Mocks
         }
 
         public CourseWeightDomainModel GetCourseWeightType(Guid courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CourseWhatIfDomainModel CalcWhatIfGrade(IEnumerable<EvaluationDomainModel> whatIfModels)
         {
             throw new NotImplementedException();
         }

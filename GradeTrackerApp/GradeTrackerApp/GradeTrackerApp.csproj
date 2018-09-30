@@ -203,11 +203,16 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course\CourseListViewModel.cs" />
     <Compile Include="Models\Course\CourseViewModel.cs" />
+    <Compile Include="Models\Course\CourseWhatIfInputViewModel.cs" />
     <Compile Include="Models\Course\CourseWhatIfViewModel.cs" />
     <Compile Include="Models\Course\CreateOrEditCourseViewModel.cs" />
+    <Compile Include="Models\Course\WhatIfEditViewModel.cs" />
+    <Compile Include="Models\Course\CourseWhatIfResultViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationListViewModel.cs" />
     <Compile Include="Models\Evaluation\CreateEvaluationViewModel.cs" />
     <Compile Include="Models\Evaluation\EvaluationViewModel.cs" />
+    <Compile Include="Models\Evaluation\EvaluationWhatIfResultViewModel.cs" />
+    <Compile Include="Models\Evaluation\EvaluationWhatIfViewModel.cs" />
     <Compile Include="Models\GradeTrackerErrorViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IViewModel.cs" />
@@ -351,6 +356,10 @@
     <Content Include="Views\Course\WhatIfEntryView.cshtml" />
     <Content Include="Views\Score\_WhatIfScoreUpdate.cshtml" />
     <Content Include="Views\Evaluation\_WhatIfEvalUpdatePartial.cshtml" />
+    <Content Include="Views\Score\ScoreViewModel.cshtml" />
+    <Content Include="Views\Evaluation\EvalPointsEntryView.cshtml" />
+    <Content Include="Views\Course\WhatIfResultView.cshtml" />
+    <Content Include="Views\Course\_whatIfResultPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
