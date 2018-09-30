@@ -49,9 +49,20 @@
         font-weight: bold;
         padding-left: 25px;
     }
+
+    #results {
+        margin-top: 25px;
+    }
+
+    #exitLinks {
+        margin-top: 25px;
+    }
+
 </style>
 
-<h2>WhatIfEntryView</h2>
+<h2>@Model.Name</h2>
+<h4>Enter the Points You Expect to Earn for each Score</h4>
+<p style="margin-right: 50%">Scores you've already recorded are pre-filled, but you can edit those. The default value of each assignment is listed, but if you expect extra credit you can enter a higher number.</p>
 
 <input id="courseId" type="hidden" value=@Model.Id>
 
@@ -91,6 +102,14 @@
 
 }
 
+<div id="results">
+
+
+</div>
+
+<div id="exitLinks">
+    @Html.ActionLink("Back to Your Courses", "AllCourses", "Course", routeValues: null, htmlAttributes: null)
+</div>
 
 @section scripts{
 
@@ -120,8 +139,17 @@
 
                     scoreInputs.each(function (index, element) {
 
+                        var elementValue = $(element).val();
+
+                        //if (isNaN(elementValue)) {
+                        //    alert("Whoops " + $(element).val() + " is No Number");
+                        //    return;
+                        //}
+
                         var points = parseFloat($(element).val());
 
+                        
+                        
                         totalEarned = totalEarned + points;
 
                         totalField.val(totalEarned);
@@ -141,9 +169,11 @@
                     courseId: thisCourse,
                     evaluations: listOfEvals
                 };
+                
+                $.post('@Url.Action("GetWhatIfGrade", "Course")', { whatIfModel: whatIfCourse }, function (results) {
 
-                $.post('@Url.Action("GetWhatIfGrade", "Course")', { whatIfModel: whatIfCourse });
-
+                    $('#results').html(results);
+                });
             });
 
 

@@ -357,7 +357,17 @@ namespace GradeTrackerApp.Controllers
         [HttpPost]
         public ActionResult GetWhatIfGrade(CourseWhatIfInputViewModel whatIfModel)
         {
-            var evalsFromCourse = (IEnumerable<EvaluationDomainModel>)Evaluations.GetEvaluationsForCourse(Guid.Parse(whatIfModel.CourseId));
+            var course = (CourseDomainModel)Courses.GetCourse(Guid.Parse(whatIfModel.CourseId));
+            var evalsFromCourse = Evaluations.GetEvaluationsForCourse(Guid.Parse(whatIfModel.CourseId));
+            var castedModels = new List<EvaluationDomainModel>();
+
+            foreach (var eval in evalsFromCourse)
+            {
+                if (eval.GetType() == typeof(EvaluationDomainModel))
+                {
+                    castedModels.Add((EvaluationDomainModel)eval);
+                }
+            }
 
             var whatIfDomainModels = new List<EvaluationDomainModel>();
 
@@ -371,25 +381,37 @@ namespace GradeTrackerApp.Controllers
                 });
             }
 
-            var domainModelsWithWhatIfScores = from storedEval in evalsFromCourse
+            var domainModelsWithWhatIfScores = from storedEval in castedModels
                         join whatIfEval in whatIfDomainModels
                         on storedEval.Id equals whatIfEval.Id
                         select new EvaluationDomainModel
                         {
                             Id = storedEval.Id,
+                            Name = storedEval.Name,
                             PointsEarned = whatIfEval.PointsEarned,
                             TotalPointsPossible = whatIfEval.TotalPointsPossible,
                             Weight = storedEval.Weight
                         };
 
             // send the results of the query TO the Courses.CalcWhatIfGrade()
-            var whatIfGradePercentage = Courses.CalcWhatIfGrade(domainModelsWithWhatIfScores);
+            var whatIfGradeDomainModel = Courses.CalcWhatIfGrade(domainModelsWithWhatIfScores);
 
-            // spin up a new WhatIfCourseResultModel (need to write)
+            var whatIfGradeViewModel = new CourseWhatIfResultViewModel
+            {
+                CourseId = course.Id,
+                CourseName = course.Name,
+                WhatIfGrade = whatIfGradeDomainModel.WhatIfGrade,
+                Evaluations = whatIfGradeDomainModel.WhatIfEvaluations.Select(eval => new EvaluationWhatIfResultViewModel
+                {
+                    EvaluationId = eval.EvaluationId,
+                    EvaluationName = eval.EvaluationName,
+                    WhatIfGrade = eval.WhatIfGrade
+
+                }).ToList() };
+            
             // return it to the new view (I guess, and also need to do that)
-
-
-            return View();
+            
+            return PartialView("_whatIfResultPartial", whatIfGradeViewModel);
         }
 
         public ActionResult StartWhatIfGrade(Guid courseId)

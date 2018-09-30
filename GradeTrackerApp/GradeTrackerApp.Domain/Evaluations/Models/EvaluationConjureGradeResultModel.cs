@@ -10,5 +10,6 @@ namespace GradeTrackerApp.Domain.Evaluations.Models
     public class EvaluationConjureGradeResultModel : EvaluationResult
     {
         public Guid? EvaluationId { get; set; }
+        public string EvaluationName { get; set; }
     }
 }

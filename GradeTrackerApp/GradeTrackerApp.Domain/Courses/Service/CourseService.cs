@@ -331,6 +331,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
             var evalSpells = whatIfModels.Select(w => new EvaluationConjureGradeResultModel
             {
                 EvaluationId = w.Id,
+                EvaluationName = w.Name,
                 PointsEarned = w.PointsEarned,
                 PointsPossibleOverall = w.TotalPointsPossible,
                 WeightAmount = w.Weight
@@ -359,6 +360,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                     Weighted = true, PointsEarned = e.PointsEarned,
                     PointsPossibleOverall = e.PointsPossibleOverall,
                     EvaluationId = e.EvaluationId,
+                    EvaluationName = e.EvaluationName,
                     GradeOverallFriendly = e.GradeOverallFriendly
 
                 }).ToList();
@@ -379,6 +381,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                     WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel
                     {
                         EvaluationId = (Guid)e.EvaluationId,
+                        EvaluationName = e.EvaluationName,
                         WhatIfGrade = e.GradeOverallFriendly
                     }).ToList()
                 };
@@ -401,6 +404,7 @@ namespace GradeTrackerApp.Domain.Courses.Service
                     WhatIfEvaluations = evalSpells.Select(e => new EvaluationWhatIfDomainModel
                     {
                         EvaluationId = (Guid)e.EvaluationId,
+                        EvaluationName = e.EvaluationName,
                         WhatIfGrade = e.GradeOverallFriendly
                     }).ToList()
                 };

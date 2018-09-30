@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace GradeTrackerApp.Domain.Evaluations.Models
+namespace GradeTrackerApp.Models.Evaluation
 {
-    public class EvaluationWhatIfDomainModel
+    public class EvaluationWhatIfResultViewModel
     {
         public Guid EvaluationId { get; set; }
+
+        [DisplayName("Evaluation Type")]
         public string EvaluationName { get; set; }
+
+        [DisplayName("What-If Grade")]
         public double WhatIfGrade { get; set; }
     }
 }
