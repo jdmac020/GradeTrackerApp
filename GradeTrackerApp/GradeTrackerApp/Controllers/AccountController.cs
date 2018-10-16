@@ -66,29 +66,97 @@ namespace GradeTrackerApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            var foo = UserManager.FindByEmail(model.Email);
+
+            if (!foo.DataPolicyAccepted || IsMoreThanSixMonthAgo(foo.DataPolicyAcceptedDate.Value) == true)
+            {
+                return AcknowledgePolicy(foo.Id, model, returnUrl);
+            }
+
+            return FinishLogin(model, returnUrl);
+            
+        }
+
+        protected ActionResult FinishLogin(LoginViewModel model, string returnUrl)
+        {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = SignInManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult AcknowledgePolicy(string userId, LoginViewModel loginModel, string returnUrl)
+        {
+            var model = new AcknowledgeDataPolicyViewModel { UserId = userId, Email = loginModel.Email, Password = loginModel.Password, ReturnUrl = returnUrl };
+
+            return View("AcknowledgePolicy", model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult UpdateDataPolicyAcknowledgement(AcknowledgeDataPolicyViewModel policyAcknowledgement)
+        {
+            if (policyAcknowledgement.AcceptedPolicy)
+            {
+                var user = UserManager.FindById(policyAcknowledgement.UserId);
+
+                user.DataPolicyAccepted = true;
+                user.DataPolicyAcceptedDate = DateTime.Now;
+
+                var result = UserManager.Update(user);
+
+                if (!result.Succeeded)
+                {
+                    // TODO: error handling
+                }
+
+                var loginModel = new LoginViewModel { Email = policyAcknowledgement.Email, Password = policyAcknowledgement.Password };
+
+                return FinishLogin(loginModel, policyAcknowledgement.ReturnUrl);
+
+            }
+            else
+            {
+                return View("DataPolicyRejected");
+            }
+        }
+
+        private bool IsMoreThanSixMonthAgo(DateTime whenAccepted)
+        {
+            var sixMonthsAgo = DateTime.Today.AddMonths(-6);
+            var compareResult = DateTime.Compare(whenAccepted, sixMonthsAgo);
+
+            if (compareResult < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         //
@@ -151,7 +219,7 @@ namespace GradeTrackerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new StudentEntity { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new StudentEntity { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DataPolicyAccepted = model.AcceptDataPolicy, DataPolicyAcceptedDate = DateTime.Now };
                 user = SetUserName(user);
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -417,6 +485,21 @@ namespace GradeTrackerApp.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOffAndRedirectTo(string viewName)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            return RedirectToAction(viewName);
+        }
+
+        [AllowAnonymous]
+        public ActionResult DataPolicyRejected()
+        {
+            return View();
         }
 
         //
