@@ -360,6 +360,7 @@
     <Content Include="Views\Evaluation\EvalPointsEntryView.cshtml" />
     <Content Include="Views\Course\WhatIfResultView.cshtml" />
     <Content Include="Views\Course\_whatIfResultPartial.cshtml" />
+    <Content Include="Views\Home\DataUse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

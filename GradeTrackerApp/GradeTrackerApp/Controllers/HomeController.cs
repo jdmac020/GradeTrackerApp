@@ -26,5 +26,10 @@ namespace GradeTrackerApp.Controllers
 
             return View();
         }
+
+        public ActionResult DataUse()
+        {
+            return View();
+        }
     }
 }
