@@ -66,34 +66,41 @@ namespace GradeTrackerApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            var foo = UserManager.FindByEmail(model.Email);
 
+            if (!foo.DataPolicyAccepted || IsMoreThanSixMonthAgo(foo.DataPolicyAcceptedDate.Value) == true)
+            {
+                return AcknowledgePolicy(foo.Id, model, returnUrl);
+            }
 
+            return FinishLogin(model, returnUrl);
+            
+        }
+
+        protected ActionResult FinishLogin(LoginViewModel model, string returnUrl)
+        {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = SignInManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    var foo = UserManager.FindByEmail(model.Email);
+                    return RedirectToLocal(returnUrl);
 
-                    if (foo.DataPolicyAccepted && IsMoreThanSixMonthAgo(foo.DataPolicyAcceptedDate.Value) == false)
-                    {
-                        return RedirectToLocal(returnUrl);
-                    }
-
-                    return AcknowledgePolicy(foo.Id);
-                    
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -101,13 +108,14 @@ namespace GradeTrackerApp.Controllers
             }
         }
 
-        public ActionResult AcknowledgePolicy(string userId)
+        public ActionResult AcknowledgePolicy(string userId, LoginViewModel loginModel, string returnUrl)
         {
-            var model = new AcknowledgeDataPolicyViewModel { UserId = userId };
+            var model = new AcknowledgeDataPolicyViewModel { UserId = userId, Email = loginModel.Email, Password = loginModel.Password, ReturnUrl = returnUrl };
 
             return View("AcknowledgePolicy", model);
         }
 
+        [AllowAnonymous]
         public ActionResult UpdateDataPolicyAcknowledgement(AcknowledgeDataPolicyViewModel policyAcknowledgement)
         {
             if (policyAcknowledgement.AcceptedPolicy)
@@ -124,12 +132,14 @@ namespace GradeTrackerApp.Controllers
                     // TODO: error handling
                 }
 
-                return RedirectToLocal(null);
+                var loginModel = new LoginViewModel { Email = policyAcknowledgement.Email, Password = policyAcknowledgement.Password };
+
+                return FinishLogin(loginModel, policyAcknowledgement.ReturnUrl);
 
             }
             else
             {
-                return LogOffAndRedirectTo("DataPolicyRejected");
+                return View("DataPolicyRejected");
             }
         }
 
@@ -146,7 +156,7 @@ namespace GradeTrackerApp.Controllers
             {
                 return false;
             }
-            
+
         }
 
         //
