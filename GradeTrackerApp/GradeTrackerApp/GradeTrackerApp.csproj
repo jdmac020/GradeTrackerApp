@@ -361,6 +361,8 @@
     <Content Include="Views\Course\WhatIfResultView.cshtml" />
     <Content Include="Views\Course\_whatIfResultPartial.cshtml" />
     <Content Include="Views\Home\DataUse.cshtml" />
+    <Content Include="Views\Account\AcknowledgePolicy.cshtml" />
+    <Content Include="Views\Account\DataPolicyRejected.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

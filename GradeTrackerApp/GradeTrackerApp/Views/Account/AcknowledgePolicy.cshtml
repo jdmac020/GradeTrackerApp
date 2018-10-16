@@ -1,0 +1,51 @@
+﻿@model GradeTrackerApp.Models.AcknowledgeDataPolicyViewModel
+
+@{
+    ViewBag.Title = "Acknowledge Data Privacy";
+}
+<div id="content">
+    <h2>We Need Your Buy-In</h2>
+
+    <p>
+        If there is one thing the events of 2018 taught us it's that active, enthusiastic consent is possibly the most important part of any relationship. 
+    </p>
+
+    <p>
+        So we'd like to take a minute to make sure we have YOUR informed, active, and enthusiastic consent to how we use your data.
+    </p>
+
+    <p>
+        If you have no idea what we're talking about (or even if you do) you can read up on how we use your data @Html.ActionLink("by clicking here", "DataUse", "Home")
+    </p>
+
+</div>
+
+@using (Html.BeginForm("UpdateDataPolicyAcknowledgement", "Account"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.HiddenFor(model => model.UserId)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AcceptedPolicy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.AcceptedPolicy) I'm clicking this to indicate I am 100% on board with what data is being collected and how it is being used
+                    @Html.ValidationMessageFor(model => model.AcceptedPolicy, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update My Account" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

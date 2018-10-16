@@ -73,13 +73,23 @@ namespace GradeTrackerApp.Controllers
                 return View(model);
             }
 
+
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var foo = UserManager.FindByEmail(model.Email);
+
+                    if (foo.DataPolicyAccepted && IsMoreThanSixMonthAgo(foo.DataPolicyAcceptedDate.Value) == false)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+
+                    return AcknowledgePolicy(foo.Id);
+                    
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -89,6 +99,54 @@ namespace GradeTrackerApp.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult AcknowledgePolicy(string userId)
+        {
+            var model = new AcknowledgeDataPolicyViewModel { UserId = userId };
+
+            return View("AcknowledgePolicy", model);
+        }
+
+        public ActionResult UpdateDataPolicyAcknowledgement(AcknowledgeDataPolicyViewModel policyAcknowledgement)
+        {
+            if (policyAcknowledgement.AcceptedPolicy)
+            {
+                var user = UserManager.FindById(policyAcknowledgement.UserId);
+
+                user.DataPolicyAccepted = true;
+                user.DataPolicyAcceptedDate = DateTime.Now;
+
+                var result = UserManager.Update(user);
+
+                if (!result.Succeeded)
+                {
+                    // TODO: error handling
+                }
+
+                return RedirectToLocal(null);
+
+            }
+            else
+            {
+                return LogOffAndRedirectTo("DataPolicyRejected");
+            }
+        }
+
+        private bool IsMoreThanSixMonthAgo(DateTime whenAccepted)
+        {
+            var sixMonthsAgo = DateTime.Today.AddMonths(-6);
+            var compareResult = DateTime.Compare(whenAccepted, sixMonthsAgo);
+
+            if (compareResult < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         //
@@ -151,7 +209,7 @@ namespace GradeTrackerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new StudentEntity { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new StudentEntity { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DataPolicyAccepted = model.AcceptDataPolicy, DataPolicyAcceptedDate = DateTime.Now };
                 user = SetUserName(user);
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -417,6 +475,21 @@ namespace GradeTrackerApp.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOffAndRedirectTo(string viewName)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            return RedirectToAction(viewName);
+        }
+
+        [AllowAnonymous]
+        public ActionResult DataPolicyRejected()
+        {
+            return View();
         }
 
         //
