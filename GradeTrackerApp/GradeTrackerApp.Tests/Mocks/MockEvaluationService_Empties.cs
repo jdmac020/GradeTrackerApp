@@ -47,5 +47,10 @@ namespace GradeTrackerApp.Tests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public double GetPointsPerScore(Guid evaluationId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
