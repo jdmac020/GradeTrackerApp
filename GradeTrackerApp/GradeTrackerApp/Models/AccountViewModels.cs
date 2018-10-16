@@ -89,6 +89,19 @@ namespace GradeTrackerApp.Models
         [Display(Name = "Mobile Phone")]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+
+        [Required]
+        [Display(Name = "Accept Data Policy")]
+        public bool AcceptDataPolicy { get; set; }
+    }
+
+    public class AcknowledgeDataPolicyViewModel
+    {
+        public string UserId { get; set; }
+        public bool AcceptedPolicy { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ReturnUrl { get; set; }
     }
 
     public class ResetPasswordViewModel

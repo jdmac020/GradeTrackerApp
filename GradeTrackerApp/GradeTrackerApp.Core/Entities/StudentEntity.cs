@@ -17,6 +17,8 @@ namespace GradeTrackerApp.Core.Entities
         public virtual List<SchoolEntity> Schools { get; set; }
         public virtual List<CourseEntity> AllCourses { get; set; }
         public virtual List<CourseEntity> ActiveCourses { get; set; }
+        public DateTime? DataPolicyAcceptedDate { get; set; }
+        public bool DataPolicyAccepted { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<StudentEntity> manager)
         {
