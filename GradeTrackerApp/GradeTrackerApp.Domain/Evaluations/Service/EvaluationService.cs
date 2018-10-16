@@ -287,5 +287,10 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
                 DropLowest = domainModel.DropLowest
             };
         }
+
+        public double GetPointsPerScore(Guid evaluationId)
+        {
+            return EvaluationInteractor.GetEvaluation(evaluationId).PointsPerScore;
+        }
     }
 }

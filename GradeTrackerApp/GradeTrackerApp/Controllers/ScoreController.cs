@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using GradeTrackerApp.Core.Entities;
+using GradeTrackerApp.Domain.Evaluations.Models;
 using GradeTrackerApp.Domain.Evaluations.Service;
 using GradeTrackerApp.Domain.Scores.Models;
 using GradeTrackerApp.Domain.Scores.Service;
@@ -124,6 +125,8 @@ namespace GradeTrackerApp.Controllers
         public ActionResult AddScore(Guid evaluationId)
         {
             var createModel = new CreateOrEditScoreViewModel(evaluationId);
+
+            createModel.EvalPointsPerScore = Evaluations.GetPointsPerScore(evaluationId);
 
             return View(createModel);
         }

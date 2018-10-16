@@ -58,7 +58,7 @@
                 @Html.LabelFor(model => model.PointsPossible)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.PointsPossible)
+                @Html.TextBoxFor(model => model.PointsPossible, Model.EvalPointsPerScore.ToString() )
             </td>
         </tr>
         <tr>
@@ -66,7 +66,7 @@
                 @Html.LabelFor(model => model.PointsEarned)
             </td>
             <td>
-                @Html.TextBoxFor(model => model.PointsEarned)
+                @Html.TextBoxFor(model => model.PointsEarned, Model.EvalPointsPerScore.ToString() )
             </td>
         </tr>
 

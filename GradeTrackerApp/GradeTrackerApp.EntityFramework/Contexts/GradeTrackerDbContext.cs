@@ -18,10 +18,12 @@ namespace GradeTrackerApp.EntityFramework.Contexts
 
         public GradeTrackerDbContext(string connectionString) : base(connectionString)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<GradeTrackerDbContext, Migrations.Configuration>());
         }
 
         public GradeTrackerDbContext() : base("name=GradeTrackerDbContext", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<GradeTrackerDbContext, Migrations.Configuration>());
         }
 
         public static GradeTrackerDbContext Create()

@@ -28,6 +28,8 @@ namespace GradeTrackerApp.Models.Score
         [DisplayName("Points Possible")]
         public double PointsPossible { get; set; }
 
+        public double EvalPointsPerScore { get; set; }
+
         public CreateOrEditScoreViewModel() { }
         
         public CreateOrEditScoreViewModel(Guid evaluationId)

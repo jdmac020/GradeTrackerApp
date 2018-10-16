@@ -14,5 +14,6 @@ namespace GradeTrackerApp.Domain.Evaluations.Service
         IDomainModel GetEvaluation(Guid evaluationId);
         List<IDomainModel> GetEvaluationsForCourse(Guid courseId);
         void ScoresUpdated(Guid evaluationId);
+        double GetPointsPerScore(Guid evaluationId);
     }
 }
