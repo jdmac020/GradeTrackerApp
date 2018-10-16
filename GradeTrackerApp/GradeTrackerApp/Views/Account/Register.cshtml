@@ -78,8 +78,13 @@
     <div class="form-group">
         @Html.LabelFor(m => m.AcceptDataPolicy, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.CheckBoxFor(m => m.AcceptDataPolicy, new { @class = "form-control" })
+            <div class="input-group">
+                @Html.CheckBoxFor(m => m.AcceptDataPolicy, new { @class = "form-control" })
+                <div class="input-group-prepend"></div>
+                @Html.ActionLink("Read Policy", "DataUse", new { controller = "Home" }, new { target = "_blank" })
+            </div>
         </div>
+        
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
